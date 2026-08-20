@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Türkiye Yaşam Simülatörü - Tam Sürüm</title>
+    <title>Türkiye Yaşam Simülatörü - Stat Sürümü</title>
     
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -135,8 +135,7 @@
         const TURKEY_CITIES = [
             "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
         ];
-        
-        // Başlangıç değerleri
+
         const INITIAL_STATS = { 
             para: 0, 
             mutluluk: 70, 
@@ -151,9 +150,7 @@
             karizma: 0,
             guc: 0,
             hareketsizlik: 0,
-            sevgili: false,
-            sans: 0,
-            saglikCarpani: 1.0 
+            sevgili: false
         };
 
         const generateFamily = () => {
@@ -192,8 +189,7 @@
                 description: "Okulda üst sınıflardan biri senden haraç istedi.",
                 choices: [
                     { text: "Kavga Et", nextId: 'hub', step: 0, icon: '😡', effect: (s) => s.guc > 50 ? { effect: { mutluluk: 15, karizma: 10, tecrube: 10 }, msg: "Gücünle onları alt ettin!" } : { effect: { saglik: -20, mutluluk: -15 }, msg: "Fena dayak yedin..." } },
-                    { text: "İkna Et", nextId: 'hub', step: 0, icon: '🗣️', effect: (s) => s.karizma > 60 ? { effect: { mutluluk: 5 }, msg: "Laf cambazlığıyla yırttın." } : { effect: { para: -20, mutluluk: -10, okul: -5 }, msg: "Dinlemediler, paranı aldılar." } },
-                    { text: "Şansa Bırak", nextId: 'hub', step: 0, icon: '🍀', effect: (s) => s.sans > 60 ? { effect: { mutluluk: 10, sans: 5 }, msg: "Tam o an nöbetçi öğretmen belirdi, kurtuldun!" } : { effect: { saglik: -15, para: -20 }, msg: "Şansın yaver gitmedi, hem paranı aldılar hem de hırpalandın." } }
+                    { text: "İkna Et", nextId: 'hub', step: 0, icon: '🗣️', effect: (s) => s.karizma > 60 ? { effect: { mutluluk: 5 }, msg: "Laf cambazlığıyla yırttın." } : { effect: { para: -20, mutluluk: -10, okul: -5 }, msg: "Dinlemediler, paranı aldılar." } }
                 ]
             },
             { 
@@ -202,8 +198,7 @@
                 description: "Yolda yürürken iri bir sokak köpeği sana doğru koşmaya başladı.",
                 choices: [
                     { text: "Kaç", nextId: 'hub', step: 0, icon: '🏃', effect: (s) => s.guc > 40 ? { effect: { mutluluk: -5 }, msg: "Hızlıca kaçtın." } : { effect: { saglik: -10, mutluluk: -10 }, msg: "Kaçamadın, ısırdı!" } },
-                    { text: "Sev", nextId: 'hub', step: 0, icon: '🍖', effect: (s) => Math.random() > 0.5 ? { effect: { mutluluk: 20, karizma: 5 }, msg: "Çok uysalmış!" } : { effect: { saglik: -15 }, msg: "Seni ısırdı!" } },
-                    { text: "Şansa Güven", nextId: 'hub', step: 0, icon: '🍀', effect: (s) => s.sans > 50 ? { effect: { mutluluk: 15 }, msg: "Köpeğin sahibi aniden köşeden çıktı ve köpeği tuttu." } : { effect: { saglik: -10, mutluluk: -10 }, msg: "Şansın tutmadı, köpek peşini bırakmadı!" } }
+                    { text: "Sev", nextId: 'hub', step: 0, icon: '🍖', effect: (s) => Math.random() > 0.5 ? { effect: { mutluluk: 20, karizma: 5 }, msg: "Çok uysalmış!" } : { effect: { saglik: -15 }, msg: "Seni ısırdı!" } }
                 ]
             },
             { 
@@ -213,16 +208,6 @@
                 choices: [
                     { text: "Dinlen", nextId: 'hub', step: 0, icon: '🛏️', effect: { saglik: 5, okul: -5, mutluluk: -5 } },
                     { text: "İlaç Al", nextId: 'hub', step: 0, icon: '💊', req: { para: 50 }, effect: { para: -50, saglik: 15 } },
-                    { text: "Şanslı Genler", nextId: 'hub', step: 0, icon: '🍀', effect: (s) => s.sans > 70 ? { effect: { saglik: 5, mutluluk: 5 }, msg: "Ertesi gün mucizevi bir şekilde turp gibi uyandın." } : { effect: { saglik: -20, mutluluk: -10 }, msg: "Hastalık beklediğinden çok daha ağır geçti." } }
-                ]
-            },
-            { 
-                id: 'rnd_lottery', minAge: 18, maxAge: 99, 
-                condition: (stats) => stats.sans > 60 && Math.random() < 0.3, 
-                emoji: '🎰', title: "Çekiliş Çıktı!",
-                description: "Geçen gün öylesine katıldığın çekilişten sürpriz bir sonuç geldi.",
-                choices: [
-                    { text: "Ödülü Al", nextId: 'hub', step: 0, icon: '🎁', effect: { para: 2000, mutluluk: 30, sans: -5 }, msg: "Harika bir ikramiye kazandın!" }
                 ]
             }
         ];
@@ -231,9 +216,9 @@
             const [gameState, setGameState] = useState('menu'); // 'menu', 'playing'
             const [availablePool, setAvailablePool] = useState([...TURKEY_CITIES]);
             const [currentChoicesCities, setCurrentChoicesCities] = useState([]);
-            const [cityProgress, setCityProgress] = useState({}); 
+            const [cityProgress, setCityProgress] = useState({}); // Şehir bazlı ilerleme ve zorluk kilitleri
             const [selectedCity, setSelectedCity] = useState('');
-            const [difficulty, setDifficulty] = useState('kolay'); 
+            const [difficulty, setDifficulty] = useState('kolay'); // kolay, orta, zor
             
             const [activeTab, setActiveTab] = useState('game'); // 'game', 'stats'
 
@@ -244,104 +229,24 @@
             const [isDarkMode, setIsDarkMode] = useState(false);
             
             const [animState, setAnimState] = useState('card-idle');
-            const [displayEventId, setDisplayEventId] = useState('age0_event1');
+            const [displayEventId, setDisplayEventId] = useState('hub_baby');
 
             const [dragState, setDragState] = useState({ isDragging: false, index: null, startX: 0, startY: 0, currentX: 0, currentY: 0 });
             const [isHoveringDropZone, setIsHoveringDropZone] = useState(false);
             const dropZoneRef = useRef(null);
 
-            // TÜM OLAYLAR
+            // TÜM OLAYLAR (Hub'lar ve Olaylar)
             const EVENTS = {
-                // --- 0-4 YAŞ ÖZEL BEBEKLİK DÖNEMİ ---
-                age0_event1: {
-                    id: 'age0_event1', emoji: '🧠', title: "Karanlık",
-                    description: "Ne yaptığını hatırlamıyorsun.",
+                // --- BEBEKLİK ---
+                hub_baby: {
+                    id: 'hub_baby', emoji: '👶', title: "Bebeklik",
+                    description: `Şu an ${stats.yas} yaşındasın. ${familyInfo.count > 0 ? familyInfo.siblings.join(', ') + ' ile' : 'Tek çocuk olarak'} büyüyorsun.`,
                     choices: [
-                        { text: "Irrgh", nextId: 'age1_event1', icon: '👶', effect: { yas: 1 }, msg: "Öyle böyle derken 1 sene geçti." },
-                        { text: "Hımmm", nextId: 'age1_event1', icon: '🤔', effect: { yas: 1 }, msg: "Öyle böyle derken 1 sene geçti." }
+                        { text: "Ağla", nextId: 'hub', step: 1, icon: '😭', effect: { aileIliski: -2, mutluluk: 5 } },
+                        { text: "Uyu", nextId: 'hub', step: 1, icon: '😴', effect: { saglik: 5, aileIliski: 2 } },
+                        { text: "Dağıt", nextId: 'hub', step: 1, icon: '🧸', effect: { mutluluk: 10, aileIliski: -5, tecrube: 5 } }
                     ]
                 },
-                age1_event1: {
-                    id: 'age1_event1', emoji: '💉', title: "Aşı Zamanı",
-                    description: "1 yaşındasın. Annen seni sağlık ocağına götürüyor. Aşıların yapılacak.",
-                    choices: [
-                        { text: "Kabullen", nextId: 'age2_event1', icon: '✅', effect: { saglikCarpani: 1.10, yas: 1 }, msg: "Aşı oldun! (Kalıcı Sağlık Bonusu Kazandın)" },
-                        { text: "Reddet (Ağla)", nextId: 'age2_event1', icon: '❌', effect: { karizma: 1, yas: 1 }, msg: "Ortalığı birbirine kattın, aşı yapamadılar." }
-                    ]
-                },
-                age2_event1: {
-                    id: 'age2_event1', emoji: '✈️', title: "Uçan Bebek",
-                    description: "2 yaşındasın. Baban seni havaya atıp tutarak seninle oyun oynuyor.",
-                    choices: [
-                        { text: "Ağla", nextId: 'age2_event2', icon: '😭', effect: { mutluluk: -10 }, msg: "Annen geldi ve seni babanın elinden aldı." },
-                        { text: "Eğlen", nextId: 'age2_event2', icon: '😆', effect: (s) => {
-                            if(Math.random() < 0.03) return { effect: { saglik: -999 }, msg: "Baban eğlencenin dozunu kaçırdı. Seni kafa üstü yere düşürdü!" };
-                            return { effect: { zeka: -10, mutluluk: 10 }, msg: "Eğlendin ama fazla sarsıntıdan biraz sersemledin." };
-                        }}
-                    ]
-                },
-                age2_event2: {
-                    id: 'age2_event2', emoji: '👵', title: "Altın Günü",
-                    description: "Yabancı teyzeler ve amcalar etrafını sardı. Yanaklarını sıkmak istiyorlar.",
-                    choices: [
-                        { text: "Gülücük Saç", nextId: 'age3_event1', icon: '😊', effect: { karizma: 2, mutluluk: -5, yas: 1 } },
-                        { text: "Huzursuz Ol", nextId: 'age3_event1', icon: '😠', effect: { sans: 1, aileIliski: -5, yas: 1 } }
-                    ]
-                },
-                age3_event1: {
-                    id: 'age3_event1', emoji: '🗣️', title: "İlk Kelimeler",
-                    description: "3 yaşındasın. Konuşmaya başladın.",
-                    choices: [
-                        { text: "Anne/Baba De", nextId: 'age3_event2', icon: '❤️', effect: { aileIliski: 10 } },
-                        { text: "Süt İste", nextId: 'age3_event2', icon: '🍼', effect: { guc: 10 } },
-                        { text: "Küfür Et", nextId: 'age3_event2', icon: '🤬', effect: { karizma: 5, aileIliski: -20 } }
-                    ]
-                },
-                age3_event2: {
-                    id: 'age3_event2', emoji: '🍼', title: "Kayıp Biberon",
-                    description: "Biberonunu saklamışlar. Ne yapacaksın?",
-                    choices: [
-                        { text: "Ağla", nextId: 'age3_event3', icon: '😭', msg: "Ağlamanın hiçbir faydası olmadı." },
-                        { text: "Ara", nextId: 'age3_event3', icon: '🔍', effect: { zeka: 5 }, msg: "Biberonunu bulamadın ama artık kendi başına gezebiliyorsun." },
-                        { text: "Artık İhtiyacım Yok", nextId: 'age3_event3', icon: '😎', effect: { karizma: 5 }, msg: "Karizman arttı. Ama hâlâ bir bebeksin..." }
-                    ]
-                },
-                age3_event3: {
-                    id: 'age3_event3', emoji: '🧸', title: "Oyuncak Mağazası",
-                    description: "AVM'deki oyuncak mağazasında inanılmaz bir oyuncak gördün.",
-                    choices: [
-                        { text: "Kriz Çıkar", nextId: 'age4_event1', icon: '🌪️', effect: { aileIliski: -10, karizma: -2, mutluluk: -5, yas: 1 } },
-                        { text: "İçe Çekil", nextId: 'age4_event1', icon: '😔', effect: { zeka: 2, mutluluk: -5, yas: 1 } },
-                        { text: "Şirinlik Yap", nextId: 'age4_event1', icon: '🥺', req: { karizma: 30 }, effect: { karizma: 3, mutluluk: 20, yas: 1 } }
-                    ]
-                },
-                age4_event1: {
-                    id: 'age4_event1', emoji: '🚙', title: "Kuzenin Zulmü",
-                    description: "4 yaşındasın. Akraba oturmasında kuzenin en sevdiğin oyuncağı elinden aldı.",
-                    choices: [
-                        { text: "Pes Et", nextId: 'age4_event2', icon: '😢', effect: { mutluluk: -15, guc: -2 } },
-                        { text: "Geri Çek", nextId: 'age4_event2', icon: '😠', effect: { guc: 2, aileIliski: -5 } },
-                        { text: "Takas Et", nextId: 'age4_event2', icon: '🤝', req: { zeka: 40 }, effect: { zeka: 3, karizma: 2, mutluluk: 10 }, msg: "Sıkıcı bir oyuncağı harika bir şeymiş gibi yutturdun!" }
-                    ]
-                },
-                age4_event2: {
-                    id: 'age4_event2', emoji: '🏫', title: "Kreş Zamanı",
-                    description: "Anne-baban seni bir yere göndermek istiyor.",
-                    choices: [
-                        { text: "Kabul Et", nextId: 'age4_event3', icon: '👍', effect: { okul: 10, aileIliski: 5 } },
-                        { text: "Diret", nextId: 'age4_event3', icon: '🙅‍♂️', effect: { aileIliski: 15, okul: -5, karizma: -2 } },
-                        { text: "Özel Kreş Bursu", nextId: 'age4_event3', icon: '🍀', req: { sans: 40 }, effect: { zeka: 5, okul: 25, karizma: 3 }, msg: "Şansına mahallenin en iyi özel kreşinden burs kazandın!" }
-                    ]
-                },
-                age4_event3: {
-                    id: 'age4_event3', emoji: '🥦', title: "Yemek Savaşı",
-                    description: "Akşam yemeğinde masada brokoli var ama sen fast-food istiyorsun.",
-                    choices: [
-                        { text: "Ağla (Fast-food al)", nextId: 'hub_child', icon: '🍟', effect: { guc: -3, mutluluk: 15, saglik: -5, yas: 1 } },
-                        { text: "Brokoliyi Bitir", nextId: 'hub_child', icon: '🥗', effect: { guc: 3, saglik: 10, mutluluk: -10, yas: 1 } }
-                    ]
-                },
-
                 // --- ÇOCUKLUK ---
                 hub_child: {
                     id: 'hub_child', emoji: '🧒', title: "Çocukluk",
@@ -478,7 +383,7 @@
                     if(pool.length === 0) break;
                     const r = Math.floor(Math.random() * pool.length);
                     choices.push(pool[r]);
-                    pool.splice(r, 1); 
+                    pool.splice(r, 1); // Seçileni listeden çıkar
                 }
                 setCurrentChoicesCities(choices);
             };
@@ -511,16 +416,19 @@
             useEffect(() => {
                 if (gameState !== 'playing' || isGameOver) return;
                 
+                // Sağlık 0 ise Anında Ölüm
                 if (stats.saglik <= 0) {
                     triggerGameOver('game_over_health');
                     return;
                 }
                 
+                // Para çok eksiye düşerse
                 if (stats.para <= -1000) {
                     triggerGameOver('game_over_money');
                     return;
                 }
 
+                // Aile ilişkisi 0 ise Evden Atılma kontrolü (Sadece ailedeyse atılır)
                 if (stats.aileIliski <= 0 && stats.barinma === 'aile') {
                     if (stats.yas < 18) triggerEventChange('kicked_out_young');
                     else triggerEventChange('kicked_out_adult');
@@ -586,8 +494,7 @@
                     ...INITIAL_STATS,
                     zeka: 20 + Math.floor(Math.random() * 40),
                     karizma: 20 + Math.floor(Math.random() * 40),
-                    guc: 20 + Math.floor(Math.random() * 40),
-                    sans: 20 + Math.floor(Math.random() * 40)
+                    guc: 20 + Math.floor(Math.random() * 40)
                 };
 
                 setSelectedCity(cityName);
@@ -596,12 +503,14 @@
                 setFamilyInfo(generateFamily());
                 setIsGameOver(false);
                 setToasts([]);
-                setDisplayEventId('age0_event1');
+                setDisplayEventId('hub_baby');
                 setGameState('playing');
                 setActiveTab('game');
 
+                // Eğer rastgele listeden seçildiyse havuzu güncelle
                 if (!isFromUnlocked) {
                     setAvailablePool(prev => prev.filter(c => c !== cityName));
+                    // Seçilen listeyi yenile
                     generateMenuCities();
                 }
             };
@@ -613,51 +522,44 @@
                 }
 
                 let newStats = { ...stats };
-                let diffs = { para: 0, mutluluk: 0, saglik: 0, aileIliski: 0, okul: 0, zeka: 0, karizma: 0, guc: 0, sans: 0 };
+                let diffs = { para: 0, mutluluk: 0, saglik: 0, aileIliski: 0, okul: 0, zeka: 0, karizma: 0, guc: 0 };
                 let toastMessages = [];
                 let isRandomEventTriggered = false;
                 let targetId = choice.nextId;
 
+                // Stat Etkilerini Hesapla
                 const applyEffects = (effectObj) => {
                     if (effectObj.para) { newStats.para += effectObj.para; diffs.para += effectObj.para; }
                     if (effectObj.mutluluk) { newStats.mutluluk += effectObj.mutluluk; diffs.mutluluk += effectObj.mutluluk; }
-                    if (effectObj.saglik) { 
-                        let sGain = effectObj.saglik;
-                        if (sGain > 0 && newStats.saglikCarpani) {
-                            sGain = Math.round(sGain * newStats.saglikCarpani);
-                        }
-                        newStats.saglik += sGain; 
-                        diffs.saglik += sGain; 
-                    }
+                    if (effectObj.saglik) { newStats.saglik += effectObj.saglik; diffs.saglik += effectObj.saglik; }
                     if (effectObj.aileIliski) { newStats.aileIliski += effectObj.aileIliski; diffs.aileIliski += effectObj.aileIliski; }
                     if (effectObj.okul) { newStats.okul += effectObj.okul; diffs.okul += effectObj.okul; }
                     if (effectObj.tecrube) { newStats.tecrube += effectObj.tecrube; }
                     if (effectObj.barinma) { newStats.barinma = effectObj.barinma; }
                     
+                    // Personal Stats
                     if (effectObj.zeka) { newStats.zeka += effectObj.zeka; diffs.zeka += effectObj.zeka; }
                     if (effectObj.karizma) { newStats.karizma += effectObj.karizma; diffs.karizma += effectObj.karizma; }
                     if (effectObj.guc) { newStats.guc += effectObj.guc; diffs.guc += effectObj.guc; }
-                    if (effectObj.sans) { newStats.sans += effectObj.sans; diffs.sans += effectObj.sans; }
                     if (effectObj.sevgili !== undefined) { newStats.sevgili = effectObj.sevgili; }
-                    if (effectObj.saglikCarpani !== undefined) { newStats.saglikCarpani = effectObj.saglikCarpani; }
                     
                     if (effectObj.hareketsizlik !== undefined) {
                         if (effectObj.hareketsizlik === -99) newStats.hareketsizlik = 0;
                         else newStats.hareketsizlik += effectObj.hareketsizlik;
                     } else if (choice.step > 0) {
+                        // Eğer effectObj hareketsizliği belirlemediyse ve step atlanıyorsa, otomatik artır
                         newStats.hareketsizlik += 1;
-                    }
-
-                    if (effectObj.yas) {
-                        newStats.yas += effectObj.yas;
-                        newStats.secimSayaci = 0;
                     }
                 };
 
+                // Yaş & Adım Mekaniği
                 if (choice.step > 0) {
                     newStats.secimSayaci += choice.step;
+                    
+                    // Zorluk Çarpanı
                     const diffMultiplier = difficulty === 'kolay' ? 1 : difficulty === 'orta' ? 0.7 : 0.4;
                     
+                    // Harçlık
                     if (newStats.yas >= 7 && newStats.yas <= 18 && newStats.barinma === 'aile') {
                          const baseAllowance = 10 * newStats.yas; 
                          const actualAllowance = Math.floor(baseAllowance * familyInfo.wealthMultiplier * diffMultiplier);
@@ -665,13 +567,17 @@
                          diffs.para += actualAllowance;
                     }
 
-                    let stepsToAgeUp = 4; 
-                    
+                    // Dinamik Yaş Atlama Hızı
+                    let stepsToAgeUp = 5;
+                    if (newStats.yas <= 3) stepsToAgeUp = 2; // Bebeklik hızlı
+                    else if (newStats.yas <= 18) stepsToAgeUp = 4; // Okul yılları normal
+
                     if (newStats.secimSayaci >= stepsToAgeUp) {
                         newStats.yas += 1;
                         newStats.secimSayaci = 0;
                     }
 
+                    // Etkileşimli Rastgele Olay Tetikleme (%25 İhtimal)
                     if (targetId === 'hub' && Math.random() < 0.25) {
                         const availableRandoms = INTERACTIVE_RANDOM_EVENTS.filter(e => 
                             newStats.yas >= e.minAge && 
@@ -686,6 +592,7 @@
                     }
                 }
 
+                // Hub Rotasyon Matematiği
                 if (!isRandomEventTriggered && targetId === 'hub') {
                     if (newStats.barinma === 'yurt') {
                         if (newStats.yas >= 18) targetId = 'orphanage_leave';
@@ -693,7 +600,9 @@
                     } else if (newStats.barinma === 'sokak') {
                         targetId = 'hub_street';
                     } else {
-                        if (newStats.yas <= 14) targetId = 'hub_school';
+                        if (newStats.yas <= 3) targetId = 'hub_baby';
+                        else if (newStats.yas <= 6) targetId = 'hub_child';
+                        else if (newStats.yas <= 14) targetId = 'hub_school';
                         else if (newStats.yas <= 18) targetId = 'hub_teen';
                         else targetId = 'hub_adult';
                     }
@@ -701,6 +610,7 @@
 
                 let nextEvent = EVENTS[targetId];
 
+                // Seçimin Kendisinden Gelen Etkiler
                 if (choice.effect) {
                      let choiceEffect = typeof choice.effect === 'function' ? choice.effect(newStats).effect : choice.effect;
                      applyEffects(choiceEffect);
@@ -710,6 +620,7 @@
                      }
                 }
 
+                // Hedef kartın getirdiği etkiler
                 if (nextEvent && nextEvent.effect && !isRandomEventTriggered) {
                     let effectToApply = nextEvent.effect;
                     if (typeof nextEvent.effect === 'function') {
@@ -720,6 +631,7 @@
                     applyEffects(effectToApply);
                 }
                 
+                // Hareketsizlik Kontrolü
                 if (newStats.hareketsizlik >= 2) {
                     newStats.guc -= 5;
                     diffs.guc -= 5;
@@ -733,6 +645,7 @@
                     toastMessages.push({ icon: 'fa-cloud-rain', text: "Ağır Depresyon", color: 'text-slate-500' });
                 }
 
+                // Sınırlandırmalar
                 newStats.mutluluk = Math.max(0, Math.min(100, newStats.mutluluk));
                 newStats.saglik = Math.max(0, Math.min(100, newStats.saglik));
                 newStats.aileIliski = Math.max(0, Math.min(100, newStats.aileIliski));
@@ -741,8 +654,8 @@
                 newStats.zeka = Math.max(0, Math.min(100, newStats.zeka));
                 newStats.karizma = Math.max(0, Math.min(100, newStats.karizma));
                 newStats.guc = Math.max(0, Math.min(100, newStats.guc));
-                newStats.sans = Math.max(0, Math.min(100, newStats.sans));
 
+                // Değişimleri Ekranda Göster
                 if (diffs.para !== 0) toastMessages.push({ icon: 'fa-coins', val: diffs.para, color: diffs.para > 0 ? 'text-amber-500' : 'text-red-500' });
                 if (diffs.mutluluk !== 0) toastMessages.push({ icon: 'fa-face-smile', val: diffs.mutluluk, color: diffs.mutluluk > 0 ? 'text-pink-500' : 'text-red-500' });
                 if (diffs.saglik !== 0) toastMessages.push({ icon: 'fa-heart', val: diffs.saglik, color: diffs.saglik > 0 ? 'text-rose-500' : 'text-red-500' });
@@ -751,13 +664,15 @@
                 if (diffs.zeka > 0) toastMessages.push({ icon: 'fa-brain', val: diffs.zeka, color: 'text-blue-500' });
                 if (diffs.karizma > 0) toastMessages.push({ icon: 'fa-star', val: diffs.karizma, color: 'text-yellow-500' });
                 if (diffs.guc > 0) toastMessages.push({ icon: 'fa-dumbbell', val: diffs.guc, color: 'text-orange-500' });
-                if (diffs.sans !== 0) toastMessages.push({ icon: 'fa-clover', val: diffs.sans, color: diffs.sans > 0 ? 'text-emerald-500' : 'text-emerald-700' });
                 
                 if (toastMessages.length > 0) addToast(toastMessages);
 
                 setStats(newStats);
                 
-                if (newStats.saglik <= 0) return;
+                // Anında Ölüm Kontrolü
+                if (newStats.saglik <= 0) {
+                    return; // useEffect handle edecek
+                }
 
                 if (!(newStats.para <= -1000 || newStats.saglik <= 0)) {
                     triggerEventChange(targetId);
@@ -820,7 +735,7 @@
                                                         <button 
                                                             key={diff} 
                                                             onClick={() => startGameWithCity(city, true, diff)}
-                                                            className={`py-1 px-3 text-[10px] font-bold rounded-lg shadow-sm active:scale-95 text-white
+                                                            className={`py-1 px-3 text-[10px] font-bold rounded-lg shadow-sm active:scale-95 transition-all text-white
                                                                 ${diff === 'kolay' ? 'bg-emerald-500' : diff === 'orta' ? 'bg-amber-500' : 'bg-rose-500'}`}
                                                         >
                                                             {diff.toUpperCase()}
@@ -888,7 +803,7 @@
                     </div>
 
                     {/* Main Event Card */}
-                    <div className="flex-1 flex flex-col items-center justify-center p-4 z-10 card-perspective w-full h-full relative pb-[110px]">
+                    <div className="flex-1 flex flex-col items-center justify-center p-4 z-10 card-perspective w-full h-full relative pb-[80px]">
                         <div ref={dropZoneRef} className={`main-card ${animState} ${isHoveringDropZone ? 'drop-hover' : ''} z-10`}>
                             <div className="text-6xl sm:text-7xl mb-4 filter drop-shadow-md transition-transform duration-300 hover:scale-110 cursor-default">
                                 {currentEvent.emoji}
@@ -907,7 +822,7 @@
                     </div>
 
                     {/* Choice Fan */}
-                    <div className="absolute bottom-[95px] left-0 w-full z-20 flex justify-center pointer-events-none">
+                    <div className="absolute bottom-[60px] left-0 w-full z-20 flex justify-center pointer-events-none">
                         <div className="fan-container pointer-events-auto">
                             {currentEvent.choices.map((choice, index) => {
                                 let isDisabled = false;
@@ -967,26 +882,6 @@
                         </div>
                     </div>
 
-                    {/* Mini Personal Stats Bar (Kart Destesinin Altında) */}
-                    <div className="absolute bottom-[60px] left-0 w-full h-[35px] z-10 flex justify-center items-center gap-2 sm:gap-4 px-2 bg-white/30 backdrop-blur-md border-t border-white/40 pointer-events-none">
-                        <div className="flex items-center gap-1.5 bg-white/50 px-2 py-1 rounded-lg shadow-sm border border-white/50 text-slate-700">
-                            <i className="fas fa-brain text-blue-500 text-[11px]"></i>
-                            <span className="text-[11px] font-black">{stats.zeka}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 bg-white/50 px-2 py-1 rounded-lg shadow-sm border border-white/50 text-slate-700">
-                            <i className="fas fa-star text-yellow-500 text-[11px]"></i>
-                            <span className="text-[11px] font-black">{stats.karizma}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 bg-white/50 px-2 py-1 rounded-lg shadow-sm border border-white/50 text-slate-700">
-                            <i className="fas fa-dumbbell text-orange-500 text-[11px]"></i>
-                            <span className="text-[11px] font-black">{stats.guc}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 bg-white/50 px-2 py-1 rounded-lg shadow-sm border border-white/50 text-slate-700">
-                            <i className="fas fa-clover text-emerald-500 text-[11px]"></i>
-                            <span className="text-[11px] font-black">{stats.sans}</span>
-                        </div>
-                    </div>
-
                     {/* Alt Navigasyon Barı */}
                     <div className="bottom-nav">
                         <button onClick={() => setActiveTab('game')} className={`nav-btn ${activeTab === 'game' ? 'active' : ''}`}>
@@ -1043,18 +938,6 @@
                                     </div>
                                 </div>
                                 
-                                {/* Şans */}
-                                <div className="bg-white/50 backdrop-blur-sm p-4 rounded-2xl border border-white/60 shadow-sm">
-                                    <div className="flex justify-between items-center mb-1">
-                                        <div className="font-bold text-emerald-500 flex items-center gap-2"><i className="fas fa-clover"></i> Şans</div>
-                                        <div className="font-black text-sm">{stats.sans}/100</div>
-                                    </div>
-                                    <p className="text-[10px] text-slate-500 font-semibold mb-2 leading-tight">Pozitif rastgele olaylarla karşılaşma ihtimalini artırır ve tehlikeli durumlardan sıyrılmanı sağlar.</p>
-                                    <div className="stat-bar-bg">
-                                        <div className="stat-bar-fill bg-emerald-500" style={{ width: `${stats.sans}%` }}></div>
-                                    </div>
-                                </div>
-
                                 {/* Ekstra Durumlar */}
                                 <div className="mt-2 text-center text-xs font-bold text-slate-600">
                                     İlişki Durumu: <span className={stats.sevgili ? 'text-pink-500' : 'text-slate-400'}>{stats.sevgili ? '❤️ Sevgilisi Var' : '💔 Yalnız'}</span>
