@@ -13,195 +13,440 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            min-height: 100dvh;
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            color: #334155;
-            overflow: hidden;
-        }
+    <link rel="stylesheet" href="css/style.css">
 
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
-
-        .app-container {
-            width: 100%;
-            height: 100dvh;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
-        @media (min-width: 640px) {
-            .app-container {
-                width: 420px;
-                height: 850px;
-                max-height: 95vh;
-                border-radius: 2.5rem;
-                border: 8px solid #ffffff;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0,0,0,0.05);
-            }
-        }
-
-        .bg-pattern {
-            position: absolute;
-            inset: 0;
-            opacity: 0.4;
-            background-image: radial-gradient(#ff758c 1.5px, transparent 1.5px), radial-gradient(#ff758c 1.5px, transparent 1.5px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .card-perspective { perspective: 1000px; }
-
-        .main-card {
-            width: 100%;
-            max-width: 280px;
-            aspect-ratio: 2 / 2.8;
-            background: #ffffff;
-            border-radius: 24px;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08), inset 0 0 0 2px rgba(255,255,255,0.5);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            text-align: center;
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, border-color 0.3s;
-            transform-style: preserve-3d;
-            margin: auto;
-            border: 4px dashed transparent;
-        }
-
-        .main-card.drop-hover {
-            transform: scale(1.05);
-            border-color: #4ade80;
-            box-shadow: 0 25px 50px rgba(74, 222, 128, 0.3), 0 0 30px rgba(74, 222, 128, 0.2);
-            background: #f0fdf4;
-        }
-
-        .card-idle { transform: scale(1) rotateY(0deg); opacity: 1; }
-        .card-flip-out { transform: scale(0.9) rotateY(-90deg) translateY(-20px); opacity: 0; }
-        .card-flip-in { transform: scale(0.9) rotateY(90deg) translateY(20px); opacity: 0; }
-
-        /* Seçenek Kartları (Yelpaze) */
-        .fan-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            width: 100%;
-            height: 180px;
-            position: relative;
-            padding-bottom: 2rem;
-        }
-
-        .choice-draggable-card {
-            width: 95px;
-            aspect-ratio: 2 / 2.8;
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-            color: #475569;
-            cursor: grab;
-            transform-origin: bottom center;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: none; 
-        }
-        
-        .choice-draggable-card:active { cursor: grabbing; }
-
-        .choice-draggable-card.dragging {
-            box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 0 0 2px #ff758c;
-            opacity: 0.95;
-            background: #fff0f2;
-        }
-
-        .choice-draggable-card:disabled {
-            opacity: 0.5;
-            filter: grayscale(100%);
-            border-color: #cbd5e1;
-            cursor: not-allowed;
-            touch-action: auto;
-        }
-
-        /* Dark Mode */
-        body.dark-theme { background: linear-gradient(135deg, #1e1e2f 0%, #151520 100%); color: #f8fafc; }
-        body.dark-theme .app-container { background: linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.4) 100%); border-color: #334155; }
-        body.dark-theme .main-card, body.dark-theme .choice-draggable-card { background: #1e293b; border-color: #475569; box-shadow: 0 10px 25px rgba(0,0,0,0.4); color: #f1f5f9; }
-        body.dark-theme .choice-draggable-card span.text-slate-700 { color: #e2e8f0; }
-        body.dark-theme .choice-draggable-card.dragging { background: #334155; box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 0 2px #ff758c; }
-        body.dark-theme .main-card p.text-slate-600 { color: #cbd5e1; }
-        body.dark-theme .bg-white\/50 { background-color: rgba(30, 41, 59, 0.7); border-color: rgba(255, 255, 255, 0.15); color: #f1f5f9; }
-        body.dark-theme .drop-hover { background: #064e3b; border-color: #4ade80; }
-        
-        /* Bottom Nav */
-        .bottom-nav {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 60px;
-            background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255,255,255,0.5); display: flex;
-            justify-content: space-around; align-items: center; z-index: 40;
-            border-bottom-left-radius: 2.5rem; border-bottom-right-radius: 2.5rem;
-        }
-        body.dark-theme .bottom-nav { background: rgba(30,41,59,0.8); border-top-color: #475569; }
-        .nav-btn {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            width: 45%; height: 80%; border-radius: 12px; font-weight: 800; font-size: 11px;
-            color: #64748b; transition: all 0.2s;
-        }
-        .nav-btn.active { color: #ff758c; background: rgba(255,117,140,0.1); }
-        body.dark-theme .nav-btn.active { color: #fb7185; background: rgba(251,113,133,0.15); }
-        .nav-btn i { font-size: 16px; margin-bottom: 2px; }
-
-        /* Stats Overlay */
-        .stats-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: calc(100% - 60px);
-            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); z-index: 35;
-            display: flex; flex-direction: column; padding: 2rem 1.5rem; overflow-y: auto;
-            animation: slideUp 0.3s forwards;
-        }
-        body.dark-theme .stats-overlay { background: rgba(15,23,42,0.95); color: #f1f5f9; }
-        @keyframes slideUp { from { transform: translateY(10%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .stat-bar-bg { width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden; margin-top: 4px; }
-        body.dark-theme .stat-bar-bg { background: #334155; }
-        .stat-bar-fill { height: 100%; transition: width 0.5s ease-out; }
-    </style>
 </head>
 <body>
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+// data/names.js — Rastgele isim üretimi
+const MALE_NAMES = ["Mehmet", "Ahmet", "Mustafa", "Ali", "Hüseyin", "Hasan", "İbrahim", "Yusuf", "Emre", "Burak", "Can", "Kerem", "Onur", "Serkan", "Murat"];
 
-        const TURKEY_CITIES = [
+const FEMALE_NAMES = ["Ayşe", "Fatma", "Emine", "Hatice", "Zeynep", "Elif", "Merve", "Aylin", "Seda", "Gizem", "Buse", "Derya", "Yasemin", "Ebru", "Nur"];
+
+const randomName = (isFemale) => (isFemale ? FEMALE_NAMES : MALE_NAMES)[Math.floor(Math.random() * (isFemale ? FEMALE_NAMES.length : MALE_NAMES.length))];
+
+// data/items.js — Mağaza eşyaları ve ilişki eylemleri
+const STORE_ITEMS = [
+            { id: 'item_phone', icon: '📱', name: 'Yeni Telefon', desc: 'Sosyal statünü artırır.', price: 3000, type: 'permanent', effect: { karizma: 5 } },
+            { id: 'item_car', icon: '🚗', name: 'İkinci El Araba', desc: 'Hayatını kolaylaştırır, mutluluk verir.', price: 25000, type: 'permanent', effect: { mutluluk: 15, karizma: 5 }, minAge: 18 },
+            { id: 'item_gym', icon: '🏋️', name: 'Spor Salonu Üyeliği', desc: 'Sağlık kazanımların kalıcı olarak artar.', price: 2000, type: 'permanent', effect: { saglikCarpaniBonus: 0.15 } },
+            { id: 'item_books', icon: '📚', name: 'Özel Ders Paketi', desc: 'Zeka ve okul başarını artırır.', price: 1500, type: 'permanent', effect: { zeka: 10, okul: 15 } },
+            { id: 'item_vitamin', icon: '💊', name: 'Vitamin Kürü', desc: 'Anında sağlık kazandırır.', price: 500, type: 'consumable', effect: { saglik: 20 } },
+            { id: 'item_clothes', icon: '👕', name: 'Kıyafet Yenileme', desc: 'Karizmanı artırır.', price: 800, type: 'consumable', effect: { karizma: 8 } },
+            { id: 'item_house', icon: '🏠', name: 'Ev Eşyası Yenileme', desc: 'Evini yeniler, mutluluk verir.', price: 5000, type: 'permanent', effect: { mutluluk: 10 }, reqBarinma: 'kendi_evi' },
+        ];
+
+const REL_ACTIONS = [
+            { id: 'sohbet', label: 'Sohbet Et', icon: '💬', cost: { enerji: 10 }, levelChange: 5, statEffect: { mutluluk: 3 } },
+            { id: 'bulus', label: 'Buluş / Çık', icon: '☕', cost: { enerji: 25, para: 100 }, levelChange: 10, statEffect: { mutluluk: 8 } },
+            { id: 'hediye', label: 'Hediye Ver', icon: '🎁', cost: { para: 300 }, levelChange: 15, statEffect: { mutluluk: 2 } },
+            { id: 'tartis', label: 'Tartış', icon: '😠', cost: { enerji: 15 }, levelChange: -15, statEffect: { mutluluk: -5 } },
+        ];
+
+        // --- EYLEMLER SİSTEMİ (Her an yapılabilen aksiyonlar) ---
+
+// data/countries.js — Şehir, bölge ve bölgesel buff verileri
+// NOT: Oyun ülke değil şehir bazlı olduğu için bu dosya şehir/bölge verilerini tutar.
+const TURKEY_CITIES = [
             "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
         ];
 
         // Başlangıç değerleri
-        const INITIAL_STATS = { 
+
+const CITY_REGIONS = {
+            "İstanbul": "marmara", "Kocaeli": "marmara", "Bursa": "marmara", "Tekirdağ": "marmara", "Balıkesir": "marmara",
+            "Çanakkale": "marmara", "Edirne": "marmara", "Kırklareli": "marmara", "Sakarya": "marmara", "Yalova": "marmara", "Bilecik": "marmara",
+            "İzmir": "ege", "Aydın": "ege", "Manisa": "ege", "Muğla": "ege", "Denizli": "ege", "Uşak": "ege", "Afyonkarahisar": "ege", "Kütahya": "ege",
+            "Antalya": "akdeniz", "Adana": "akdeniz", "Mersin": "akdeniz", "Hatay": "akdeniz", "Isparta": "akdeniz", "Burdur": "akdeniz", "Kahramanmaraş": "akdeniz", "Osmaniye": "akdeniz",
+            "Ankara": "ic_anadolu", "Konya": "ic_anadolu", "Kayseri": "ic_anadolu", "Sivas": "ic_anadolu", "Eskişehir": "ic_anadolu", "Çorum": "ic_anadolu",
+            "Yozgat": "ic_anadolu", "Kırşehir": "ic_anadolu", "Nevşehir": "ic_anadolu", "Niğde": "ic_anadolu", "Aksaray": "ic_anadolu", "Kırıkkale": "ic_anadolu", "Karaman": "ic_anadolu",
+            "Trabzon": "karadeniz", "Samsun": "karadeniz", "Rize": "karadeniz", "Ordu": "karadeniz", "Giresun": "karadeniz", "Gümüşhane": "karadeniz",
+            "Artvin": "karadeniz", "Zonguldak": "karadeniz", "Bolu": "karadeniz", "Çankırı": "karadeniz", "Amasya": "karadeniz", "Tokat": "karadeniz",
+            "Sinop": "karadeniz", "Kastamonu": "karadeniz", "Bartın": "karadeniz", "Karabük": "karadeniz", "Bayburt": "karadeniz", "Düzce": "karadeniz",
+            "Erzurum": "dogu_anadolu", "Erzincan": "dogu_anadolu", "Van": "dogu_anadolu", "Kars": "dogu_anadolu", "Ağrı": "dogu_anadolu", "Muş": "dogu_anadolu",
+            "Bitlis": "dogu_anadolu", "Bingöl": "dogu_anadolu", "Tunceli": "dogu_anadolu", "Elazığ": "dogu_anadolu", "Malatya": "dogu_anadolu",
+            "Hakkari": "dogu_anadolu", "Iğdır": "dogu_anadolu", "Ardahan": "dogu_anadolu",
+            "Gaziantep": "guneydogu", "Diyarbakır": "guneydogu", "Şanlıurfa": "guneydogu", "Mardin": "guneydogu", "Siirt": "guneydogu",
+            "Şırnak": "guneydogu", "Batman": "guneydogu", "Adıyaman": "guneydogu", "Kilis": "guneydogu"
+        };
+
+        // ==========================================================
+        // --- ŞEHİR BUFF / DEBUFF SİSTEMİ ---
+        // ==========================================================
+        // Her şehrin pasif etkileri. Her "step > 0" olan seçimde uygulanır.
+        // passivePerStep: Her adımda eklenen / çıkarılan değerler.
+        // startBonus: Oyun başlarken bir kereliğine verilen bonus statlar.
+        // description: Menüde gösterilen kısa açıklama.
+        // buffs / debuffs: Menüde ikon olarak sıralanan etiketler.
+
+const REGION_BUFFS = {
+            marmara:     { passivePerStep: { para: 15, enerji: -2, mutluluk: -1 },  startBonus: { karizma: 5 } },
+            ege:         { passivePerStep: { saglik: 1, mutluluk: 1 },               startBonus: { sans: 3 } },
+            akdeniz:     { passivePerStep: { saglik: 1, enerji: -1 },                startBonus: { guc: 3 } },
+            ic_anadolu:  { passivePerStep: { okul: 1 },                              startBonus: { zeka: 3 } },
+            karadeniz:   { passivePerStep: { saglik: 2, enerji: -1 },                startBonus: { guc: 5 } },
+            dogu_anadolu:{ passivePerStep: { para: -5, guc: 1, enerji: -2 },        startBonus: { guc: 8 } },
+            guneydogu:   { passivePerStep: { karizma: 1, para: -3 },                startBonus: { karizma: 5 } },
+        };
+
+const CITY_BUFFS = {
+            // --- MARMARA BÖLGESİ ---
+            "İstanbul": {
+                emoji: "🌉", color: "#3b82f6",
+                description: "Türkiye'nin kalbi — fırsat çok, stres daha çok.",
+                buffs: ["💰 Para +25/adım", "🎭 Karizma +1"],
+                debuffs: ["⚡ Enerji -4/adım", "😊 Mutluluk -2/adım"],
+                passivePerStep: { para: 25, enerji: -4, mutluluk: -2, karizma: 1 },
+                startBonus: { karizma: 10, zeka: 5 }
+            },
+            "Bursa": {
+                emoji: "🏔️", color: "#10b981",
+                description: "Sanayinin gücü, Uludağ'ın serinliği.",
+                buffs: ["💰 Para +18/adım", "💪 Güç +1"],
+                debuffs: ["😊 Mutluluk -1/adım"],
+                passivePerStep: { para: 18, guc: 1, mutluluk: -1 },
+                startBonus: { guc: 5, karizma: 3 }
+            },
+            "Kocaeli": {
+                emoji: "🏭", color: "#6366f1",
+                description: "Sanayi kenti — iş bol, hava ağır.",
+                buffs: ["💰 Para +20/adım", "📚 Tecrübe +2"],
+                debuffs: ["❤️ Sağlık -1/adım"],
+                passivePerStep: { para: 20, tecrube: 2, saglik: -1 },
+                startBonus: { zeka: 4 }
+            },
+            "Tekirdağ": {
+                emoji: "🍷", color: "#8b5cf6",
+                description: "Rakı ve çiroz kültürü — sakin ama bereketli.",
+                buffs: ["😊 Mutluluk +1/adım", "💰 Para +10/adım"],
+                debuffs: [],
+                passivePerStep: { mutluluk: 1, para: 10 },
+                startBonus: { sans: 5 }
+            },
+            "Edirne": {
+                emoji: "🕌", color: "#f59e0b",
+                description: "Tarihin izleri, pehlivanların şehri.",
+                buffs: ["💪 Güç +2", "🍀 Şans +1"],
+                debuffs: ["💰 Para -3/adım"],
+                passivePerStep: { guc: 2, sans: 1, para: -3 },
+                startBonus: { guc: 8 }
+            },
+            "Sakarya": {
+                emoji: "🌲", color: "#059669",
+                description: "Doğanın ortasında huzurlu bir yaşam.",
+                buffs: ["😊 Mutluluk +1/adım", "❤️ Sağlık +1/adım"],
+                debuffs: ["💰 Para -2/adım"],
+                passivePerStep: { mutluluk: 1, saglik: 1, para: -2 },
+                startBonus: { saglik: 10 }
+            },
+            "Yalova": {
+                emoji: "♨️", color: "#14b8a6",
+                description: "Kaplıcalar ve huzur — sağlık şehri.",
+                buffs: ["❤️ Sağlık +2/adım", "😊 Mutluluk +1/adım"],
+                debuffs: ["💰 Para -5/adım"],
+                passivePerStep: { saglik: 2, mutluluk: 1, para: -5 },
+                startBonus: { saglik: 15 }
+            },
+
+            // --- EGE BÖLGESİ ---
+            "İzmir": {
+                emoji: "🌊", color: "#0ea5e9",
+                description: "Ege'nin incisi — özgür, modern, keyifli.",
+                buffs: ["😊 Mutluluk +2/adım", "🎭 Karizma +1", "❤️ Sağlık +1/adım"],
+                debuffs: ["💰 Para -5/adım"],
+                passivePerStep: { mutluluk: 2, karizma: 1, saglik: 1, para: -5 },
+                startBonus: { karizma: 8, sans: 5 }
+            },
+            "Muğla": {
+                emoji: "⛵", color: "#06b6d4",
+                description: "Tatil cenneti — sezon gelir, sezon geçer.",
+                buffs: ["😊 Mutluluk +3/adım", "🍀 Şans +1"],
+                debuffs: ["💰 Para -8/adım (sezon dışı)"],
+                passivePerStep: { mutluluk: 3, sans: 1, para: -8 },
+                startBonus: { karizma: 6, sans: 8 }
+            },
+            "Aydın": {
+                emoji: "🫒", color: "#84cc16",
+                description: "İncir ve zeytinin başkenti — bereketli toprak.",
+                buffs: ["❤️ Sağlık +2/adım", "💪 Güç +1"],
+                debuffs: [],
+                passivePerStep: { saglik: 2, guc: 1 },
+                startBonus: { saglik: 10, guc: 5 }
+            },
+            "Denizli": {
+                emoji: "🐓", color: "#f97316",
+                description: "Tekstilin kalbi — çalışkan ve üretken.",
+                buffs: ["💰 Para +12/adım", "💼 Tecrübe +1"],
+                debuffs: ["⚡ Enerji -1/adım"],
+                passivePerStep: { para: 12, tecrube: 1, enerji: -1 },
+                startBonus: { zeka: 5 }
+            },
+
+            // --- AKDENİZ BÖLGESİ ---
+            "Antalya": {
+                emoji: "🏖️", color: "#f59e0b",
+                description: "Turizmin başkenti — güneş, deniz, para.",
+                buffs: ["💰 Para +20/adım (sezon)", "😊 Mutluluk +2/adım"],
+                debuffs: ["⚡ Enerji -2/adım"],
+                passivePerStep: { para: 20, mutluluk: 2, enerji: -2 },
+                startBonus: { karizma: 8, sans: 5 }
+            },
+            "Adana": {
+                emoji: "🌶️", color: "#ef4444",
+                description: "Kebabın kalbi — sıcak, canlı, meydan okuyan.",
+                buffs: ["💪 Güç +2", "🎭 Karizma +1", "💰 Para +8/adım"],
+                debuffs: ["❤️ Sağlık -1/adım (sıcak)"],
+                passivePerStep: { guc: 2, karizma: 1, para: 8, saglik: -1 },
+                startBonus: { guc: 8, karizma: 5 }
+            },
+            "Mersin": {
+                emoji: "⚓", color: "#0284c7",
+                description: "Limanın şehri — ticaret ve denizcilik.",
+                buffs: ["💰 Para +15/adım", "💼 Tecrübe +2"],
+                debuffs: ["😊 Mutluluk -1/adım"],
+                passivePerStep: { para: 15, tecrube: 2, mutluluk: -1 },
+                startBonus: { zeka: 5, karizma: 3 }
+            },
+            "Hatay": {
+                emoji: "🫕", color: "#a855f7",
+                description: "Medeniyetlerin kavşağı — kültür ve lezzet.",
+                buffs: ["🎭 Karizma +2", "😊 Mutluluk +1/adım"],
+                debuffs: ["💰 Para -3/adım"],
+                passivePerStep: { karizma: 2, mutluluk: 1, para: -3 },
+                startBonus: { karizma: 10, sans: 5 }
+            },
+
+            // --- İÇ ANADOLU BÖLGESİ ---
+            "Ankara": {
+                emoji: "🏛️", color: "#6366f1",
+                description: "Başkentin avantajı — devlet kapısı açık.",
+                buffs: ["🧠 Zeka +1/adım", "📚 Okul +2/adım", "💰 Para +12/adım"],
+                debuffs: ["😊 Mutluluk -2/adım", "⚡ Enerji -1/adım"],
+                passivePerStep: { zeka: 1, okul: 2, para: 12, mutluluk: -2, enerji: -1 },
+                startBonus: { zeka: 10, okul: 15 }
+            },
+            "Konya": {
+                emoji: "🕌", color: "#78716c",
+                description: "Mevlana'nın şehri — manevi huzur, sakin yaşam.",
+                buffs: ["😊 Mutluluk +2/adım", "👨‍👩‍👧 Aile +1/adım"],
+                debuffs: ["💰 Para -3/adım", "🎭 Karizma -1"],
+                passivePerStep: { mutluluk: 2, aileIliski: 1, para: -3, karizma: -1 },
+                startBonus: { mutluluk: 10, aileIliski: 10 }
+            },
+            "Kayseri": {
+                emoji: "🥩", color: "#dc2626",
+                description: "Ticaretin ustası — pastırma ve iş zekası.",
+                buffs: ["💰 Para +18/adım", "🧠 Zeka +1"],
+                debuffs: [],
+                passivePerStep: { para: 18, zeka: 1 },
+                startBonus: { zeka: 8, karizma: 5 }
+            },
+            "Eskişehir": {
+                emoji: "🎓", color: "#8b5cf6",
+                description: "Üniversite kenti — genç, dinamik, özgür.",
+                buffs: ["🧠 Zeka +2/adım", "📚 Okul +3/adım", "🎭 Karizma +1"],
+                debuffs: ["💰 Para -8/adım"],
+                passivePerStep: { zeka: 2, okul: 3, karizma: 1, para: -8 },
+                startBonus: { zeka: 12, okul: 20 }
+            },
+            "Sivas": {
+                emoji: "🐏", color: "#92400e",
+                description: "Dört mevsim dört ayrı yüz — zorlu ama dürüst.",
+                buffs: ["💪 Güç +1/adım", "🍀 Şans +1"],
+                debuffs: ["💰 Para -5/adım", "⚡ Enerji -1/adım"],
+                passivePerStep: { guc: 1, sans: 1, para: -5, enerji: -1 },
+                startBonus: { guc: 8, sans: 5 }
+            },
+            "Nevşehir": {
+                emoji: "🪨", color: "#a78bfa",
+                description: "Peri bacaları — turizm ve sakin yaşam.",
+                buffs: ["😊 Mutluluk +2/adım", "🍀 Şans +2"],
+                debuffs: ["💰 Para -5/adım"],
+                passivePerStep: { mutluluk: 2, sans: 2, para: -5 },
+                startBonus: { sans: 10, mutluluk: 8 }
+            },
+
+            // --- KARADENİZ BÖLGESİ ---
+            "Trabzon": {
+                emoji: "⚽", color: "#1d4ed8",
+                description: "Fırtınanın gözü — sağlam karakterler yetişir.",
+                buffs: ["❤️ Sağlık +3/adım", "💪 Güç +2", "👨‍👩‍👧 Aile +1/adım"],
+                debuffs: ["💰 Para -8/adım", "🎭 Karizma -1"],
+                passivePerStep: { saglik: 3, guc: 2, aileIliski: 1, para: -8, karizma: -1 },
+                startBonus: { saglik: 15, guc: 10 }
+            },
+            "Rize": {
+                emoji: "🍵", color: "#15803d",
+                description: "Çayın anavatanı — yağmurlu ama huzurlu.",
+                buffs: ["❤️ Sağlık +3/adım", "😊 Mutluluk +1/adım"],
+                debuffs: ["💰 Para -10/adım"],
+                passivePerStep: { saglik: 3, mutluluk: 1, para: -10 },
+                startBonus: { saglik: 20 }
+            },
+            "Samsun": {
+                emoji: "🌿", color: "#16a34a",
+                description: "Karadeniz'in kapısı — ticaret ve tütün.",
+                buffs: ["💰 Para +10/adım", "💼 Tecrübe +1"],
+                debuffs: ["❤️ Sağlık -1/adım"],
+                passivePerStep: { para: 10, tecrube: 1, saglik: -1 },
+                startBonus: { karizma: 5, zeka: 3 }
+            },
+            "Ordu": {
+                emoji: "🌰", color: "#92400e",
+                description: "Fındığın başkenti — doğal zenginlik.",
+                buffs: ["❤️ Sağlık +2/adım", "💪 Güç +1"],
+                debuffs: ["💰 Para -5/adım"],
+                passivePerStep: { saglik: 2, guc: 1, para: -5 },
+                startBonus: { saglik: 12, guc: 5 }
+            },
+            "Giresun": {
+                emoji: "🍒", color: "#be123c",
+                description: "Kirazın anavatanı — rengarenk ve canlı.",
+                buffs: ["😊 Mutluluk +2/adım", "❤️ Sağlık +1/adım"],
+                debuffs: ["💰 Para -6/adım"],
+                passivePerStep: { mutluluk: 2, saglik: 1, para: -6 },
+                startBonus: { sans: 8, mutluluk: 10 }
+            },
+            "Kastamonu": {
+                emoji: "🏰", color: "#78716c",
+                description: "Tarihin sesi — köklü ve geleneksel.",
+                buffs: ["👨‍👩‍👧 Aile +2/adım", "🧠 Zeka +1"],
+                debuffs: ["💰 Para -8/adım", "⚡ Enerji -1/adım"],
+                passivePerStep: { aileIliski: 2, zeka: 1, para: -8, enerji: -1 },
+                startBonus: { aileIliski: 15, zeka: 5 }
+            },
+
+            // --- DOĞU ANADOLU BÖLGESİ ---
+            "Erzurum": {
+                emoji: "⛷️", color: "#1e40af",
+                description: "Kışın kalbi — soğuk iklim güçlü insanlar yetiştirir.",
+                buffs: ["💪 Güç +3/adım", "👨‍👩‍👧 Aile +1/adım"],
+                debuffs: ["💰 Para -10/adım", "⚡ Enerji -2/adım", "😊 Mutluluk -1/adım"],
+                passivePerStep: { guc: 3, aileIliski: 1, para: -10, enerji: -2, mutluluk: -1 },
+                startBonus: { guc: 15, aileIliski: 10 }
+            },
+            "Van": {
+                emoji: "🐈", color: "#0369a1",
+                description: "Gölün incisi — özgün kültür ve sert doğa.",
+                buffs: ["💪 Güç +2/adım", "🍀 Şans +1"],
+                debuffs: ["💰 Para -12/adım", "😊 Mutluluk -2/adım"],
+                passivePerStep: { guc: 2, sans: 1, para: -12, mutluluk: -2 },
+                startBonus: { guc: 12, sans: 8 }
+            },
+            "Malatya": {
+                emoji: "🍑", color: "#f59e0b",
+                description: "Kaynağın şehri — meyve ve sıcaklık.",
+                buffs: ["😊 Mutluluk +1/adım", "❤️ Sağlık +1/adım"],
+                debuffs: ["💰 Para -5/adım"],
+                passivePerStep: { mutluluk: 1, saglik: 1, para: -5 },
+                startBonus: { saglik: 8, mutluluk: 8 }
+            },
+            "Elazığ": {
+                emoji: "🍇", color: "#7c3aed",
+                description: "Harput'un mirası — bağ ve bahçe.",
+                buffs: ["❤️ Sağlık +1/adım", "👨‍👩‍👧 Aile +1/adım"],
+                debuffs: ["💰 Para -5/adım"],
+                passivePerStep: { saglik: 1, aileIliski: 1, para: -5 },
+                startBonus: { aileIliski: 10, saglik: 5 }
+            },
+            "Kars": {
+                emoji: "🧀", color: "#374151",
+                description: "Soğuğun ötesi — kaz ve peynir diyarı.",
+                buffs: ["💪 Güç +2/adım", "🍀 Şans +2"],
+                debuffs: ["💰 Para -12/adım", "⚡ Enerji -3/adım"],
+                passivePerStep: { guc: 2, sans: 2, para: -12, enerji: -3 },
+                startBonus: { guc: 15, sans: 10 }
+            },
+
+            // --- GÜNEYDOĞU ANADOLU BÖLGESİ ---
+            "Gaziantep": {
+                emoji: "🥜", color: "#d97706",
+                description: "Baklavanın şehri — ticaret ve lezzet.",
+                buffs: ["💰 Para +15/adım", "🎭 Karizma +1", "🍀 Şans +1"],
+                debuffs: ["⚡ Enerji -1/adım"],
+                passivePerStep: { para: 15, karizma: 1, sans: 1, enerji: -1 },
+                startBonus: { karizma: 8, zeka: 5 }
+            },
+            "Diyarbakır": {
+                emoji: "🏯", color: "#1c1917",
+                description: "Kara surların ardı — derin kültür, güçlü topluluk.",
+                buffs: ["💪 Güç +2/adım", "🎭 Karizma +1", "👨‍👩‍👧 Aile +2/adım"],
+                debuffs: ["💰 Para -8/adım"],
+                passivePerStep: { guc: 2, karizma: 1, aileIliski: 2, para: -8 },
+                startBonus: { guc: 10, aileIliski: 15 }
+            },
+            "Şanlıurfa": {
+                emoji: "🐟", color: "#92400e",
+                description: "Peygamberlerin şehri — inanç ve gelenek.",
+                buffs: ["👨‍👩‍👧 Aile +3/adım", "🍀 Şans +2"],
+                debuffs: ["💰 Para -8/adım", "⚡ Enerji -2/adım"],
+                passivePerStep: { aileIliski: 3, sans: 2, para: -8, enerji: -2 },
+                startBonus: { aileIliski: 20, sans: 10 }
+            },
+            "Mardin": {
+                emoji: "🏛️", color: "#a16207",
+                description: "Taş evler ve mozaik kültür — eşsiz bir atmosfer.",
+                buffs: ["🎭 Karizma +2/adım", "🍀 Şans +1", "😊 Mutluluk +1/adım"],
+                debuffs: ["💰 Para -6/adım"],
+                passivePerStep: { karizma: 2, sans: 1, mutluluk: 1, para: -6 },
+                startBonus: { karizma: 12, sans: 8 }
+            },
+        };
+
+        // Tanımlanmamış şehirler için bölge varsayılanını al
+
+const getCityBuff = (city) => {
+            if (CITY_BUFFS[city]) return CITY_BUFFS[city];
+            const region = CITY_REGIONS[city];
+            if (region && REGION_BUFFS[region]) {
+                const rb = REGION_BUFFS[region];
+                return {
+                    emoji: "📍", color: "#64748b",
+                    description: "Küçük ama özgün bir Anadolu şehri.",
+                    buffs: Object.entries(rb.passivePerStep).filter(([,v])=>v>0).map(([k,v])=>`+${v} ${k}/adım`),
+                    debuffs: Object.entries(rb.passivePerStep).filter(([,v])=>v<0).map(([k,v])=>`${v} ${k}/adım`),
+                    passivePerStep: rb.passivePerStep,
+                    startBonus: rb.startBonus || {}
+                };
+            }
+            return { emoji: "📍", color: "#64748b", description: "Sıradan bir Anadolu şehri.", buffs: [], debuffs: [], passivePerStep: {}, startBonus: {} };
+        };
+
+        // Bölgelere göre atmosferik "renk" cümlecikleri — sonuç metinlerine düşük ihtimalle serpiştirilir
+
+const REGION_FLAVOR = {
+            marmara: ["Dışarıda trafiğin uğultusu hiç dinmiyor.", "Vapur düdükleri uzaktan uzağa duyuluyor.", "Kalabalık, her zamanki gibi seni de içine çekiyor."],
+            ege: ["Zeytin ağaçlarının arasından esen rüzgar içini ferahlatıyor.", "Denizden gelen tuzlu koku burnuna doluyor.", "Güneş her zamanki gibi cömert bugün."],
+            akdeniz: ["Sıcak, bunaltıcı bir öğle vakti bu.", "Portakal bahçelerinin kokusu havada asılı kalmış.", "Deniz ışıltısı gözünü alıyor."],
+            ic_anadolu: ["Bozkırın kuru rüzgarı yüzünü yalıyor.", "Ova upuzun, ufuk bir türlü bitmiyor.", "Toz toprak arasında hayat sessizce akıyor."],
+            karadeniz: ["Yamaçlardan inen sis her yeri kaplamış.", "Yağmur bugün de eksik olmuyor, toprak çamur kokuyor.", "Dere şırıltısı ve mısır tarlaları arasında geçiyor günler."],
+            dogu_anadolu: ["Soğuk, keskin bir rüzgar tepelerden iniyor.", "Dağların gölgesi erkenden çöküyor üstüne.", "Kar henüz erimemiş, hava bıçak gibi."],
+            guneydogu: ["Kavurucu bir güneş tepende asılı duruyor.", "Baharat ve taze fırın ekmeği kokusu sokakları sarmış.", "Toz bulutu ufukta savruluyor."]
+        };
+
+// data/jobs.js — Maaş / kariyer hesaplama
+// NOT: Oyunda henüz ayrı bir "iş ilanları" listesi yok; maaş inline bir formülle
+// hesaplanıyordu (EVENTS.adult_work içinde). Yeniden kullanılabilir olması için
+// buraya taşındı. Gelecekte gerçek bir iş/meslek listesi burada tutulabilir.
+const calculateSalary = (s) => {
+    let maas = 500;
+    if (s.zeka > 60) maas += 300;
+    if (s.okul > 70) maas += 200;
+    if (s.karizma > 50) maas += 100;
+    return maas;
+};
+
+// systems/money.js — Para sistemi
+// NOT: Para değişiklikleri şu an handleChoice / handleAction (game.js) içinde
+// doğrudan effect objeleri ({ para: ... }) üzerinden uygulanıyor; ayrı bir para
+// motoru yok. Ortak kullanılabilecek küçük bir yardımcı burada tutuluyor.
+
+const formatMoney = (para) => `${Math.round(para)}₺`;
+
+// systems/stats.js — Başlangıç istatistikleri, aile/ilişki üretimi, genel eylemler, sınır (clamp) mantığı
+const INITIAL_STATS = { 
             para: 0, 
             mutluluk: 70, 
             saglik: 100, 
@@ -216,10 +461,11 @@
             guc: 0,
             sans: 0,
             barinma: 'aile',
-            saglikCarpani: 1.0
+            saglikCarpani: 1.0,
+            hapisSayaci: 0
         };
 
-        const generateFamily = () => {
+const generateFamily = () => {
             const count = Math.floor(Math.random() * 4); 
             const types = ["Abi", "Abla", "Küçük Erkek Kardeş", "Küçük Kız Kardeş"];
             let siblings = [];
@@ -228,15 +474,203 @@
             return { siblings, wealthMultiplier, count };
         };
 
+        // --- İLİŞKİ SİSTEMİ ---
+
+const generateRelationships = (family) => {
+            const rels = [];
+            rels.push({ id: 'anne', name: randomName(true), relation: 'Anne', type: 'aile', level: 70 + Math.floor(Math.random() * 20), emoji: '👩' });
+            rels.push({ id: 'baba', name: randomName(false), relation: 'Baba', type: 'aile', level: 70 + Math.floor(Math.random() * 20), emoji: '👨' });
+            family.siblings.forEach((sType, idx) => {
+                const isFemale = sType.includes('Kız');
+                rels.push({ id: `sibling_${idx}`, name: randomName(isFemale), relation: sType, type: 'aile', level: 50 + Math.floor(Math.random() * 30), emoji: isFemale ? '👧' : '👦' });
+            });
+            const friendIsFemale = Math.random() < 0.5;
+            rels.push({ id: 'arkadas_1', name: randomName(friendIsFemale), relation: 'En Yakın Arkadaş', type: 'arkadas', level: 60 + Math.floor(Math.random() * 20), emoji: friendIsFemale ? '👩‍🦰' : '🧑' });
+            return rels;
+        };
+
+        // İlişki Ekranındaki Eylemler
+
+const ACTIONS = [
+            { id: 'act_spor', icon: '🏋️', title: 'Spor Salonu', desc: 'Vücut geliştir, sağlığını iyileştir.', cost: { enerji: 30 }, effect: { guc: 3, saglik: 5 }, minAge: 10 },
+            { id: 'act_kitap', icon: '📚', title: 'Kitap Oku', desc: 'Bilgi ve zeka kazan.', cost: { enerji: 15 }, effect: { zeka: 3, okul: 2 }, minAge: 6 },
+            { id: 'act_uyu', icon: '😴', title: 'Uzun Uyku Çek', desc: 'Enerjini ve sağlığını tazele.', cost: {}, effect: { enerji: 40, saglik: 5 }, minAge: 0 },
+            { id: 'act_parti', icon: '🎉', title: 'Partiye Git', desc: 'Eğlen, insanlarla tanış ama sağlığın etkilenebilir.', cost: { enerji: 25, para: 100 }, effect: { mutluluk: 15, karizma: 2, saglik: -5 }, minAge: 16 },
+            { id: 'act_doktor', icon: '🩺', title: 'Doktora Git', desc: 'Check-up yaptır, sağlığını düzelt.', cost: { para: 250 }, effect: { saglik: 20 }, minAge: 0 },
+            { id: 'act_ekstra_is', icon: '💼', title: 'Ekstra Mesai', desc: 'Fazladan çalışıp para kazan.', cost: { enerji: 40 }, effect: { para: 400, tecrube: 5 }, minAge: 18 },
+            {
+                id: 'act_kumar', icon: '🎰', title: 'Kumarhaneye Git', desc: '21 oyna, şansını dene.', cost: { enerji: 10 }, minAge: 18,
+                special: 'kumar'
+            },
+            { id: 'act_kavga', icon: '🥊', title: 'Kavgaya Gir', desc: 'Sokakta biriyle kapıştın.', cost: { enerji: 20 }, effect: { guc: 2, saglik: -10, karizma: 1 }, minAge: 14 },
+            { id: 'act_meditasyon', icon: '🧘', title: 'Meditasyon Yap', desc: 'Zihnini dinlendir.', cost: { enerji: 10 }, effect: { mutluluk: 10, saglik: 2 }, minAge: 12 },
+
+            // --- SUÇ SİSTEMİ (Kademeli: 12-17 hafif, 18+ ağır) ---
+            {
+                id: 'crime_magaza', icon: '🛍️', title: 'Mağazadan Çakma', desc: 'Küçük bir eşyayı cebe atmayı dene. Yakalanma riski var.',
+                cost: { enerji: 15 }, minAge: 12, maxAge: 17,
+                effect: (s) => {
+                    const catchChance = 0.35 - (s.sans / 400) - (s.karizma / 500);
+                    const caught = Math.random() < Math.max(0.05, catchChance);
+                    if (caught) {
+                        return { effect: { hapisSayaci: 1, aileIliski: -10, mutluluk: -10 }, msg: '😨 Güvenlik yakaladı! Ailene haber verildi, 1 adım gözetim altındasın.' };
+                    }
+                    return { effect: { para: 60, sans: 1, aileIliski: -1 }, msg: '😏 Kimse fark etmedi, ceplerin biraz doldu.' };
+                }
+            },
+            {
+                id: 'crime_kopya', icon: '📝', title: 'Sınavda Kopya Çek', desc: 'Riskli ama okul notunu kurtarabilir.',
+                cost: { enerji: 10 }, minAge: 12, maxAge: 17,
+                effect: (s) => {
+                    const caught = Math.random() < Math.max(0.05, 0.3 - s.zeka / 300);
+                    if (caught) {
+                        return { effect: { okul: -20, mutluluk: -10, aileIliski: -8 }, msg: '📵 Öğretmen gördü, kağıdın alındı.' };
+                    }
+                    return { effect: { okul: 15, mutluluk: -2 }, msg: '✅ Kimse fark etmedi, notun kurtuldu.' };
+                }
+            },
+            {
+                id: 'crime_hirsizlik', icon: '🕵️', title: 'Hırsızlık Yap', desc: 'Ağır suç. Yakalanırsan hapis riski yüksek.',
+                cost: { enerji: 40 }, minAge: 18,
+                effect: (s) => {
+                    const catchChance = 0.45 - (s.sans / 300) - (s.zeka / 500);
+                    const caught = Math.random() < Math.max(0.1, catchChance);
+                    if (caught) {
+                        const ceza = 3 + Math.floor(Math.random() * 4); // 3-6 adım
+                        return { effect: { hapisSayaci: ceza, mutluluk: -20, karizma: -5, aileIliski: -15 }, msg: `🚔 Polis bastı! ${ceza} adım hapis cezası aldın.` };
+                    }
+                    return { effect: { para: 900, sans: 1, mutluluk: -5 }, msg: '💰 İşi temiz çevirdin, ganimet cepte.' };
+                }
+            },
+            {
+                id: 'crime_dolandiricilik', icon: '🎭', title: 'Dolandırıcılık Yap', desc: 'Ağır suç. Karizma yüksekse risk azalır.',
+                cost: { enerji: 25 }, minAge: 18,
+                effect: (s) => {
+                    const catchChance = 0.4 - (s.karizma / 300) - (s.zeka / 500);
+                    const caught = Math.random() < Math.max(0.08, catchChance);
+                    if (caught) {
+                        const ceza = 2 + Math.floor(Math.random() * 3); // 2-4 adım
+                        return { effect: { hapisSayaci: ceza, mutluluk: -15, karizma: -8 }, msg: `🚔 Kurbanın seni şikayet etti, ${ceza} adım hapis yattın.` };
+                    }
+                    return { effect: { para: 500, karizma: 2 }, msg: '🤝 İnandırıcıydın, para hesaba geçti.' };
+                }
+            },
+        ];
+
+        // --- MAĞAZA SİSTEMİ ---
+
+// Tüm istatistikleri 0-100 aralığına (veya kuralına) sabitler
+const clampAll = (s) => {
+    s.mutluluk = Math.max(0, Math.min(100, s.mutluluk));
+    s.saglik = Math.max(0, Math.min(100, s.saglik));
+    s.enerji = Math.max(0, Math.min(100, s.enerji));
+    s.aileIliski = Math.max(0, Math.min(100, s.aileIliski));
+    s.okul = Math.max(0, Math.min(100, s.okul));
+    s.hapisSayaci = Math.max(0, s.hapisSayaci || 0);
+    return s;
+};
+
+// systems/age.js — Yaş aralığı / dönem belirleme
+const ageBracket = (yas) => {
+            if (yas <= 2) return 'bebek';
+            if (yas <= 6) return 'cocuk_kucuk';
+            if (yas <= 12) return 'cocuk';
+            if (yas <= 18) return 'ergen';
+            if (yas <= 25) return 'genc';
+            if (yas <= 40) return 'yetiskin';
+            if (yas <= 60) return 'orta_yas';
+            return 'yasli';
+        };
+
+        // Ruh hali: statChanges toplamından kabaca pozitif/negatif/nötr çıkarımı
+
+// systems/health.js — Sağlık sistemi
+// NOT: Sağlık mantığının büyük kısmı (saglikCarpani, item/action efektleri)
+// halen data/items.js, systems/stats.js ve game.js içindeki effect objelerinde.
+// Bu dosya, sağlıkla ilgili yardımcı fonksiyonlar büyüdükçe genişletilmek üzere
+// ayrılmış bir yer tutucudur.
+
+const isHealthCritical = (saglik) => saglik <= 30;
+
+// systems/education.js — Eğitim sistemi
+// NOT: "okul" istatistiği ACTIONS (systems/stats.js) ve EVENTS (events/events.js)
+// içindeki effect objeleri üzerinden değişiyor; ayrı bir eğitim motoru henüz yok.
+// Bu dosya ileride eğitim aşamaları/notlar gibi mantık eklemek için ayrılmıştır.
+
+const isSchoolSuccessful = (okul) => okul >= 70;
+
+// systems/career.js — Kariyer sistemi
+// NOT: Asıl kariyer akışı (iş bulma, maaş alma) EVENTS.adult_work /
+// EVENTS.hub_adult içinde (events/events.js) yürütülüyor ve maaş hesabı için
+// data/jobs.js -> calculateSalary(s) fonksiyonunu kullanıyor.
+// Bu dosya, kariyerle ilgili yardımcı fonksiyonlar büyüdükçe genişletilmek
+// üzere ayrılmış bir yer tutucudur.
+
+// events/random.js — Rastgele (etkileşimli) olaylar ve sonuç metni motoru
+const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+        // Sabit efekte, o eyleme özel (tekil ya da havuzdan rastgele seçilen) bir mesaj bağlar.
+
+const withMsg = (effectObj, msgs) => (s) => ({
+            effect: effectObj,
+            msg: Array.isArray(msgs) ? pickRandom(msgs) : msgs
+        });
+
         // Etkileşimli (Karar gerektiren) Rastgele Olaylar
-        const INTERACTIVE_RANDOM_EVENTS = [
+
+const INTERACTIVE_RANDOM_EVENTS = [
+{
+            id: 'rnd_mud_jump', minAge: 4, maxAge: 12,
+            emoji: '💦', title: "Kocaman Çamur!",
+            description: "Yağmurdan sonra sokakta kocaman bir çamur birikintisi gördün.",
+            choices: [
+                { text: "İçine Zıpla!", nextId: 'hub', step: 0, icon: '😆', effect: withMsg({ mutluluk: 20, karizma: -10 }, "Her yerin çamur oldu! Annen biraz kızdı ama acayip eğlendin.") },
+                { text: "Etrafından Dolaş", nextId: 'hub', step: 0, icon: '🚶', effect: withMsg({ zeka: 5, mutluluk: -5 }, "Üstün temiz kaldı ama aklın o çamurda kaldı.") }
+            ]
+        },
+        {
+            id: 'rnd_weird_bug', minAge: 4, maxAge: 12,
+            emoji: '🐛', title: "İlginç Bir Böcek",
+            description: "Parkta oynarken yerde daha önce hiç görmediğin garip bir böcek buldun.",
+            choices: [
+                { text: "Eline Al", nextId: 'hub', step: 0, icon: '🖐️', effect: withMsg({ guc: 2, mutluluk: -10 }, "Böcek elini hafifçe ısırdı, korkup ağlayarak uzaklaştın.") },
+                { text: "Uzaktan İncele", nextId: 'hub', step: 0, icon: '👀', effect: withMsg({ zeka: 10, mutluluk: 5 }, "Böceğin nasıl yürüdüğünü izlemek çok ilgini çekti.") }
+            ]
+        },
+        {
+            id: 'rnd_tooth_fairy', minAge: 5, maxAge: 7,
+            emoji: '🦷', title: "Sallanan Diş",
+            description: "Günlerdir sallanan ön dişin en sonunda düştü!",
+            choices: [
+                { text: "Yastığın Altına Koy", nextId: 'hub', step: 0, icon: '🛏️', effect: withMsg({ para: 20, mutluluk: 15 }, "Sabah kalktığında diş perisinin sana harçlık bıraktığını gördün!") },
+                { text: "Sakla", nextId: 'hub', step: 0, icon: '📦', effect: withMsg({ zeka: 5 }, "Dişini küçük bir kutuda anı olarak saklamaya karar verdin.") }
+            ]
+        },
+        {
+            id: 'rnd_toy_fight', minAge: 4, maxAge: 7,
+            emoji: '🧸', title: "Oyuncak Krizi",
+            description: "Oyun alanında başka bir çocuk senin en sevdiğin oyuncakla oynamak istiyor.",
+            choices: [
+                { text: "Paylaş", nextId: 'hub', step: 0, icon: '🤝', effect: withMsg({ karizma: 15, mutluluk: 10 }, "Oyuncaklarını paylaştın ve kendine yeni bir arkadaş edindin.") },
+                { text: "Vermem!", nextId: 'hub', step: 0, icon: '😡', effect: withMsg({ guc: 5, karizma: -10 }, "Oyuncağı sıkıca tuttun. Çocuk ağlamaya başladı.") }
+            ]
+        },
+        {
+            id: 'rnd_stray_cat_kid', minAge: 4, maxAge: 7,
+            emoji: '🐈', title: "Yavru Kedi",
+            description: "Sokakta miyavlayan çok tatlı bir yavru kedi gördün.",
+            choices: [
+                { text: "Sevmeye Çalış", nextId: 'hub', step: 0, icon: '😻', effect: withMsg({ mutluluk: 20, karizma: 5 }, "Kedi sana sürtündü ve mırıldadı. Çok mutlu oldun!") },
+                { text: "Korkup Kaç", nextId: 'hub', step: 0, icon: '🏃', effect: withMsg({ mutluluk: -5 }, "Korkup annenin arkasına saklandın.") }
+            ]
+        },
             { 
                 id: 'rnd_wallet', minAge: 7, maxAge: 18, 
                 emoji: '👛', title: "Cüzdan Buldun!",
                 description: "Okul bahçesinde öğretmenin cüzdanını buldun. İçi para dolu görünüyor.",
                 choices: [
-                    { text: "Cukkalı", nextId: 'hub', step: 0, icon: '😈', effect: { para: 250, okul: -20, mutluluk: -10, aileIliski: -5 } },
-                    { text: "Teslim Et", nextId: 'hub', step: 0, icon: '😇', effect: { okul: 15, mutluluk: 15, karizma: 2 } }
+                    { text: "Cukkalı", nextId: 'hub', step: 0, icon: '😈', effect: withMsg({ para: 250, okul: -20, mutluluk: -10, aileIliski: -5 }, ["Parayı cebe indirdin, vicdanın seni akşama kadar dürttü ama para paraydı.", "Sessizce parayı aldın, öğretmen fark etmeden sınıfa döndün."]) },
+                    { text: "Teslim Et", nextId: 'hub', step: 0, icon: '😇', effect: withMsg({ okul: 15, mutluluk: 15, karizma: 2 }, ["Cüzdanı öğretmene götürdün, gözlerindeki minnet paha biçilmezdi.", "Dürüstlüğünün karşılığını aldın, öğretmen seni sınıfa örnek gösterdi."]) }
                 ]
             },
             { 
@@ -244,9 +678,9 @@
                 emoji: '👊', title: "Zorbalık",
                 description: "Okulda üst sınıflardan biri senden haraç istedi.",
                 choices: [
-                    { text: "Karşı Çık", nextId: 'hub', step: 0, icon: '😡', req: { guc: 30 }, effect: { guc: 2, karizma: 5, mutluluk: 10, enerji: -15 } },
-                    { text: "Parayı Ver", nextId: 'hub', step: 0, icon: '😰', effect: { para: -20, mutluluk: -15, okul: -5 } },
-                    { text: "Şansa Bırak", nextId: 'hub', step: 0, icon: '🍀', req: { sans: 30 }, effect: { mutluluk: 10, sans: 2 } }
+                    { text: "Karşı Çık", nextId: 'hub', step: 0, icon: '😡', req: { guc: 30 }, effect: withMsg({ guc: 2, karizma: 5, mutluluk: 10, enerji: -15 }, ["Zorbaya dik durdun, o da geri adım attı.", "Sesini yükseltip karşı koydun, koridordaki herkes izledi."]) },
+                    { text: "Parayı Ver", nextId: 'hub', step: 0, icon: '😰', effect: withMsg({ para: -20, mutluluk: -15, okul: -5 }, ["Parayı verip kurtuldun ama içinde bir kırgınlık kaldı.", "Cebindeki parayı uzattın, zorba sırıtarak uzaklaştı."]) },
+                    { text: "Şansa Bırak", nextId: 'hub', step: 0, icon: '🍀', req: { sans: 30 }, effect: withMsg({ mutluluk: 10, sans: 2 }, ["Şans yüzüne güldü, zorba başka bir kurban bulup gitti.", "Tam köşeye sıkışmışken bir öğretmen çıkageldi, kurtuldun."]) }
                 ]
             },
             { 
@@ -254,59 +688,274 @@
                 emoji: '🤧', title: "Salgın",
                 description: "Ortalıkta kötü bir grip salgını var. Ateşin çok yüksek.",
                 choices: [
-                    { text: "Dinlen", nextId: 'hub', step: 0, icon: '🛏️', effect: { saglik: 5, enerji: 30, mutluluk: -5 } },
-                    { text: "İlaç Al", nextId: 'hub', step: 0, icon: '💊', req: { para: 30 }, effect: { para: -30, saglik: 15, enerji: 10 } },
-                    { text: "Şansa Bırak", nextId: 'hub', step: 0, icon: '🍀', req: { sans: 30 }, effect: { saglik: 10, sans: 2 } }
+                    { text: "Dinlen", nextId: 'hub', step: 0, icon: '🛏️', effect: withMsg({ saglik: 5, enerji: 30, mutluluk: -5 }, ["Yatağa uzanıp uzun süre dinlendin, ateş yavaş yavaş düştü.", "Battaniyeye sarılıp uyudun, vücudun kendini toparladı."]) },
+                    { text: "İlaç Al", nextId: 'hub', step: 0, icon: '💊', req: { para: 30 }, effect: withMsg({ para: -30, saglik: 15, enerji: 10 }, ["Eczaneden aldığın ilaç işe yaradı, birkaç saatte kendine geldin.", "İlacı içer içmez ateşin düşmeye başladı."]) },
+                    { text: "Şansa Bırak", nextId: 'hub', step: 0, icon: '🍀', req: { sans: 30 }, effect: withMsg({ saglik: 10, sans: 2 }, ["Hiçbir şey yapmadan bekledin, şansına vücudun kendi kendine iyileşti.", "Bir mucize eseri, hastalık kendiliğinden geçti."]) }
+                ]
+            },
+
+            // --- ŞEHRE ÖZEL RASTGELE OLAYLAR ---
+            // "cities" alanı olan olaylar SADECE o şehir/şehirlerde seçilebilir havuza girer.
+            // "cities" alanı olmayan olaylar (yukarıdakiler gibi) her şehirde geçerlidir.
+            {
+                id: 'rnd_istanbul_kira', minAge: 18, maxAge: 99, cities: ['İstanbul'],
+                emoji: '🏢', title: "Kira Zammı",
+                description: "Ev sahibin kapına dayandı: 'Kirayı piyasaya göre güncellemem lazım' dedi.",
+                choices: [
+                    { text: "Zammı Kabul Et", nextId: 'hub', step: 0, icon: '😩', effect: withMsg({ para: -40, mutluluk: -10 }, ["Zammı kabul ettin, cüzdanın biraz daha inceldi ama en azından ev senin.", "İtiraz etmeden imzaladın, İstanbul'da ev bulmak zaten kabus."]) },
+                    { text: "Pazarlık Yap", nextId: 'hub', step: 0, icon: '🗣️', req: { karizma: 40 }, effect: withMsg({ para: -15, karizma: 3, mutluluk: 5 }, ["Ustaca pazarlık ettin, zammı yarı yarıya indirdin.", "Konuşma yeteneğin sayesinde ev sahibi biraz taviz verdi."]) },
+                    { text: "Ev Değiştir", nextId: 'hub', step: 0, icon: '📦', effect: withMsg({ para: -60, enerji: -20, mutluluk: -5 }, ["Eşyalarını toplayıp şehrin öbür ucunda daha ucuz bir ev buldun, taşınmak yordu.", "Aylardır oturduğun evden ayrıldın, İstanbul'da yeni bir sayfa açtın."]) }
+                ]
+            },
+            {
+                id: 'rnd_istanbul_trafik', minAge: 16, maxAge: 99, cities: ['İstanbul'],
+                emoji: '🚗', title: "Trafik Kilitlendi",
+                description: "Köprüye çıkan yol tıka basa dolu, önemli bir randevuna yetişmen gerekiyor.",
+                choices: [
+                    { text: "Metroya Koş", nextId: 'hub', step: 0, icon: '🚇', effect: withMsg({ enerji: -10, zeka: 1 }, ["Arabayı bırakıp metroya koştun, tam vaktinde yetiştin.", "Kalabalık metroda sıkışsan da randevuna zamanında ulaştın."]) },
+                    { text: "Sabırla Bekle", nextId: 'hub', step: 0, icon: '😤', effect: withMsg({ mutluluk: -15, enerji: -5 }, ["Saatlerce trafikte bekledin, sinirlerin bozuldu.", "Klaksonlar arasında sıkışıp kaldın, geç kaldın."]) }
+                ]
+            },
+            {
+                id: 'rnd_erzurum_kis', minAge: 0, maxAge: 99, cities: ['Erzurum'],
+                emoji: '❄️', title: "Kar Fırtınası",
+                description: "Erzurum'da eksi yirmi derece ve şehir beyaza bürünmüş, yollar kapanmak üzere.",
+                choices: [
+                    { text: "Evde Kal", nextId: 'hub', step: 0, icon: '🏠', effect: withMsg({ enerji: 10, saglik: 5, para: -5 }, ["Sobanın başında kar fırtınasının geçmesini bekledin, sıcacık kaldın.", "Dışarı çıkmadın, evde çayını yudumlayarak kışın tadını çıkardın."]) },
+                    { text: "Kar Küreme Yardımı", nextId: 'hub', step: 0, icon: '🧤', req: { guc: 30 }, effect: withMsg({ guc: 3, para: 25, mutluluk: 10, enerji: -20 }, ["Komşularla birlikte sokağın karını küredin, hem para kazandın hem de mahalleyle kaynaştın.", "Kürek elinde saatlerce çalıştın, yorgun ama gururlu döndün eve."]) },
+                    { text: "İşe Zorla Git", nextId: 'hub', step: 0, icon: '🥶', effect: withMsg({ saglik: -15, enerji: -25, para: 15 }, ["Buz gibi yollarda ilerleyip işe yetiştin, üşümekten dişlerin takırdadı.", "Kar fırtınasına rağmen işe gittin, patronun takdirini kazandın ama üşüttün."]) }
+                ]
+            },
+            {
+                id: 'rnd_izmir_deprem', minAge: 0, maxAge: 99, cities: ['İzmir'],
+                emoji: '🏗️', title: "Hafif Sarsıntı",
+                description: "Yerin altından kısa bir gümbürtü geldi, birkaç saniye sallandı ve durdu. Herkes tedirgin.",
+                choices: [
+                    { text: "Deprem Çantasını Kontrol Et", nextId: 'hub', step: 0, icon: '🎒', effect: withMsg({ mutluluk: 5, zeka: 2 }, ["Deprem çantanı gözden geçirip eksikleri tamamladın, için biraz rahatladı.", "Hazırlıklı olmanın verdiği güvenle derin bir nefes aldın."]) },
+                    { text: "Sakin Kal, Günlük Hayata Dön", nextId: 'hub', step: 0, icon: '😌', effect: withMsg({ mutluluk: 2 }, ["Panik yapmadan günlük işlerine devam ettin.", "Sarsıntı geçtikten sonra hayat kaldığı yerden akmaya devam etti."]) },
+                    { text: "Endişelen", nextId: 'hub', step: 0, icon: '😟', effect: withMsg({ mutluluk: -10, enerji: -10 }, ["Sarsıntının etkisiyle akşama kadar tedirgin dolaştın.", "Aklından çıkmadı, gece de rahat uyuyamadın."]) }
+                ]
+            },
+            {
+                id: 'rnd_ankara_devlet', minAge: 18, maxAge: 99, cities: ['Ankara'],
+                emoji: '🏛️', title: "Devlet Dairesi Sırası",
+                description: "Bir evrak işi için gittiğin kurumda sıra kilometrelerce uzun, numaranı aldın: 247. Sıradaki: 89.",
+                choices: [
+                    { text: "Sabırla Bekle", nextId: 'hub', step: 0, icon: '⏳', effect: withMsg({ enerji: -20, mutluluk: -10, okul: 2 }, ["Saatlerce bekleyip işini hallettin, sabrın taçlandı.", "Sonunda numaran geldi, evrakların onaylandı."]) },
+                    { text: "e-Devlet'ten Hallet", nextId: 'hub', step: 0, icon: '💻', req: { zeka: 30 }, effect: withMsg({ zeka: 3, mutluluk: 10, enerji: -2 }, ["Aslında işlemin e-Devlet'ten yapılabildiğini fark ettin, beş dakikada bitirdin.", "Sıraya hiç girmeden telefonundan işini hallettin, herkes şaşkın baktı."]) }
+                ]
+            },
+            {
+                id: 'rnd_antalya_turizm', minAge: 15, maxAge: 99, cities: ['Antalya'],
+                emoji: '🏖️', title: "Yaz Sezonu Fırsatı",
+                description: "Sahildeki bir otel yaz sezonu için acil personel arıyor, iyi bahşiş de veriyorlarmış.",
+                choices: [
+                    { text: "Sezonluk İşe Gir", nextId: 'hub', step: 0, icon: '🍹', effect: withMsg({ para: 45, enerji: -15, karizma: 2 }, ["Yaz boyunca turistlere hizmet verdin, cebine bahşişler de girdi.", "Yoğun sezon seni yordu ama kazancın fena değildi."]) },
+                    { text: "Sahilde Dinlenmeyi Tercih Et", nextId: 'hub', step: 0, icon: '🏄', effect: withMsg({ mutluluk: 15, enerji: 10, para: -10 }, ["Fırsatı geri çevirip denize girdin, tadını çıkardın.", "Çalışmak yerine güneşlendin, ruh halin bir tık düzeldi."]) }
+                ]
+            },
+            {
+                id: 'rnd_kocaeli_sanayi', minAge: 18, maxAge: 99, cities: ['Kocaeli'],
+                emoji: '🏭', title: "Fabrika Vardiyası",
+                description: "Sanayi bölgesindeki bir fabrikada ek mesai için gönüllü arıyorlar, fazla mesai ücreti iyi.",
+                choices: [
+                    { text: "Fazla Mesaiye Kal", nextId: 'hub', step: 0, icon: '🔧', effect: withMsg({ para: 35, enerji: -25, saglik: -5 }, ["Uzun vardiyanın sonunda yorgun ama cepte fazladan parayla eve döndün.", "Makinelerin sesi kulağında çınlarken vardiyayı bitirdin."]) },
+                    { text: "Eve Erken Dön", nextId: 'hub', step: 0, icon: '🏡', effect: withMsg({ mutluluk: 10, enerji: 10, para: -5 }, ["Fazla mesaiyi reddedip ailenle vakit geçirmeyi tercih ettin.", "Erken çıkıp dinlendin, yorgunluğun üzerinden atmaya çalıştın."]) }
                 ]
             }
         ];
 
-        // UI Header Bileşeni
-        const StatHeader = ({ icon, value, type, suffix = "", colorClass }) => {
-            const isDanger = (type === 'saglik' && value <= 30) || 
-                             (type === 'mutluluk' && value === 0) || 
-                             (type === 'para' && value <= -500) ||
-                             (type === 'aile' && value <= 30);
-            const displayColor = isDanger ? 'text-red-500 animate-pulse' : colorClass;
+        // ==========================================================
+        // --- HİKAYELEŞTİRME MOTORU (Sonuç Kartı Metinleri) ---
+        // ==========================================================
 
-            return (
-                <div className="flex flex-col items-center relative bg-white/50 backdrop-blur-sm px-1.5 sm:px-2.5 py-1 rounded-2xl shadow-sm border border-white/60">
-                    <i className={`fas ${icon} text-[10px] sm:text-base mb-0.5 ${displayColor}`}></i>
-                    <span className={`text-[9px] sm:text-xs font-black ${displayColor}`}>{value}{suffix}</span>
-                </div>
-            );
+        // Her ilin bağlı olduğu bölge (Part 2/3'te buff ve event filtrelemesi için de kullanılacak)
+
+const computeMood = (diffs) => {
+            const score = (diffs.mutluluk || 0) * 1.2 + (diffs.saglik || 0) * 1.0 + (diffs.para || 0) * 0.015 +
+                (diffs.aileIliski || 0) * 0.6 + (diffs.okul || 0) * 0.4 + (diffs.zeka || 0) + (diffs.karizma || 0) +
+                (diffs.guc || 0) + (diffs.sans || 0) + (diffs.tecrube || 0) * 0.3 + (diffs.enerji || 0) * 0.1;
+            if (score >= 3) return 'pozitif';
+            if (score <= -3) return 'negatif';
+            return 'notr';
         };
 
-        const App = () => {
-            const [gameState, setGameState] = useState('menu'); // 'menu' veya 'playing'
-            const [availablePool, setAvailablePool] = useState([...TURKEY_CITIES]); // Seçilebilir havuz
-            const [currentChoicesCities, setCurrentChoicesCities] = useState([]); // Ekranda gösterilen 3 şehir
-            
-            // Kilidi açılmış şehirler ve en yüksek yaş durumları
-            const [cityProgress, setCityProgress] = useState({}); 
-            const [selectedCity, setSelectedCity] = useState('');
-            const [difficulty, setDifficulty] = useState('kolay'); // kolay, orta, zor
-            
-            const [activeTab, setActiveTab] = useState('game'); // 'game' veya 'stats'
+        // Yaş bandı + ruh haline göre şablon havuzu. {choice} = seçilen metin, {city} = şehir
 
-            const [stats, setStats] = useState(INITIAL_STATS);
-            const [familyInfo, setFamilyInfo] = useState(generateFamily());
-            const [isGameOver, setIsGameOver] = useState(false);
-            const [isDarkMode, setIsDarkMode] = useState(false);
-            
-            const [animState, setAnimState] = useState('card-idle');
-            const [displayEventId, setDisplayEventId] = useState('age_0_ev_1');
+const RESULT_TEXT_POOLS = {
+            bebek: {
+                pozitif: [
+                    "\"{choice}\" — küçük bir kahkaha atıyorsun, dünyan şu an bu kadar küçük ve bu kadar güvenli.",
+                    "\"{choice}\" derken gözlerin parlıyor. Henüz hiçbir şeyin farkında değilsin ama iyi hissediyorsun.",
+                    "Etraf senin için hâlâ bir oyuncak; \"{choice}\" tepkinle günü kapatıyorsun."
+                ],
+                negatif: [
+                    "\"{choice}\" — hıçkırarak ağlıyorsun, kimse tam olarak neden olduğunu anlamıyor.",
+                    "Huzursuzsun. \"{choice}\" tepkin, günün geri kalanına da sirayet ediyor.",
+                    "Bir şeyler seni rahatsız etti; \"{choice}\" ile bunu herkese duyuruyorsun."
+                ],
+                notr: [
+                    "\"{choice}\" — gün, senin için anlaşılmaz küçük anların art arda dizilmesinden ibaret.",
+                    "Farkında bile değilsin ama zaman ilerliyor; \"{choice}\" bugünün özeti oluyor.",
+                    "Etrafındakiler senin \"{choice}\" tepkine gülümsüyor, sen ise sadece anı yaşıyorsun."
+                ]
+            },
+            cocuk_kucuk: {
+                pozitif: [
+                    "\"{choice}\" dedin ve gülüşün evin her köşesine yayıldı.",
+                    "\"{choice}\" — o an senin için koca bir zaferdi, küçük dünyanda büyük bir gündü.",
+                    "Gözlerin ışıl ışıl; \"{choice}\" kararınla günü kazanmış gibisin."
+                ],
+                negatif: [
+                    "\"{choice}\" dedin ama içinde bir sıkıntı büyüdü, o gece erken uyudun.",
+                    "\"{choice}\" kararın canını sıktı; dudakların büzüldü, gözlerin doldu.",
+                    "Küçük omuzların bu sefer biraz ağır bir yük taşıdı — \"{choice}\"."
+                ],
+                notr: [
+                    "\"{choice}\" dedin, sonra da başka bir şeye takıldı aklın, çocuklar öyledir.",
+                    "Gün, \"{choice}\" ile sessizce geçip gitti.",
+                    "\"{choice}\" — ne büyük bir sevinç ne de büyük bir üzüntü, sıradan bir gündü bu."
+                ]
+            },
+            cocuk: {
+                pozitif: [
+                    "\"{choice}\" dedin ve okul çıkışı arkadaşlarına anlatacak bir hikayen oldu.",
+                    "\"{choice}\" kararın seni gururlandırdı; o akşam aynada kendine gülümsedin.",
+                    "\"{choice}\" — küçük bir zafer kazandın, defterinin arkasına bile not düştün."
+                ],
+                negatif: [
+                    "\"{choice}\" dedin ama pişmanlık, akşam yemeğine kadar peşini bırakmadı.",
+                    "\"{choice}\" kararın canını yaktı; yastığına sarılıp biraz ağladın.",
+                    "\"{choice}\" — o gece uykuya dalarken hâlâ o anı düşünüyordun."
+                ],
+                notr: [
+                    "\"{choice}\" dedin, çantanı omzuna attın ve hayat kaldığı yerden devam etti.",
+                    "\"{choice}\" — bugün de diğer günler gibi geçti, yarın yeni bir gün.",
+                    "\"{choice}\" kararınla günü kapattın, aklında kalan pek bir şey olmadı."
+                ]
+            },
+            ergen: {
+                pozitif: [
+                    "\"{choice}\" dedin ve içinden \"işte bu\" diye geçirdin.",
+                    "\"{choice}\" — kendine güvenin bir tık daha arttı, adımların hafifledi.",
+                    "\"{choice}\" kararınla arkadaş grubunda biraz daha kendinden emin hissettin."
+                ],
+                negatif: [
+                    "\"{choice}\" dedin ama sosyal medyada bile içine kapanmak istedin.",
+                    "\"{choice}\" — o an doğru gelmişti ama sonrası pişmanlık dolu geçti.",
+                    "\"{choice}\" kararın içini kemirdi, odanın kapısını kapatıp müziği açtın."
+                ],
+                notr: [
+                    "\"{choice}\" dedin, omuz silktin, hayat zaten böyle karmaşık.",
+                    "\"{choice}\" — ergenliğin binbir telaşı arasında bu da bir detay olarak kaldı.",
+                    "\"{choice}\" kararınla gün bitti, yarın yine aynı telaş başlayacak."
+                ]
+            },
+            genc: {
+                pozitif: [
+                    "\"{choice}\" dedin ve hayatın kontrolü elindeymiş gibi hissettin.",
+                    "\"{choice}\" — genç bir kararlılıkla attığın bu adım, seni bir adım öne taşıdı.",
+                    "\"{choice}\" kararınla geleceğe dair umudun tazelendi."
+                ],
+                negatif: [
+                    "\"{choice}\" dedin ama sonrasında kendine \"keşke\" diye sordun.",
+                    "\"{choice}\" — yetişkinliğin ağırlığını ilk kez böyle hissettin.",
+                    "\"{choice}\" kararın, gecenin geç saatlerine kadar seni düşündürdü."
+                ],
+                notr: [
+                    "\"{choice}\" dedin, hayat akışına devam etti, sen de onunla birlikte.",
+                    "\"{choice}\" — büyük bir şey değildi ama küçük adımlar böyle birikiyor.",
+                    "\"{choice}\" kararınla gün, alışıldık telaşıyla geçti."
+                ]
+            },
+            yetiskin: {
+                pozitif: [
+                    "\"{choice}\" dedin ve emeğinin karşılığını aldığını hissettin.",
+                    "\"{choice}\" — sorumluluklarının arasında küçük ama tatlı bir başarıydı bu.",
+                    "\"{choice}\" kararınla o akşam huzurla uyuyabildin."
+                ],
+                negatif: [
+                    "\"{choice}\" dedin ama faturalar ve sorumluluklar zihnini bir türlü bırakmadı.",
+                    "\"{choice}\" — yetişkinliğin yorgunluğu bu kez sırtına biraz daha bindi.",
+                    "\"{choice}\" kararın, içinde uzun süre bir ağırlık olarak kaldı."
+                ],
+                notr: [
+                    "\"{choice}\" dedin, günlük rutinin bir parçası olarak kaydına geçti bu.",
+                    "\"{choice}\" — hayat, büyük ve küçük kararların toplamından ibaret, bu da onlardan biri.",
+                    "\"{choice}\" kararınla gün, sıradan bir yetişkin günü olarak kapandı."
+                ]
+            },
+            orta_yas: {
+                pozitif: [
+                    "\"{choice}\" dedin ve yıllar içinde biriktirdiğin tecrübenin işe yaradığını gördün.",
+                    "\"{choice}\" — bu yaşta bile hâlâ öğrenecek ve kazanacak şeyler olduğunu fark ettin.",
+                    "\"{choice}\" kararınla geçmişe dönüp baktığında gurur duydun."
+                ],
+                negatif: [
+                    "\"{choice}\" dedin ama zamanın nasıl geçtiğini düşünmeden edemedin.",
+                    "\"{choice}\" — bu yaşta bu tür şeyler eskisi kadar kolay geçmiyor artık.",
+                    "\"{choice}\" kararın, geçmişle bugünü kıyaslamana neden oldu."
+                ],
+                notr: [
+                    "\"{choice}\" dedin, hayatın bu döneminde artık pek çok şeye alışmışsın.",
+                    "\"{choice}\" — sakin bir kabullenişle günü geçirdin.",
+                    "\"{choice}\" kararınla gün, deneyimli bir sükunetle sona erdi."
+                ]
+            },
+            yasli: {
+                pozitif: [
+                    "\"{choice}\" dedin ve bir ömrün getirdiği huzuru hissettin.",
+                    "\"{choice}\" — geriye dönüp baktığında bu kararın seni gülümsettiğini fark ettin.",
+                    "\"{choice}\" kararınla, yaşanmış bir ömrün tatlı bir anını daha biriktirdin."
+                ],
+                negatif: [
+                    "\"{choice}\" dedin ama bu yaşta her şey daha çok yoruyor artık.",
+                    "\"{choice}\" — bedenin eskisi gibi cevap vermiyor, bunu bir kez daha hissettin.",
+                    "\"{choice}\" kararının ardından uzun uzun düşüncelere daldın."
+                ],
+                notr: [
+                    "\"{choice}\" dedin, yıllar sana bu tür anları sakince karşılamayı öğretmiş.",
+                    "\"{choice}\" — sakin, tecrübeli bir kabullenişle gün geçti.",
+                    "\"{choice}\" kararınla, bir ömrün sıradan ama değerli bir günü daha tamamlandı."
+                ]
+            }
+        };
 
-            /* Yeni Sonuç Ekranı Durumları */
-            const [showResult, setShowResult] = useState(false);
-            const [resultData, setResultData] = useState(null);
+        // Beklenmedik (rastgele) olay tetiklendiğinde kullanılan giriş cümleleri
 
-            const [dragState, setDragState] = useState({ isDragging: false, index: null, startX: 0, startY: 0, currentX: 0, currentY: 0 });
-            const [isHoveringDropZone, setIsHoveringDropZone] = useState(false);
-            const dropZoneRef = useRef(null);
+const RANDOM_EVENT_INTROS = [
+            "Hiç beklemediğin bir şey oldu.",
+            "Aklından geçmeyen bir gelişme kapını çaldı.",
+            "Gündelik akış birden bozuldu.",
+            "Hayat, sürpriz yapmayı hiç bırakmıyor.",
+            "İşler planladığın gibi gitmedi."
+        ];
 
-            // TÜM OLAYLAR (Hub'lar ve Olaylar)
-            const EVENTS = {
+        // Ana hikayeleştirme fonksiyonu
+
+const buildResultText = ({ choice, city, yas, diffs, isDeath, isRandomEventTriggered }) => {
+            if (isDeath) return null; // Ölüm mesajı ayrı ele alınıyor
+
+            const bracket = ageBracket(yas);
+            const mood = computeMood(diffs);
+            const pool = (RESULT_TEXT_POOLS[bracket] && RESULT_TEXT_POOLS[bracket][mood]) || RESULT_TEXT_POOLS.yetiskin.notr;
+            let sentence = pickRandom(pool).replace(/\{choice\}/g, choice.text || "");
+
+            if (isRandomEventTriggered) {
+                sentence = `${pickRandom(RANDOM_EVENT_INTROS)} ${sentence}`;
+            }
+
+            // %35 ihtimalle bölgesel atmosfer cümlesi ekle
+            const region = CITY_REGIONS[city];
+            if (region && REGION_FLAVOR[region] && Math.random() < 0.35) {
+                sentence = `${sentence} ${pickRandom(REGION_FLAVOR[region])}`;
+            }
+
+            return sentence;
+        };
+
+// events/events.js — Yaş bazlı olay ağacı (EVENTS) — çocukluk/gençlik/yetişkinlik zincirleri
+const EVENTS = {
                 // --- 0-7 YAŞ LİNEER HİKAYE ZİNCİRİ ---
                 // Yaş 0
                 age_0_ev_1: {
@@ -344,8 +993,8 @@
                     id: 'age_2_ev_2', emoji: '👵', title: "Altın Günü",
                     description: "Eve akrabalar doluştu. Yabancı teyzeler ve amcalar etrafını sardı.",
                     choices: [
-                        { text: "Gülücük Saç", nextId: 'age_3_ev_1', step: 1, icon: '😊', effect: { yas: 1, karizma: 2, mutluluk: -5, enerji: -10 } },
-                        { text: "Ağla", nextId: 'age_3_ev_1', step: 1, icon: '😭', effect: { yas: 1, sans: 1, aileIliski: -5 } }
+                        { text: "Gülücük Saç", nextId: 'age_3_ev_1', step: 1, icon: '😊', effect: { yas: 1, karizma: 2, mutluluk: -5, enerji: -10, msg: "Teyzeler \"aaa ne tatlı\" diye üstüne üşüştü, yanaklarını sıkı sıkı çimdiklediler." } },
+                        { text: "Ağla", nextId: 'age_3_ev_1', step: 1, icon: '😭', effect: { yas: 1, sans: 1, aileIliski: -5, msg: "Bağıra bağıra ağladın, bir teyze \"nazar değmiş\" deyip cebine para sıkıştırdı." } }
                     ]
                 },
 
@@ -354,9 +1003,9 @@
                     id: 'age_3_ev_1', emoji: '💬', title: "İlk Kelimeler",
                     description: "Konuşmaya başladın. Ne diyeceksin?",
                     choices: [
-                        { text: "Anne/Baba", nextId: 'age_3_ev_2', step: 1, icon: '❤️', effect: { aileIliski: 10 } },
-                        { text: "Süt!", nextId: 'age_3_ev_2', step: 1, icon: '🥛', effect: { guc: 2 } },
-                        { text: "Küfür Et", nextId: 'age_3_ev_2', step: 1, icon: '🤬', effect: { karizma: 5, aileIliski: -20 } }
+                        { text: "Anne/Baba", nextId: 'age_3_ev_2', step: 1, icon: '❤️', effect: { aileIliski: 10, msg: "İlk kelimen bu oldu, annen gözyaşlarını tutamadı." } },
+                        { text: "Süt!", nextId: 'age_3_ev_2', step: 1, icon: '🥛', effect: { guc: 2, msg: "Herkes \"anne\" ya da \"baba\" beklerken sen önceliklerini net koydun: süt." } },
+                        { text: "Küfür Et", nextId: 'age_3_ev_2', step: 1, icon: '🤬', effect: { karizma: 5, aileIliski: -20, msg: "İlk kelimen bir küfür oldu. Salon donup kaldı, dayın kahvesini burnundan içti." } }
                     ]
                 },
                 age_3_ev_2: {
@@ -372,9 +1021,9 @@
                     id: 'age_3_ev_3', emoji: '🧸', title: "AVM Krizi",
                     description: "Oyuncak mağazasında inanılmaz bir oyuncak gördün.",
                     choices: [
-                        { text: "Kriz Çıkar", nextId: 'age_4_ev_1', step: 1, icon: '😱', effect: { yas: 1, aileIliski: -10, karizma: -2, mutluluk: -5, enerji: -20 } },
-                        { text: "İçe Çekil", nextId: 'age_4_ev_1', step: 1, icon: '🥺', effect: { yas: 1, zeka: 2, mutluluk: -5 } },
-                        { text: "Sevimli Bak", nextId: 'age_4_ev_1', step: 1, icon: '😻', req: { karizma: 30 }, effect: { yas: 1, karizma: 3, mutluluk: 10 } }
+                        { text: "Kriz Çıkar", nextId: 'age_4_ev_1', step: 1, icon: '😱', effect: { yas: 1, aileIliski: -10, karizma: -2, mutluluk: -5, enerji: -20, msg: "Yerlere yattın, tekme attın; mağazadaki herkes seni izledi, annen kucaklayıp dışarı çıkardı." } },
+                        { text: "İçe Çekil", nextId: 'age_4_ev_1', step: 1, icon: '🥺', effect: { yas: 1, zeka: 2, mutluluk: -5, msg: "Oyuncağa uzun uzun baktın, içini çektin ve sessizce yürüyüp gittin." } },
+                        { text: "Sevimli Bak", nextId: 'age_4_ev_1', step: 1, icon: '😻', req: { karizma: 30 }, effect: { yas: 1, karizma: 3, mutluluk: 10, msg: "Gözlerini kocaman açıp öyle bir baktın ki annen dayanamayıp oyuncağı aldı." } }
                     ]
                 },
 
@@ -383,26 +1032,26 @@
                     id: 'age_4_ev_1', emoji: '🚂', title: "Kuzen Terörü",
                     description: "Akraba oturmasında kuzenin en sevdiğin oyuncağı elinden aldı.",
                     choices: [
-                        { text: "Pes Et, Ağla", nextId: 'age_4_ev_2', step: 1, icon: '😭', effect: { mutluluk: -10, guc: -2 } },
-                        { text: "Geri Çek", nextId: 'age_4_ev_2', step: 1, icon: '😠', effect: { guc: 2, aileIliski: -5, enerji: -10 } },
-                        { text: "Takas Et", nextId: 'age_4_ev_2', step: 1, icon: '🤝', req: { zeka: 40 }, effect: { zeka: 3, karizma: 2, mutluluk: 10 } }
+                        { text: "Pes Et, Ağla", nextId: 'age_4_ev_2', step: 1, icon: '😭', effect: { mutluluk: -10, guc: -2, msg: "Oyuncağını kaptırdın, hıçkıra hıçkıra ağladın, kuzenin umursamadı bile." } },
+                        { text: "Geri Çek", nextId: 'age_4_ev_2', step: 1, icon: '😠', effect: { guc: 2, aileIliski: -5, enerji: -10, msg: "Oyuncağı geri çektin, kısa bir çekişme yaşandı, büyükler araya girmek zorunda kaldı." } },
+                        { text: "Takas Et", nextId: 'age_4_ev_2', step: 1, icon: '🤝', req: { zeka: 40 }, effect: { zeka: 3, karizma: 2, mutluluk: 10, msg: "Kafanı çalıştırıp kuzeninle akıllıca bir takas yaptın, ikiniz de kazançlı çıktınız." } }
                     ]
                 },
                 age_4_ev_2: {
                     id: 'age_4_ev_2', emoji: '🏫', title: "Kreş Zamanı",
                     description: "Anne-baban seni bir yere göndermek istiyor.",
                     choices: [
-                        { text: "Kabul Et", nextId: 'age_4_ev_3', step: 1, icon: '👍', effect: { okul: 10, aileIliski: 5 } },
-                        { text: "Evde Kalıcam", nextId: 'age_4_ev_3', step: 1, icon: '🏠', effect: { aileIliski: 15, okul: -5, karizma: -2 } },
-                        { text: "Burs Kazan", nextId: 'age_4_ev_3', step: 1, icon: '🎓', req: { sans: 40 }, effect: { zeka: 5, okul: 25, karizma: 3 } }
+                        { text: "Kabul Et", nextId: 'age_4_ev_3', step: 1, icon: '👍', effect: { okul: 10, aileIliski: 5, msg: "Kreşe gitmeyi kabul ettin, ilk gün ağladın ama sonra yeni arkadaşlar edindin." } },
+                        { text: "Evde Kalıcam", nextId: 'age_4_ev_3', step: 1, icon: '🏠', effect: { aileIliski: 15, okul: -5, karizma: -2, msg: "Ayak dirediğinle kaldın, anneannenin yanında evde takılmaya devam ettin." } },
+                        { text: "Burs Kazan", nextId: 'age_4_ev_3', step: 1, icon: '🎓', req: { sans: 40 }, effect: { zeka: 5, okul: 25, karizma: 3, msg: "Yaptığın küçük testte gösterdiğin performansla seni özel bir programa aldılar." } }
                     ]
                 },
                 age_4_ev_3: {
                     id: 'age_4_ev_3', emoji: '🥦', title: "Halilişkonun Rüyası",
                     description: "Masada brokoli var ama sen fast-food istiyorsun.",
                     choices: [
-                        { text: "Ağla & İste", nextId: 'age_5_ev_1', step: 1, icon: '🍟', effect: { yas: 1, guc: -3, mutluluk: 15, saglik: -5 } },
-                        { text: "Bitir", nextId: 'age_5_ev_1', step: 1, icon: '🍽️', effect: { yas: 1, guc: 3, saglik: 10, mutluluk: -10 } }
+                        { text: "Ağla & İste", nextId: 'age_5_ev_1', step: 1, icon: '🍟', effect: { yas: 1, guc: -3, mutluluk: 15, saglik: -5, msg: "Masayı ayağa kaldırdın, sonunda dönerci arandı; akşam yine fast-food kazandın." } },
+                        { text: "Bitir", nextId: 'age_5_ev_1', step: 1, icon: '🍽️', effect: { yas: 1, guc: 3, saglik: 10, mutluluk: -10, msg: "Dişini sıkıp brokolileri bitirdin, annen gururla başını okşadı." } }
                     ]
                 },
 
@@ -411,26 +1060,26 @@
                     id: 'age_5_ev_1', emoji: '📱', title: "Dijital Emzik",
                     description: "Çizgi film izlemen için sana ekran uzatıldı.",
                     choices: [
-                        { text: "Video İzle", nextId: 'age_5_ev_2', step: 1, icon: '👀', effect: { zeka: -3, saglik: -10, mutluluk: 10, enerji: 10 } },
-                        { text: "Sokağa Çık", nextId: 'age_5_ev_2', step: 1, icon: '🏃', effect: { guc: 3, karizma: 3, saglik: 10, enerji: -25 } }
+                        { text: "Video İzle", nextId: 'age_5_ev_2', step: 1, icon: '👀', effect: { zeka: -3, saglik: -10, mutluluk: 10, enerji: 10, msg: "Saatlerce ekrana kilitlendin, gözlerin yandı ama içerik harikaydı." } },
+                        { text: "Sokağa Çık", nextId: 'age_5_ev_2', step: 1, icon: '🏃', effect: { guc: 3, karizma: 3, saglik: 10, enerji: -25, msg: "Ekranı bırakıp sokakta koşturdun, akşam bacakların ağrıyordu ama mutluydun." } }
                     ]
                 },
                 age_5_ev_2: {
                     id: 'age_5_ev_2', emoji: '🐑', title: "Kurban Bayramı",
                     description: "Eve bir sürü akraba doluştu. Harçlık avı başlasın!",
                     choices: [
-                        { text: "Odana Kaç", nextId: 'age_5_ev_3', step: 1, icon: '🚪', effect: { guc: -2, mutluluk: -10 } },
-                        { text: "Yardım Et", nextId: 'age_5_ev_3', step: 1, icon: '☕', effect: { aileIliski: 10, karizma: 2, guc: 1, enerji: -15 } },
-                        { text: "El Öp (Tur)", nextId: 'age_5_ev_3', step: 1, icon: '💰', req: { karizma: 50 }, effect: { para: 1000, karizma: 3, mutluluk: 15, enerji: -10 } }
+                        { text: "Odana Kaç", nextId: 'age_5_ev_3', step: 1, icon: '🚪', effect: { guc: -2, mutluluk: -10, msg: "Kalabalıktan kaçıp odana saklandın, akrabalar \"ne çekingen çocuk\" dedi." } },
+                        { text: "Yardım Et", nextId: 'age_5_ev_3', step: 1, icon: '☕', effect: { aileIliski: 10, karizma: 2, guc: 1, enerji: -15, msg: "Çay tepsisini taşıdın, herkes \"aferin sana\" dedi, annen seninle gurur duydu." } },
+                        { text: "El Öp (Tur)", nextId: 'age_5_ev_3', step: 1, icon: '💰', req: { karizma: 50 }, effect: { para: 1000, karizma: 3, mutluluk: 15, enerji: -10, msg: "Elden ele dolaşıp herkesin elini öptün, cepler bayram harçlığıyla şişti." } }
                     ]
                 },
                 age_5_ev_3: {
                     id: 'age_5_ev_3', emoji: '🏖️', title: "Kum Havuzu Mafyası",
                     description: "Parktaki kum havuzunda diğer çocuklar kaleni yıkmak istiyor.",
                     choices: [
-                        { text: "Savaş", nextId: 'age_6_ev_1', step: 1, icon: '⚔️', effect: { yas: 1, guc: 2, saglik: -5, mutluluk: -5, enerji: -20 } },
-                        { text: "Kaç", nextId: 'age_6_ev_1', step: 1, icon: '🏃', effect: { yas: 1, karizma: -2, mutluluk: -10, enerji: -5 } },
-                        { text: "Lider Ol", nextId: 'age_6_ev_1', step: 1, icon: '👑', req: { guc: 30 }, effect: { yas: 1, karizma: 5, mutluluk: 15 } }
+                        { text: "Savaş", nextId: 'age_6_ev_1', step: 1, icon: '⚔️', effect: { yas: 1, guc: 2, saglik: -5, mutluluk: -5, enerji: -20, msg: "Kumdan kaleni son ana kadar savundun, üstün başın kum içinde kaldı ama kale ayaktaydı." } },
+                        { text: "Kaç", nextId: 'age_6_ev_1', step: 1, icon: '🏃', effect: { yas: 1, karizma: -2, mutluluk: -10, enerji: -5, msg: "Kaleyi bırakıp koşarak uzaklaştın, arkandan kahkahalar duydun." } },
+                        { text: "Lider Ol", nextId: 'age_6_ev_1', step: 1, icon: '👑', req: { guc: 30 }, effect: { yas: 1, karizma: 5, mutluluk: 15, msg: "Diğer çocukları ikna edip yanına çektin, kum havuzunun yeni kralı sensin." } }
                     ]
                 },
 
@@ -439,35 +1088,35 @@
                     id: 'age_6_ev_1', emoji: '🎒', title: "1. Sınıf Sezonu",
                     description: "Okulun ilk günü! Sıranı ve öğretmenini seçeceksin.",
                     choices: [
-                        { text: "Arka Sıra", nextId: 'age_6_ev_2', step: 1, icon: '🪑', effect: { okul: 5, karizma: -1 } },
-                        { text: "Öğretmenin Gözdesi", nextId: 'age_6_ev_2', step: 1, icon: '🍎', req: { zeka: 40 }, effect: { okul: 15, karizma: 5, zeka: 2 } }
+                        { text: "Arka Sıra", nextId: 'age_6_ev_2', step: 1, icon: '🪑', effect: { okul: 5, karizma: -1, msg: "Arka sırayı kaptın, öğretmen seni pek fark etmedi ama sen de kimseyi rahatsız etmedin." } },
+                        { text: "Öğretmenin Gözdesi", nextId: 'age_6_ev_2', step: 1, icon: '🍎', req: { zeka: 40 }, effect: { okul: 15, karizma: 5, zeka: 2, msg: "Ön sırada elini kaldırıp durdun, öğretmen seni sınıfın yıldızı ilan etti." } }
                     ]
                 },
                 age_6_ev_2: {
                     id: 'age_6_ev_2', emoji: '✏️', title: "Kaybolan Silgi",
                     description: "En sevdiğin kokulu silgini kaybettin.",
                     choices: [
-                        { text: "Ağla", nextId: 'age_6_ev_3', step: 1, icon: '😭', effect: { mutluluk: -10, karizma: -1 } },
-                        { text: "Çal", nextId: 'age_6_ev_3', step: 1, icon: '🥷', effect: { okul: -5, aileIliski: -5, sans: -2 } },
-                        { text: "Hocadan İste", nextId: 'age_6_ev_3', step: 1, icon: '🙋', req: { karizma: 30 }, effect: { karizma: 2, okul: 2 } }
+                        { text: "Ağla", nextId: 'age_6_ev_3', step: 1, icon: '😭', effect: { mutluluk: -10, karizma: -1, msg: "Sıranın başına düşüp ağladın, kokulu silgin bir daha çıkmadı." } },
+                        { text: "Çal", nextId: 'age_6_ev_3', step: 1, icon: '🥷', effect: { okul: -5, aileIliski: -5, sans: -2, msg: "Yan sıradaki arkadaşınınkini aşırdın, vicdanın seni bütün gün rahatsız etti." } },
+                        { text: "Hocadan İste", nextId: 'age_6_ev_3', step: 1, icon: '🙋', req: { karizma: 30 }, effect: { karizma: 2, okul: 2, msg: "Öğretmenden yedek silgi istedin, sana fazladan bir tane daha verdi." } }
                     ]
                 },
                 age_6_ev_3: {
                     id: 'age_6_ev_3', emoji: '🐕', title: "Köpek Sorunu",
                     description: "Okul yolunda karşına 3 tane başıboş köpek çıktı.",
                     choices: [
-                        { text: "Çığlık At, Kaç", nextId: 'age_6_ev_4', step: 1, icon: '😱', effect: { guc: -2, saglik: -10, enerji: -30 } },
-                        { text: "Sakin Geç", nextId: 'age_6_ev_4', step: 1, icon: '🚶', effect: { zeka: 2, sans: 1 } },
-                        { text: "Üstlerine Yürü", nextId: 'age_6_ev_4', step: 1, icon: '🦁', req: { guc: 30 }, effect: { guc: 4, karizma: 3, mutluluk: 10 } }
+                        { text: "Çığlık At, Kaç", nextId: 'age_6_ev_4', step: 1, icon: '😱', effect: { guc: -2, saglik: -10, enerji: -30, msg: "Çığlık atarak koşmaya başladın, köpekler de peşinden koştu, dizin sıyrıldı." } },
+                        { text: "Sakin Geç", nextId: 'age_6_ev_4', step: 1, icon: '🚶', effect: { zeka: 2, sans: 1, msg: "Yavaş adımlarla, göz teması kurmadan yanlarından geçtin, köpekler seni umursamadı." } },
+                        { text: "Üstlerine Yürü", nextId: 'age_6_ev_4', step: 1, icon: '🦁', req: { guc: 30 }, effect: { guc: 4, karizma: 3, mutluluk: 10, msg: "Korkusuzca üstlerine yürüdün, köpekler şaşırıp geri çekildi." } }
                     ]
                 },
                 age_6_ev_4: {
                     id: 'age_6_ev_4', emoji: '👻', title: "Tuvalet Canavarı",
                     description: "Okul tuvaletinde canavar olduğu söylentisi var. Çişin geldi.",
                     choices: [
-                        { text: "Altına Yap", nextId: 'age_7_ev_1', step: 1, icon: '💦', effect: { yas: 1, karizma: -10, mutluluk: -15, okul: -5 } },
-                        { text: "Cesurca Git", nextId: 'age_7_ev_1', step: 1, icon: '🦸', effect: { yas: 1, guc: 3, karizma: 2 } },
-                        { text: "Mantıklı Düşün", nextId: 'age_7_ev_1', step: 1, icon: '🧠', req: { zeka: 30 }, effect: { yas: 1, zeka: 3, sans: 2 } }
+                        { text: "Altına Yap", nextId: 'age_7_ev_1', step: 1, icon: '💦', effect: { yas: 1, karizma: -10, mutluluk: -15, okul: -5, msg: "Dayanamadın, sınıfın ortasında büyük bir olay yaşandı. Lakabın haftalarca peşini bırakmadı." } },
+                        { text: "Cesurca Git", nextId: 'age_7_ev_1', step: 1, icon: '🦸', effect: { yas: 1, guc: 3, karizma: 2, msg: "Korkuyu yenip tuvalete gittin, canavar falan yoktu, sadece bozuk bir musluk vardı." } },
+                        { text: "Mantıklı Düşün", nextId: 'age_7_ev_1', step: 1, icon: '🧠', req: { zeka: 30 }, effect: { yas: 1, zeka: 3, sans: 2, msg: "Söylentinin mantıksız olduğunu çözüp rahatça işini hallettin." } }
                     ]
                 },
 
@@ -476,36 +1125,36 @@
                     id: 'age_7_ev_1', emoji: '💵', title: "Şeytandan Şeytan",
                     description: "Bakkal amca yanlışlıkla 100 TL fazla verdi.",
                     choices: [
-                        { text: "Cebe At", nextId: 'age_7_ev_2', step: 1, icon: '🤫', effect: { para: 100, sans: -3 } },
-                        { text: "İade Et", nextId: 'age_7_ev_2', step: 1, icon: '😇', effect: { karizma: 2, aileIliski: 5 } },
-                        { text: "Hakkını İste", nextId: 'age_7_ev_2', step: 1, icon: '⚖️', req: { zeka: 40 }, effect: { zeka: 3, karizma: 2, para: 50 } }
+                        { text: "Cebe At", nextId: 'age_7_ev_2', step: 1, icon: '🤫', effect: { para: 100, sans: -3, msg: "Parayı sessizce cebine attın, bakkal amca fark etmedi ama içinde bir sızı kaldı." } },
+                        { text: "İade Et", nextId: 'age_7_ev_2', step: 1, icon: '😇', effect: { karizma: 2, aileIliski: 5, msg: "Parayı geri verdin, bakkal amca gülümseyip sana bedava çikolata uzattı." } },
+                        { text: "Hakkını İste", nextId: 'age_7_ev_2', step: 1, icon: '⚖️', req: { zeka: 40 }, effect: { zeka: 3, karizma: 2, para: 50, msg: "Durumu bakkal amcaya net anlattın; hem doğru olanı yaptın hem küçük bir bahşiş kazandın." } }
                     ]
                 },
                 age_7_ev_2: {
                     id: 'age_7_ev_2', emoji: '👊', title: "Zorba Sınıf Arkadaşı",
                     description: "Arka sıradaki zorba çocuk senden tost paranı istiyor.",
                     choices: [
-                        { text: "Parayı Ver", nextId: 'age_7_ev_3', step: 1, icon: '💸', effect: { para: -20, mutluluk: -5, guc: -1 } },
-                        { text: "Karşı Koy", nextId: 'age_7_ev_3', step: 1, icon: '🥊', req: { guc: 30 }, effect: { guc: 3, karizma: 5, saglik: -5, enerji: -20 } },
-                        { text: "Sessizce Hallet", nextId: 'age_7_ev_3', step: 1, icon: '🕵️', req: { zeka: 40 }, effect: { zeka: 2, okul: 5 } }
+                        { text: "Parayı Ver", nextId: 'age_7_ev_3', step: 1, icon: '💸', effect: { para: -20, mutluluk: -5, guc: -1, msg: "Tost paranı zorbaya verdin, o gün aç kaldın ama sorun çıkmadı." } },
+                        { text: "Karşı Koy", nextId: 'age_7_ev_3', step: 1, icon: '🥊', req: { guc: 30 }, effect: { guc: 3, karizma: 5, saglik: -5, enerji: -20, msg: "Zorbaya karşı durdun, ufak bir itişme oldu ama bir daha seni rahatsız etmedi." } },
+                        { text: "Sessizce Hallet", nextId: 'age_7_ev_3', step: 1, icon: '🕵️', req: { zeka: 40 }, effect: { zeka: 2, okul: 5, msg: "Durumu öğretmene akıllıca sızdırdın, zorba fark ettirmeden hizaya geldi." } }
                     ]
                 },
                 age_7_ev_3: {
                     id: 'age_7_ev_3', emoji: '🎨', title: "Resim Dersi",
                     description: "Öğretmen serbest çalışma verdi.",
                     choices: [
-                        { text: "Çöp Adam Çiz", nextId: 'age_7_ev_4', step: 1, icon: '🖍️', effect: { okul: -2, zeka: -1 } },
-                        { text: "Boyama Yap", nextId: 'age_7_ev_4', step: 1, icon: '🖼️', effect: { okul: 3, mutluluk: 5 } },
-                        { text: "Soyut Sanat", nextId: 'age_7_ev_4', step: 1, icon: '🧑‍🎨', req: { zeka: 40 }, effect: { zeka: 3, okul: 10, karizma: 2 } }
+                        { text: "Çöp Adam Çiz", nextId: 'age_7_ev_4', step: 1, icon: '🖍️', effect: { okul: -2, zeka: -1, msg: "Beş dakikada bir çöp adam karaladın, öğretmen \"bu kadar mı\" dedi." } },
+                        { text: "Boyama Yap", nextId: 'age_7_ev_4', step: 1, icon: '🖼️', effect: { okul: 3, mutluluk: 5, msg: "Özenle boyadın, resmin sınıf panosunu süsledi." } },
+                        { text: "Soyut Sanat", nextId: 'age_7_ev_4', step: 1, icon: '🧑‍🎨', req: { zeka: 40 }, effect: { zeka: 3, okul: 10, karizma: 2, msg: "Kimsenin anlamadığı ama herkesin \"derin\" bulduğu bir eser çıkardın ortaya." } }
                     ]
                 },
                 age_7_ev_4: {
                     id: 'age_7_ev_4', emoji: '⚽', title: "Hafta Sonu Kursu",
                     description: "Bir kulübe kaydolman gerekiyor.",
                     choices: [
-                        { text: "Futbol", nextId: 'hub', step: 1, icon: '🥅', effect: { yas: 1, guc: 5, saglik: 10, enerji: -30 } },
-                        { text: "Satranç", nextId: 'hub', step: 1, icon: '♟️', effect: { yas: 1, zeka: 5, okul: 10, enerji: -15 } },
-                        { text: "İkisi Birden", nextId: 'hub', step: 1, icon: '🏆', req: { karizma: 40 }, effect: { yas: 1, zeka: 3, guc: 3, karizma: 3, aileIliski: -5, enerji: -40 } }
+                        { text: "Futbol", nextId: 'hub', step: 1, icon: '🥅', effect: { yas: 1, guc: 5, saglik: 10, enerji: -30, msg: "Sahaya çıktın, top peşinde koştukça koştun, formanda ismin bile yazılı artık." } },
+                        { text: "Satranç", nextId: 'hub', step: 1, icon: '♟️', effect: { yas: 1, zeka: 5, okul: 10, enerji: -15, msg: "Tahtanın başına oturdun, taşları hesaplaya hesaplaya kafan gelişti." } },
+                        { text: "İkisi Birden", nextId: 'hub', step: 1, icon: '🏆', req: { karizma: 40 }, effect: { yas: 1, zeka: 3, guc: 3, karizma: 3, aileIliski: -5, enerji: -40, msg: "Hem sahaya hem tahtaya koştun, eve bitkin ama gururla döndün." } }
                     ]
                 },
 
@@ -514,10 +1163,10 @@
                     id: 'hub_school', emoji: '🎒', title: "İlköğretim",
                     description: `Okul yılları. Dersler ve oyun arasında denge kur.`,
                     choices: [
-                        { text: "Ders Çalış", nextId: 'hub', step: 1, icon: '📚', effect: { okul: 15, zeka: 2, enerji: -20, tecrube: 5 } },
-                        { text: "Spor Yap", nextId: 'hub', step: 1, icon: '⚽', effect: { guc: 5, saglik: 5, enerji: -30, mutluluk: 15 } },
-                        { text: "Oyun Oyna", nextId: 'hub', step: 1, icon: '🎮', effect: { mutluluk: 15, okul: -5, enerji: -10 } },
-                        { text: "Dinlen", nextId: 'hub', step: 1, icon: '🛌', effect: { enerji: 40, saglik: 5 } }
+                        { text: "Ders Çalış", nextId: 'hub', step: 1, icon: '📚', effect: withMsg({ okul: 15, zeka: 2, enerji: -20, tecrube: 5 }, ["Kitapların başına çöktün, gözlerin sulanana kadar çalıştın.", "Ödevleri bitirdin, defterlerin tertemiz oldu.", "Konuyu tekrar tekrar okudun, sonunda kafana oturdu."]) },
+                        { text: "Spor Yap", nextId: 'hub', step: 1, icon: '⚽', effect: withMsg({ guc: 5, saglik: 5, enerji: -30, mutluluk: 15 }, ["Teneffüste top koşturdun, forman terden değişti.", "Beden dersinde herkesten çok koştun, nefes nefese kaldın.", "Sahada kendini kanıtladın, arkadaşların takım kaptanı seçti."]) },
+                        { text: "Oyun Oyna", nextId: 'hub', step: 1, icon: '🎮', effect: withMsg({ mutluluk: 15, okul: -5, enerji: -10 }, ["Teneffüste saklambaç oynadın, saatler nasıl geçti anlamadın.", "Bilgisayar oyununa daldın, ödevleri unuttun.", "Arkadaşlarınla oyun oynayıp doyasıya güldün."]) },
+                        { text: "Dinlen", nextId: 'hub', step: 1, icon: '🛌', effect: withMsg({ enerji: 40, saglik: 5 }, ["Ders arasında kafanı sıraya koyup şekerleme yaptın.", "Bahçede bankta oturup biraz nefes aldın.", "Eve gider gitmez yatağa uzanıp dinlendin."]) }
                     ]
                 },
                 // --- ERGENLİK ---
@@ -525,10 +1174,10 @@
                     id: 'hub_teen', emoji: '🎧', title: "Ergenlik",
                     description: `Sınav stresi, hormonlar ve asilik...`,
                     choices: [
-                        { text: "Sınava Kas", nextId: 'hub', step: 1, icon: '📖', effect: { okul: 20, zeka: 3, enerji: -30, tecrube: 15 } },
-                        { text: "Sosyalleş", nextId: 'hub', step: 1, icon: '🍕', req: { para: 50 }, effect: { para: -50, karizma: 2, mutluluk: 20, enerji: -15 } },
-                        { text: "Spor Yap", nextId: 'hub', step: 1, icon: '🏋️', effect: { guc: 5, saglik: 10, enerji: -40 } },
-                        { text: "Uyu", nextId: 'hub', step: 1, icon: '💤', effect: { enerji: 50, saglik: 10 } }
+                        { text: "Sınava Kas", nextId: 'hub', step: 1, icon: '📖', effect: withMsg({ okul: 20, zeka: 3, enerji: -30, tecrube: 15 }, ["Gece geç saate kadar test çözdün, gözlerin kan çanağına döndü.", "Ders kitaplarını kurcaladın, kahve fincanların bitmek bilmedi.", "Konuları özetleyip tekrar tekrar çalıştın, kafan artık dolu."]) },
+                        { text: "Sosyalleş", nextId: 'hub', step: 1, icon: '🍕', req: { para: 50 }, effect: withMsg({ para: -50, karizma: 2, mutluluk: 20, enerji: -15 }, ["Arkadaşlarla dışarı çıktın, hesap gelince herkes cebini karıştırdı.", "Kafede saatlerce sohbet edip gündemi kapattınız.", "Grup dışarı çıktı, sen de tabii ki hazırdın."]) },
+                        { text: "Spor Yap", nextId: 'hub', step: 1, icon: '🏋️', effect: withMsg({ guc: 5, saglik: 10, enerji: -40 }, ["Salona gidip ter attın, aynadaki değişimi fark etmeye başladın.", "Koşuya çıktın, kulağındaki müzikle kilometreler geride kaldı.", "Antrenman sonrası kaslar ağrıyor ama için rahat."]) },
+                        { text: "Uyu", nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 50, saglik: 10 }, ["Telefonu bırakıp erkenden yattın, ertesi gün taze uyandın.", "Uzun bir gece uykusuyla enerjini topladın.", "Battaniyeye sarılıp kendini dünyadan soyutladın."]) }
                     ]
                 },
                 // --- YETİŞKİNLİK ---
@@ -537,19 +1186,16 @@
                     description: `Hayat mücadelesi. İş, güç, sorumluluk.`,
                     choices: [
                         { text: "Çalış (Mesai)", nextId: 'adult_work', step: 1, icon: '💼' },
-                        { text: "Spora Git", nextId: 'hub', step: 1, icon: '🏃', effect: { guc: 5, saglik: 10, enerji: -40 } },
-                        { text: "Gelişim", nextId: 'hub', step: 1, icon: '📈', effect: { zeka: 3, tecrube: 20, enerji: -25 } },
-                        { text: "Dinlen", nextId: 'hub', step: 1, icon: '☕', effect: { enerji: 60, saglik: 10, mutluluk: 5 } }
+                        { text: "Spora Git", nextId: 'hub', step: 1, icon: '🏃', effect: withMsg({ guc: 5, saglik: 10, enerji: -40 }, ["İşten çıkar çıkmaz spor salonuna koştun, terin damla damla aktı.", "Koşu bandında kilometreler yaktın, stres de yanında gitti.", "Ağırlıkları kaldırdın, aynadan memnun ayrıldın."]) },
+                        { text: "Gelişim", nextId: 'hub', step: 1, icon: '📈', effect: withMsg({ zeka: 3, tecrube: 20, enerji: -25 }, ["Bir kurs kaydı yaptırıp yeni bir şey öğrendin.", "Alanınla ilgili bir kitap bitirdin, kafan yeni fikirlerle doldu.", "Bir sertifika programına başladın, kariyerine yatırım yaptın."]) },
+                        { text: "Dinlen", nextId: 'hub', step: 1, icon: '☕', effect: withMsg({ enerji: 60, saglik: 10, mutluluk: 5 }, ["Kanepeye uzanıp bir kahve eşliğinde günü kapattın.", "Telefonu bırakıp sessizce dinlendin, omuzların gevşedi.", "Uzun bir sıcak duş aldın, yorgunluk üzerinden akıp gitti."]) }
                     ]
                 },
                 adult_work: {
                     id: 'adult_work', emoji: '💵', title: "Maaş Günü",
                     description: "Bütün ay çalıştın ve yoruldun.",
                     effect: (s) => {
-                        let maas = 500;
-                        if (s.zeka > 60) maas += 300;
-                        if (s.okul > 70) maas += 200;
-                        if (s.karizma > 50) maas += 100;
+                        const maas = calculateSalary(s);
                         return { effect: { para: maas, enerji: -60, tecrube: 10 }, msg: `${maas}₺ kazandın.` };
                     },
                     choices: [{ text: "Devam", nextId: 'hub', step: 0, icon: '👍' }]
@@ -559,22 +1205,22 @@
                 kicked_out_young: {
                     id: 'kicked_out_young', emoji: '🚪', title: "Evden Atıldın!",
                     description: "Ailenle ipler koptu! Yaşın küçük olduğu için Yetiştirme Yurdu'na alındın.",
-                    effect: { barinma: 'yurt', okul: -10, mutluluk: -50 },
+                    effect: withMsg({ barinma: 'yurt', okul: -10, mutluluk: -50 }, "Ailenle aranız iyice bozuldu, sosyal hizmetler seni yetiştirme yurduna teslim etti."),
                     choices: [{ text: "Kabullen", nextId: 'hub', step: 0, icon: '😔' }]
                 },
                 hub_orphanage: {
                     id: 'hub_orphanage', emoji: '🏢', title: "Yetiştirme Yurdu",
                     description: `Kurallara uymak zorundasın.`,
                     choices: [
-                        { text: "Ders Çalış", nextId: 'hub', step: 1, icon: '📚', effect: { okul: 15, enerji: -20, tecrube: 5 } },
-                        { text: "Kavga Et", nextId: 'hub', step: 1, icon: '🥊', effect: { saglik: -15, guc: 2, okul: -10, enerji: -30 } },
-                        { text: "Gizlice Uyu", nextId: 'hub', step: 1, icon: '🛌', effect: { enerji: 40, saglik: 5 } }
+                        { text: "Ders Çalış", nextId: 'hub', step: 1, icon: '📚', effect: withMsg({ okul: 15, enerji: -20, tecrube: 5 }, ["Yurdun küçük kütüphanesine kapanıp çalıştın.", "Ödevlerini bitirip nöbetçi bakıcıdan takdir aldın.", "Sessiz köşende kitaplara gömüldün."]) },
+                        { text: "Kavga Et", nextId: 'hub', step: 1, icon: '🥊', effect: withMsg({ saglik: -15, guc: 2, okul: -10, enerji: -30 }, ["Koğuştaki bir çocukla kapıştın, ikiniz de nöbetçiden azar işittiniz.", "Ufak bir tartışma büyüdü, yumruklar havada uçuştu.", "Kavga bitince ikiniz de yerde oturup nefes nefese kaldınız."]) },
+                        { text: "Gizlice Uyu", nextId: 'hub', step: 1, icon: '🛌', effect: withMsg({ enerji: 40, saglik: 5 }, ["Battaniyenin altına saklanıp nöbetçiden gizlice uyudun.", "Işıklar sönmeden gözlerini kapattın, kimse fark etmedi.", "Yorganın altında saklanıp uyumaya çalıştın."]) }
                     ]
                 },
                 orphanage_leave: {
                     id: 'orphanage_leave', emoji: '🎒', title: "Yurttan Ayrılış",
                     description: "18 yaşına bastın. Devlet yurdundan ayrılma vakti geldi. Sokaklardasın.",
-                    effect: { barinma: 'sokak', para: 500 },
+                    effect: withMsg({ barinma: 'sokak', para: 500 }, "Devlet sana biraz harçlık verdi ve kapıyı gösterdi. Artık kendi başınasın."),
                     choices: [{ text: "Hayata Atıl", nextId: 'hub', step: 0, icon: '🚶' }]
                 },
 
@@ -582,23 +1228,23 @@
                 kicked_out_adult: {
                     id: 'kicked_out_adult', emoji: '🏚️', title: "Kapı Dışarı!",
                     description: "Ailen seni evden kovdu. Artık sokaktasın.",
-                    effect: { barinma: 'sokak', mutluluk: -50 },
+                    effect: withMsg({ barinma: 'sokak', mutluluk: -50 }, "Eşyalarını topla dediler, kapı suratına kapandı. Artık sokaktasın."),
                     choices: [{ text: "Tamam", nextId: 'hub', step: 0, icon: '🌧️' }]
                 },
                 hub_street: {
                     id: 'hub_street', emoji: '🗑️', title: "Sokak Hayatı",
                     description: `Sokakta yaşamak çok yıpratıcı.`,
                     choices: [
-                        { text: "Dilencilik", nextId: 'hub', step: 1, icon: '🤲', effect: { para: 50, mutluluk: -15, enerji: -20 } },
-                        { text: "Günlük İş", nextId: 'hub', step: 1, icon: '🧱', effect: { para: 150, saglik: -10, enerji: -50 } },
-                        { text: "Uyu", nextId: 'hub', step: 1, icon: '💤', effect: { enerji: 30, saglik: -5 } },
+                        { text: "Dilencilik", nextId: 'hub', step: 1, icon: '🤲', effect: withMsg({ para: 50, mutluluk: -15, enerji: -20 }, ["Kaldırımda oturup geçenlerden yardım istedin, cebine biraz bozukluk düştü.", "Bir köşeye çöküp bekledin, birkaç kişi acıyıp para bıraktı.", "Sokakta uzun saatler geçirdin, akşam eline az da olsa para geçti."]) },
+                        { text: "Günlük İş", nextId: 'hub', step: 1, icon: '🧱', effect: withMsg({ para: 150, saglik: -10, enerji: -50 }, ["İnşaatta günlük işçi olarak çalıştın, sırtın kırıldı ama cebin doldu.", "Ağır yükler taşıdın, akşam bitkin düştün ama para kazandın.", "Bir esnafa yardım ettin, karşılığında biraz para aldın."]) },
+                        { text: "Uyu", nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 30, saglik: -5 }, ["Bir köprü altında, gazete kağıtlarına sarılıp uyumaya çalıştın.", "Soğuk kaldırımda gözlerini kapattın, sabah üşüyerek uyandın.", "Bulduğun bir kutuya sığınıp gözlerini yumdun."]) },
                         { text: "Ev Tut", nextId: 'rent_house', step: 1, icon: '🏠', req: { para: 2000 } }
                     ]
                 },
                 rent_house: {
                     id: 'rent_house', emoji: '🔑', title: "Yeni Bir Ev",
                     description: "Sonunda yeterince para biriktirdin ve kendine ait küçük bir ev kiraladın! Artık sokakta değilsin.",
-                    effect: { para: -2000, barinma: 'kendi_evi', mutluluk: 50, saglik: 20 },
+                    effect: withMsg({ para: -2000, barinma: 'kendi_evi', mutluluk: 50, saglik: 20 }, "Anahtarı eline aldığında içindeki gurur duygusunu hiç unutmayacaksın."),
                     choices: [{ text: "Harika!", nextId: 'hub', step: 0, icon: '🎉' }]
                 },
 
@@ -619,6 +1265,78 @@
             INTERACTIVE_RANDOM_EVENTS.forEach(ev => { EVENTS[ev.id] = ev; });
 
             // Menü Şehir Seçimi Havuzu Oluşturma
+
+// events/childhood.js — Çocukluk dönemi olayları
+// NOT: Çocukluk olayları (age_0_ev_x ... age_7_ev_x) şu anda events/events.js
+// içindeki tek EVENTS ağacında tutuluyor (nextId zinciriyle birbirine bağlılar).
+// Bunları buraya taşımak, referansları kırmadan dikkatli bir refactor gerektirir.
+// Bu dosya, o ayrıştırma yapıldığında kullanılmak üzere hazır bırakılmıştır.
+
+// events/education.js — Okul/eğitim olayları
+// NOT: Okulla ilgili event dalları (hub_school vb.) şu an events/events.js
+// içindeki EVENTS ağacında. Bkz. events/childhood.js notu.
+
+// events/career.js — Kariyer/iş olayları
+// NOT: adult_work, hub_adult gibi kariyer dalları şu an events/events.js
+// içindeki EVENTS ağacında. Maaş hesabı data/jobs.js -> calculateSalary(s)
+// üzerinden yapılıyor. Bkz. events/childhood.js notu.
+
+// js/game.js — Ana App bileşeni (React) ve UI bileşenleri
+
+// ===================================================
+        // 02-helpers.js — StatHeader bileşeni
+        // ===================================================
+        // UI Header Bileşeni
+        const StatHeader = ({ icon, value, type, suffix = "", colorClass }) => {
+            const isDanger = (type === 'saglik' && value <= 30) || 
+                             (type === 'mutluluk' && value === 0) || 
+                             (type === 'para' && value <= -500) ||
+                             (type === 'aile' && value <= 30);
+            const displayColor = isDanger ? 'text-red-500 animate-pulse' : colorClass;
+
+            return (
+                <div className="flex flex-col items-center relative bg-white/50 backdrop-blur-sm px-1.5 sm:px-2.5 py-1 rounded-2xl shadow-sm border border-white/60">
+                    <i className={`fas ${icon} text-[10px] sm:text-base mb-0.5 ${displayColor}`}></i>
+                    <span className={`text-[9px] sm:text-xs font-black ${displayColor}`}>{value}{suffix}</span>
+                </div>
+            );
+        };
+
+// ===================================================
+        // 03-app.js — Ana App bileşeni
+        // ===================================================
+        const App = () => {
+            const [gameState, setGameState] = useState('menu'); // 'menu' veya 'playing'
+            const [availablePool, setAvailablePool] = useState([...TURKEY_CITIES]); // Seçilebilir havuz
+            const [currentChoicesCities, setCurrentChoicesCities] = useState([]); // Ekranda gösterilen 3 şehir
+            
+            // Kilidi açılmış şehirler ve en yüksek yaş durumları
+            const [cityProgress, setCityProgress] = useState({}); 
+            const [selectedCity, setSelectedCity] = useState('');
+            const [difficulty, setDifficulty] = useState('kolay'); // kolay, orta, zor
+            
+            const [activeTab, setActiveTab] = useState('game'); // 'game' veya 'stats'
+
+            const [stats, setStats] = useState(INITIAL_STATS);
+            const [familyInfo, setFamilyInfo] = useState(generateFamily());
+            const [relationships, setRelationships] = useState([]);
+            const [inventory, setInventory] = useState([]);
+            const [toast, setToast] = useState(null);
+            const [isGameOver, setIsGameOver] = useState(false);
+            const [isDarkMode, setIsDarkMode] = useState(false);
+            
+            const [animState, setAnimState] = useState('card-idle');
+            const [displayEventId, setDisplayEventId] = useState('age_0_ev_1');
+
+            /* Yeni Sonuç Ekranı Durumları */
+            const [showResult, setShowResult] = useState(false);
+            const [resultData, setResultData] = useState(null);
+
+            const [dragState, setDragState] = useState({ isDragging: false, index: null, startX: 0, startY: 0, currentX: 0, currentY: 0 });
+            const [isHoveringDropZone, setIsHoveringDropZone] = useState(false);
+            const dropZoneRef = useRef(null);
+
+            // TÜM OLAYLAR (Hub'lar ve Olaylar)
             const generateMenuCities = () => {
                 let pool = [...availablePool];
                 let choices = [];
@@ -660,20 +1378,29 @@
                 setDifficulty(selectedDiff);
                 
                 // Karakter Statlarını Rastgele Belirle (1-10 arası taban, zorluğa göre değişebilir)
+                const cityBuff = getCityBuff(city);
+                const sb = cityBuff.startBonus || {};
                 const newStats = { 
                     ...INITIAL_STATS, 
-                    zeka: Math.floor(Math.random() * 15) + 5, 
-                    karizma: Math.floor(Math.random() * 15) + 5, 
-                    guc: Math.floor(Math.random() * 15) + 5, 
-                    sans: Math.floor(Math.random() * 15) + 5 
+                    zeka:    Math.floor(Math.random() * 15) + 5 + (sb.zeka    || 0),
+                    karizma: Math.floor(Math.random() * 15) + 5 + (sb.karizma || 0),
+                    guc:     Math.floor(Math.random() * 15) + 5 + (sb.guc     || 0),
+                    sans:    Math.floor(Math.random() * 15) + 5 + (sb.sans    || 0),
+                    saglik:  INITIAL_STATS.saglik  + (sb.saglik    || 0),
+                    mutluluk:INITIAL_STATS.mutluluk + (sb.mutluluk || 0),
+                    okul:    INITIAL_STATS.okul    + (sb.okul      || 0),
+                    aileIliski: INITIAL_STATS.aileIliski + (sb.aileIliski || 0),
                 };
+                const newFamily = generateFamily();
                 setStats(newStats);
-                setFamilyInfo(generateFamily());
+                setFamilyInfo(newFamily);
+                setRelationships(generateRelationships(newFamily));
+                setInventory([]);
                 setIsGameOver(false);
                 setShowResult(false);
+                setActiveTab('game');
                 
                 setGameState('playing');
-                setCurrentEventId('age_0_ev_1');
                 setDisplayEventId('age_0_ev_1');
             };
 
@@ -752,22 +1479,43 @@
                 if (choice.effect) {
                      let choiceEffect = typeof choice.effect === 'function' ? choice.effect(newStats).effect : choice.effect;
                      applyEffects(choiceEffect);
-                     
+
                      if (typeof choice.effect === 'function') {
                          const res = choice.effect(newStats);
                          if(res.msg) choiceMsg = res.msg;
+                     } else if (choiceEffect && choiceEffect.msg) {
+                         // Statik effect objesi içine gömülü özel mesaj (ör: { yas: 1, msg: "..." })
+                         choiceMsg = choiceEffect.msg;
                      }
                 }
 
                 // 2. Adım (Step) ve Zaman İlerleyişi
                 if (choice.step > 0) {
                     newStats.secimSayaci += choice.step;
+                    if (newStats.hapisSayaci > 0) { newStats.hapisSayaci = Math.max(0, newStats.hapisSayaci - choice.step); }
                     const diffMultiplier = difficulty === 'kolay' ? 1 : difficulty === 'orta' ? 0.7 : 0.4;
                     
                     // Doğal enerji yenilenmesi (Her adımda, eğer hub ise daha çok)
                     if (targetId === 'hub') {
                         newStats.enerji += 10; diffs.enerji += 10;
                     }
+
+                    // Şehir Pasif Buff / Debuff Uygulaması
+                    const cityBuff = getCityBuff(selectedCity);
+                    const pp = cityBuff.passivePerStep || {};
+                    Object.keys(pp).forEach(k => {
+                        if (k === 'saglik') {
+                            let gain = pp.saglik;
+                            if (gain > 0 && newStats.saglikCarpani) gain = Math.round(gain * newStats.saglikCarpani);
+                            newStats.saglik += gain; diffs.saglik = (diffs.saglik || 0) + gain;
+                        } else if (k === 'okul') {
+                            newStats.okul = Math.max(0, Math.min(100, (newStats.okul || 0) + pp[k]));
+                        } else if (k === 'aileIliski') {
+                            newStats.aileIliski = Math.max(0, Math.min(100, (newStats.aileIliski || 0) + pp[k]));
+                        } else {
+                            newStats[k] = (newStats[k] || 0) + pp[k];
+                        }
+                    });
 
                     // 7-18 Yaş Arası Harçlık
                     if (newStats.yas >= 7 && newStats.yas <= 18 && newStats.barinma === 'aile') {
@@ -793,7 +1541,8 @@
                     // Etkileşimli Rastgele Olay Tetikleme (%25 İhtimal - Hublardayken)
                     if (targetId === 'hub' && Math.random() < 0.25) {
                         const availableRandoms = INTERACTIVE_RANDOM_EVENTS.filter(e => 
-                            newStats.yas >= e.minAge && newStats.yas <= e.maxAge && (!e.condition || e.condition(newStats))
+                            newStats.yas >= e.minAge && newStats.yas <= e.maxAge && (!e.condition || e.condition(newStats)) &&
+                            (!e.cities || e.cities.includes(selectedCity))
                         );
                         if(availableRandoms.length > 0) {
                             const rndEvent = availableRandoms[Math.floor(Math.random() * availableRandoms.length)];
@@ -877,11 +1626,14 @@
                 if (isDeath) {
                     displayMsg = "Yaptığın eylemlerin ağırlığına bedenin ve ruhun daha fazla dayanamadı...";
                 } else if (!displayMsg) {
-                    if (isRandomEventTriggered) {
-                        displayMsg = "Beklenmedik bir olay yaşandı!";
-                    } else {
-                        displayMsg = `"${choice.text}" kararını verdin. Hayat devam ediyor...`;
-                    }
+                    displayMsg = buildResultText({
+                        choice,
+                        city: selectedCity,
+                        yas: newStats.yas,
+                        diffs,
+                        isDeath,
+                        isRandomEventTriggered
+                    });
                 }
 
                 // Animasyonlu Kart Çevirme ve Sonucu Ekrana Basma
@@ -899,6 +1651,183 @@
                     setAnimState('card-flip-in');
                     requestAnimationFrame(() => requestAnimationFrame(() => setAnimState('card-idle')));
                 }, 300);
+            };
+
+            // --- YARDIMCI: Toast Bildirimi ---
+            const showToast = (msg, color = 'text-slate-700') => {
+                setToast({ msg, color });
+                setTimeout(() => setToast(null), 2200);
+            };
+
+            // --- KUMARHANE: 21 (Blackjack) Mini Oyunu ---
+            const [gamblingState, setGamblingState] = useState(null); // null kapalı, {phase, bet, playerCards, dealerCards, message}
+
+            const drawCard = () => {
+                const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+                const suits = ['♠️', '♥️', '♦️', '♣️'];
+                const rank = ranks[Math.floor(Math.random() * ranks.length)];
+                const suit = suits[Math.floor(Math.random() * suits.length)];
+                const value = rank === 'A' ? 11 : (['J', 'Q', 'K'].includes(rank) ? 10 : parseInt(rank, 10));
+                return { rank, suit, value, hidden: false };
+            };
+
+            const calcScore = (cards) => {
+                let total = cards.reduce((sum, c) => sum + (c.hidden ? 0 : c.value), 0);
+                let aces = cards.filter(c => !c.hidden && c.rank === 'A').length;
+                while (total > 21 && aces > 0) { total -= 10; aces--; }
+                return total;
+            };
+
+            const openGambling = () => {
+                setGamblingState({ phase: 'bet', bet: Math.min(100, stats.para), playerCards: [], dealerCards: [], message: '' });
+            };
+
+            const closeGambling = () => setGamblingState(null);
+
+            const startRound = () => {
+                setGamblingState((prev) => {
+                    if (!prev || prev.bet <= 0 || prev.bet > stats.para) return prev;
+                    const playerCards = [drawCard(), drawCard()];
+                    const dealerCards = [drawCard(), { ...drawCard(), hidden: true }];
+                    setStats((s) => clampAll({ ...s, para: s.para - prev.bet }));
+                    const pScore = calcScore(playerCards);
+                    if (pScore === 21) {
+                        return { ...prev, phase: 'result', playerCards, dealerCards: dealerCards.map(c => ({ ...c, hidden: false })), message: '🎉 21! Doğal Blackjack, kazandın!', outcome: 'blackjack' };
+                    }
+                    return { ...prev, phase: 'playing', playerCards, dealerCards, message: '' };
+                });
+            };
+
+            const finishGamblingRound = (playerCards, dealerCardsRevealed, bet) => {
+                const pScore = calcScore(playerCards);
+                let dCards = [...dealerCardsRevealed];
+                let dScore = calcScore(dCards);
+                if (pScore <= 21) {
+                    while (dScore < 17) { dCards = [...dCards, drawCard()]; dScore = calcScore(dCards); }
+                }
+                let outcome, message, payout;
+                if (pScore > 21) { outcome = 'lose'; message = `💥 21'i geçtin (${pScore}), bahis gitti.`; payout = 0; }
+                else if (dScore > 21) { outcome = 'win'; message = `🎉 Kurpiyer battı (${dScore}), sen kazandın!`; payout = bet * 2; }
+                else if (pScore > dScore) { outcome = 'win'; message = `🎉 Sen: ${pScore} — Kurpiyer: ${dScore}. Kazandın!`; payout = bet * 2; }
+                else if (pScore === dScore) { outcome = 'push'; message = `🤝 Berabere (${pScore}). Bahsin iade edildi.`; payout = bet; }
+                else { outcome = 'lose'; message = `😔 Sen: ${pScore} — Kurpiyer: ${dScore}. Kaybettin.`; payout = 0; }
+
+                if (payout > 0) { setStats((s) => clampAll({ ...s, para: s.para + payout })); }
+                return { dealerCards: dCards, message, outcome };
+            };
+
+            const hitCard = () => {
+                setGamblingState((prev) => {
+                    if (!prev || prev.phase !== 'playing') return prev;
+                    const newPlayerCards = [...prev.playerCards, drawCard()];
+                    const score = calcScore(newPlayerCards);
+                    if (score > 21) {
+                        const revealed = prev.dealerCards.map(c => ({ ...c, hidden: false }));
+                        const { dealerCards, message, outcome } = finishGamblingRound(newPlayerCards, revealed, prev.bet);
+                        return { ...prev, phase: 'result', playerCards: newPlayerCards, dealerCards, message, outcome };
+                    }
+                    return { ...prev, playerCards: newPlayerCards };
+                });
+            };
+
+            const standCard = () => {
+                setGamblingState((prev) => {
+                    if (!prev || prev.phase !== 'playing') return prev;
+                    const revealed = prev.dealerCards.map(c => ({ ...c, hidden: false }));
+                    const { dealerCards, message, outcome } = finishGamblingRound(prev.playerCards, revealed, prev.bet);
+                    return { ...prev, phase: 'result', dealerCards, message, outcome };
+                });
+            };
+
+            const playAgainGambling = () => {
+                setGamblingState((prev) => ({ phase: 'bet', bet: Math.min(prev?.bet || 100, stats.para), playerCards: [], dealerCards: [], message: '' }));
+            };
+
+            // --- EYLEMLER TAB: Serbest Aksiyon Uygula ---
+            const handleAction = (action) => {
+                if (stats.hapisSayaci > 0) { showToast(`Hapistesin, ${stats.hapisSayaci} adım sonra çıkacaksın.`, 'text-red-500'); return; }
+                if (stats.yas < (action.minAge || 0)) { showToast('Bu eylem için yaşın yetersiz.', 'text-red-500'); return; }
+                if (action.maxAge !== undefined && stats.yas > action.maxAge) { showToast('Bu eylem için artık yaşın büyük.', 'text-red-500'); return; }
+                if (action.cost?.enerji && stats.enerji < action.cost.enerji) { showToast('Yeterli enerjin yok.', 'text-red-500'); return; }
+                if (action.cost?.para && stats.para < action.cost.para) { showToast('Yeterli paran yok.', 'text-red-500'); return; }
+
+                if (action.special === 'kumar') {
+                    let next = { ...stats };
+                    if (action.cost?.enerji) next.enerji -= action.cost.enerji;
+                    setStats(clampAll(next));
+                    openGambling();
+                    return;
+                }
+
+                let next = { ...stats };
+                if (action.cost?.enerji) next.enerji -= action.cost.enerji;
+                if (action.cost?.para) next.para -= action.cost.para;
+
+                let ef = action.effect;
+                let resultMsg = null;
+                if (typeof action.effect === 'function') {
+                    const res = action.effect(next);
+                    ef = res.effect;
+                    resultMsg = res.msg;
+                }
+                Object.keys(ef || {}).forEach((k) => {
+                    if (k === 'saglik') {
+                        let g = ef.saglik;
+                        if (g > 0 && next.saglikCarpani) g = Math.round(g * next.saglikCarpani);
+                        next.saglik += g;
+                    } else if (k === 'saglikCarpani') {
+                        next.saglikCarpani = ef.saglikCarpani;
+                    } else {
+                        next[k] = (next[k] || 0) + ef[k];
+                    }
+                });
+                next = clampAll(next);
+                setStats(next);
+                showToast(resultMsg || `${action.title} tamamlandı!`, 'text-emerald-600');
+            };
+
+            // --- İLİŞKİLER TAB: Kişiyle Etkileşim ---
+            const handleRelationshipAction = (relId, relAction) => {
+                if (relAction.cost?.enerji && stats.enerji < relAction.cost.enerji) { showToast('Yeterli enerjin yok.', 'text-red-500'); return; }
+                if (relAction.cost?.para && stats.para < relAction.cost.para) { showToast('Yeterli paran yok.', 'text-red-500'); return; }
+
+                let next = { ...stats };
+                if (relAction.cost?.enerji) next.enerji -= relAction.cost.enerji;
+                if (relAction.cost?.para) next.para -= relAction.cost.para;
+                Object.keys(relAction.statEffect || {}).forEach((k) => { next[k] = (next[k] || 0) + relAction.statEffect[k]; });
+
+                const rel = relationships.find((r) => r.id === relId);
+                if (rel && rel.type === 'aile') {
+                    next.aileIliski = (next.aileIliski || 0) + Math.round(relAction.levelChange / 3);
+                }
+                next = clampAll(next);
+                setStats(next);
+
+                setRelationships((prev) => prev.map((r) => {
+                    if (r.id !== relId) return r;
+                    return { ...r, level: Math.max(0, Math.min(100, r.level + relAction.levelChange)) };
+                }));
+
+                showToast(`${relAction.label} — ilişki ${relAction.levelChange > 0 ? '+' : ''}${relAction.levelChange}`, relAction.levelChange >= 0 ? 'text-emerald-600' : 'text-red-500');
+            };
+
+            // --- MAĞAZA TAB: Ürün Satın Al ---
+            const handleBuyItem = (item) => {
+                if (item.type === 'permanent' && inventory.includes(item.id)) { showToast('Bu ürüne zaten sahipsin.', 'text-slate-500'); return; }
+                if (item.reqBarinma && stats.barinma !== item.reqBarinma) { showToast('Bu ürün için uygun bir evin yok.', 'text-red-500'); return; }
+                if (item.minAge && stats.yas < item.minAge) { showToast('Bu ürün için yaşın yetersiz.', 'text-red-500'); return; }
+                if (stats.para < item.price) { showToast('Yeterli paran yok.', 'text-red-500'); return; }
+
+                let next = { ...stats, para: stats.para - item.price };
+                Object.keys(item.effect || {}).forEach((k) => {
+                    if (k === 'saglikCarpaniBonus') next.saglikCarpani = (next.saglikCarpani || 1) + item.effect.saglikCarpaniBonus;
+                    else next[k] = (next[k] || 0) + item.effect[k];
+                });
+                next = clampAll(next);
+                setStats(next);
+
+                if (item.type === 'permanent') setInventory((prev) => [...prev, item.id]);
+                showToast(`${item.name} satın alındı!`, 'text-emerald-600');
             };
 
             const handleContinue = () => {
@@ -939,14 +1868,48 @@
                             
                             {/* Yeni Oyun Bölümü (Rastgele 3 Şehir) */}
                             <div className="w-full bg-white/60 backdrop-blur-md rounded-2xl p-4 shadow-sm border border-white/80 mb-4">
-                                <h3 className="text-xs font-black uppercase text-slate-600 mb-3">Yeni Oyuna Başla</h3>
-                                <div className="flex flex-col gap-2">
-                                    {currentChoicesCities.map(city => (
-                                        <button key={city} onClick={() => startGameWithCity(city)} className="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-xl shadow-md transition-transform active:scale-95">
-                                            {city} (Kolay)
-                                        </button>
-                                    ))}
+                                <h3 className="text-xs font-black uppercase text-slate-600 mb-3">
+                                    <i className="fas fa-dice mr-1 text-sky-500"></i> Yeni Oyuna Başla
+                                </h3>
+                                <div className="flex flex-col gap-3">
+                                    {currentChoicesCities.map(city => {
+                                        const cb = getCityBuff(city);
+                                        return (
+                                            <div key={city} className="bg-white/70 rounded-2xl border border-white/80 shadow-sm overflow-hidden">
+                                                {/* Şehir Başlık Bandı */}
+                                                <div className="flex items-center justify-between px-3 py-2" style={{ background: `${cb.color}22`, borderBottom: `2px solid ${cb.color}44` }}>
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-xl">{cb.emoji}</span>
+                                                        <div>
+                                                            <div className="font-black text-sm" style={{ color: cb.color }}>{city}</div>
+                                                            <div className="text-[9px] text-slate-500 font-semibold">{cb.description}</div>
+                                                        </div>
+                                                    </div>
+                                                    <button onClick={() => startGameWithCity(city)} className="text-white font-black text-[10px] px-3 py-2 rounded-xl shadow active:scale-95 shrink-0" style={{ background: cb.color }}>
+                                                        BAŞLA
+                                                    </button>
+                                                </div>
+                                                {/* Buff / Debuff Satırları */}
+                                                <div className="px-3 py-2 flex flex-wrap gap-1">
+                                                    {cb.buffs.map((b, i) => (
+                                                        <span key={i} className="text-[9px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">{b}</span>
+                                                    ))}
+                                                    {cb.debuffs.map((d, i) => (
+                                                        <span key={i} className="text-[9px] font-bold bg-red-100 text-red-600 px-2 py-0.5 rounded-full">{d}</span>
+                                                    ))}
+                                                    {cb.startBonus && Object.keys(cb.startBonus).length > 0 && (
+                                                        <span className="text-[9px] font-bold bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full">
+                                                            ✨ {Object.entries(cb.startBonus).map(([k,v])=>`+${v} ${k}`).join(', ')} (başlangıç)
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
+                                <button onClick={() => generateMenuCities()} className="mt-3 w-full text-[10px] font-bold text-slate-500 bg-white/50 border border-slate-200 py-1.5 rounded-xl active:scale-95">
+                                    <i className="fas fa-rotate-right mr-1"></i> Başka Şehirler Göster
+                                </button>
                             </div>
 
                             {/* Kilidi Açılan Şehirler */}
@@ -955,25 +1918,37 @@
                                     <h3 className="text-xs font-black uppercase text-slate-600 mb-2">Kilidi Açılan Şehirler</h3>
                                     <p className="text-[9px] text-slate-500 mb-2">Bir sonraki zorluğu açmak için o şehirde 40 yaşına ulaş.</p>
                                     <div className="flex flex-col gap-2">
-                                        {Object.entries(cityProgress).map(([city, data], idx) => (
-                                            <div key={idx} className="bg-white/50 p-2 rounded-xl flex flex-col gap-1 border border-white/50">
-                                                <div className="flex justify-between items-center px-1">
-                                                    <span className="font-bold text-xs"><i className="fas fa-unlock text-[10px] text-emerald-500 mr-1"></i> {city}</span>
-                                                    <span className="text-[9px] text-slate-500 font-bold">Max Yaş: {data.maxAge}</span>
+                                        {Object.entries(cityProgress).map(([city, data], idx) => {
+                                            const cb = getCityBuff(city);
+                                            return (
+                                            <div key={idx} className="bg-white/50 rounded-xl flex flex-col gap-1 border border-white/50 overflow-hidden">
+                                                <div className="flex justify-between items-center px-2 py-1.5" style={{ background: `${cb.color}18` }}>
+                                                    <span className="font-bold text-xs flex items-center gap-1">
+                                                        <span>{cb.emoji}</span>
+                                                        <span style={{ color: cb.color }}>{city}</span>
+                                                        <span className="text-[9px] text-slate-400 font-bold">· {data.maxAge} yaş</span>
+                                                    </span>
+                                                    <div className="flex gap-1">
+                                                        {data.unlockedDiffs.map(diff => (
+                                                            <button key={diff} onClick={() => startGameWithCity(city, true, diff)} className={`py-0.5 px-2 text-[10px] font-bold rounded-lg shadow-sm active:scale-95 text-white ${diff === 'kolay' ? 'bg-emerald-500' : diff === 'orta' ? 'bg-amber-500' : 'bg-rose-500'}`}>
+                                                                {diff.toUpperCase()}
+                                                            </button>
+                                                        ))}
+                                                        {!data.unlockedDiffs.includes('orta') && <span className="py-0.5 px-2 text-[10px] bg-slate-200 text-slate-400 rounded-lg"><i className="fas fa-lock"></i></span>}
+                                                        {!data.unlockedDiffs.includes('zor') && <span className="py-0.5 px-2 text-[10px] bg-slate-200 text-slate-400 rounded-lg"><i className="fas fa-lock"></i></span>}
+                                                    </div>
                                                 </div>
-                                                <div className="flex gap-1 justify-center">
-                                                    {/* Açık Zorluklar */}
-                                                    {data.unlockedDiffs.map(diff => (
-                                                        <button key={diff} onClick={() => startGameWithCity(city, true, diff)} className={`py-1 px-3 text-[10px] font-bold rounded-lg shadow-sm active:scale-95 text-white ${diff === 'kolay' ? 'bg-emerald-500' : diff === 'orta' ? 'bg-amber-500' : 'bg-rose-500'}`}>
-                                                            {diff.toUpperCase()}
-                                                        </button>
+                                                <div className="flex flex-wrap gap-1 px-2 pb-1.5">
+                                                    {cb.buffs.slice(0,2).map((b,i)=>(
+                                                        <span key={i} className="text-[8px] font-bold bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full">{b}</span>
                                                     ))}
-                                                    {/* Kilitli Zorluklar Gösterimi */}
-                                                    {!data.unlockedDiffs.includes('orta') && <span className="py-1 px-3 text-[10px] bg-slate-200 text-slate-400 rounded-lg"><i className="fas fa-lock"></i> ORTA</span>}
-                                                    {!data.unlockedDiffs.includes('zor') && <span className="py-1 px-3 text-[10px] bg-slate-200 text-slate-400 rounded-lg"><i className="fas fa-lock"></i> ZOR</span>}
+                                                    {cb.debuffs.slice(0,1).map((d,i)=>(
+                                                        <span key={i} className="text-[8px] font-bold bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full">{d}</span>
+                                                    ))}
                                                 </div>
                                             </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             )}
@@ -987,6 +1962,13 @@
             return (
                 <div className="app-container">
                     <div className="bg-pattern"></div>
+
+                    {/* Toast Bildirimi */}
+                    {toast && (
+                        <div className={`absolute top-3 left-1/2 -translate-x-1/2 z-50 bg-white/95 backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-white/80 text-[11px] font-bold whitespace-nowrap ${toast.color}`}>
+                            {toast.msg}
+                        </div>
+                    )}
                     
                     {/* Header Bar with OKUL restored */}
                     <div className="h-20 sm:h-24 bg-white/30 backdrop-blur-md border-b border-white/50 flex items-center justify-between px-1.5 sm:px-3 z-20 shadow-sm relative rounded-b-[1.5rem] gap-0.5 sm:gap-1.5">
@@ -1005,15 +1987,31 @@
                     </div>
 
                     {/* Age, City, and Difficulty Pill */}
-                    <div className="absolute top-24 sm:top-28 w-full flex justify-center z-10 pointer-events-none mt-2">
-                        <span className="text-[11px] sm:text-[12px] font-black uppercase text-slate-700 bg-white/80 backdrop-blur-md px-4 py-1.5 rounded-full shadow-sm border border-white/80 flex items-center gap-2">
-                            <span className="text-pink-500"><i className="fas fa-birthday-cake mr-1"></i> {stats.yas} YAŞ</span>
-                            <span className="text-slate-300">|</span>
-                            <span className="text-sky-500"><i className="fas fa-map-marker-alt mr-1"></i> {selectedCity}</span>
-                            <span className="text-slate-300">|</span>
-                            <span>Zorluk: {difficulty}</span>
-                        </span>
-                    </div>
+                    {(() => {
+                        const cb = getCityBuff(selectedCity);
+                        return (
+                            <div className="absolute top-24 sm:top-28 w-full flex flex-col items-center z-10 pointer-events-none mt-2 gap-1.5">
+                                <span className="text-[11px] sm:text-[12px] font-black uppercase text-slate-700 bg-white/80 backdrop-blur-md px-4 py-1.5 rounded-full shadow-sm border border-white/80 flex items-center gap-2">
+                                    <span className="text-pink-500"><i className="fas fa-birthday-cake mr-1"></i> {stats.yas} YAŞ</span>
+                                    <span className="text-slate-300">|</span>
+                                    <span style={{ color: cb.color }}>
+                                        {cb.emoji} {selectedCity}
+                                    </span>
+                                    <span className="text-slate-300">|</span>
+                                    <span>Zorluk: {difficulty}</span>
+                                </span>
+                                {/* Aktif şehir buff rozetleri */}
+                                <div className="flex flex-wrap justify-center gap-1 px-4 max-w-full">
+                                    {cb.buffs.slice(0,3).map((b,i) => (
+                                        <span key={i} className="text-[8px] font-bold bg-emerald-500/80 text-white px-2 py-0.5 rounded-full backdrop-blur-sm shadow-sm">{b}</span>
+                                    ))}
+                                    {cb.debuffs.slice(0,2).map((d,i) => (
+                                        <span key={i} className="text-[8px] font-bold bg-red-500/80 text-white px-2 py-0.5 rounded-full backdrop-blur-sm shadow-sm">{d}</span>
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })()}
 
                     {/* Main Event Card (Or Result Screen) */}
                     <div className="flex-1 flex flex-col items-center justify-center p-4 z-10 card-perspective w-full h-full relative pb-[110px]">
@@ -1147,10 +2145,128 @@
                         <button onClick={() => setActiveTab('game')} className={`nav-btn ${activeTab === 'game' ? 'active' : ''}`}>
                             <i className="fas fa-gamepad"></i> Oyun
                         </button>
+                        <button onClick={() => setActiveTab('relationships')} className={`nav-btn ${activeTab === 'relationships' ? 'active' : ''}`}>
+                            <i className="fas fa-heart"></i> İlişkiler
+                        </button>
+                        <button onClick={() => setActiveTab('actions')} className={`nav-btn ${activeTab === 'actions' ? 'active' : ''}`}>
+                            <i className="fas fa-bolt"></i> Eylemler
+                        </button>
+                        <button onClick={() => setActiveTab('store')} className={`nav-btn ${activeTab === 'store' ? 'active' : ''}`}>
+                            <i className="fas fa-store"></i> Mağaza
+                        </button>
                         <button onClick={() => setActiveTab('stats')} className={`nav-btn ${activeTab === 'stats' ? 'active' : ''}`}>
                             <i className="fas fa-user-astronaut"></i> Karakter
                         </button>
                     </div>
+
+                    {/* İlişkiler Tab Overlay */}
+                    {activeTab === 'relationships' && (
+                        <div className="stats-overlay">
+                            <h2 className="text-2xl font-black mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">
+                                İlişkilerim
+                            </h2>
+                            <div className="flex flex-col gap-3 pb-4">
+                                {relationships.length === 0 && (
+                                    <p className="text-center text-xs text-slate-400">Henüz bir ilişkin yok.</p>
+                                )}
+                                {relationships.map((rel) => (
+                                    <div key={rel.id} className="bg-white/50 backdrop-blur-sm p-3 rounded-2xl border border-white/60 shadow-sm">
+                                        <div className="flex justify-between items-center mb-1">
+                                            <div className="font-bold text-sm flex items-center gap-2">
+                                                <span className="text-xl">{rel.emoji}</span>
+                                                <span>{rel.name} <span className="text-[10px] text-slate-400 font-semibold">({rel.relation})</span></span>
+                                            </div>
+                                            <div className="font-black text-xs text-rose-500">{rel.level}/100</div>
+                                        </div>
+                                        <div className="stat-bar-bg mb-2"><div className="stat-bar-fill bg-rose-400" style={{ width: `${rel.level}%` }}></div></div>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {REL_ACTIONS.map((ra) => (
+                                                <button key={ra.id} onClick={() => handleRelationshipAction(rel.id, ra)} className="text-[10px] font-bold bg-rose-100 text-rose-600 px-2.5 py-1.5 rounded-lg active:scale-95">
+                                                    {ra.icon} {ra.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Eylemler Tab Overlay */}
+                    {activeTab === 'actions' && (
+                        <div className="stats-overlay">
+                            <h2 className="text-2xl font-black mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">
+                                Eylemler
+                            </h2>
+                            {stats.hapisSayaci > 0 && (
+                                <div className="mb-3 bg-red-500/10 border border-red-300 text-red-600 font-bold text-xs text-center py-2 px-3 rounded-xl">
+                                    🔒 Hapistesin! {stats.hapisSayaci} adım sonra serbest kalacaksın.
+                                </div>
+                            )}
+                            <div className="flex flex-col gap-2 pb-4">
+                                {ACTIONS.map((action) => {
+                                    const disabled = stats.hapisSayaci > 0 ||
+                                        stats.yas < (action.minAge || 0) ||
+                                        (action.maxAge !== undefined && stats.yas > action.maxAge) ||
+                                        (action.cost?.enerji && stats.enerji < action.cost.enerji) ||
+                                        (action.cost?.para && stats.para < action.cost.para);
+                                    return (
+                                        <button
+                                            key={action.id}
+                                            disabled={disabled}
+                                            onClick={() => handleAction(action)}
+                                            className={`flex items-center gap-3 p-3 rounded-2xl border shadow-sm text-left transition-all active:scale-95 ${disabled ? 'bg-slate-100 border-slate-200 opacity-50' : 'bg-white/50 border-white/60 backdrop-blur-sm'}`}
+                                        >
+                                            <span className="text-2xl">{action.icon}</span>
+                                            <div className="flex-1">
+                                                <div className="font-bold text-xs">{action.title}</div>
+                                                <div className="text-[10px] text-slate-500">{action.desc}</div>
+                                                <div className="text-[9px] text-slate-400 mt-0.5 font-semibold">
+                                                    {action.cost?.enerji ? `⚡-${action.cost.enerji} ` : ''}
+                                                    {action.cost?.para ? `💰-${action.cost.para} ` : ''}
+                                                    {action.minAge ? `· ${action.minAge}+ yaş` : ''}
+                                                    {action.maxAge !== undefined ? ` · ${action.maxAge}'e kadar` : ''}
+                                                </div>
+                                            </div>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Mağaza Tab Overlay */}
+                    {activeTab === 'store' && (
+                        <div className="stats-overlay">
+                            <h2 className="text-2xl font-black mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-500">
+                                Mağaza
+                            </h2>
+                            <div className="flex flex-col gap-2 pb-4">
+                                {STORE_ITEMS.map((item) => {
+                                    const owned = item.type === 'permanent' && inventory.includes(item.id);
+                                    const disabled = owned || stats.para < item.price ||
+                                        (item.reqBarinma && stats.barinma !== item.reqBarinma) ||
+                                        (item.minAge && stats.yas < item.minAge);
+                                    return (
+                                        <div key={item.id} className={`flex items-center gap-3 p-3 rounded-2xl border shadow-sm ${owned ? 'bg-emerald-50 border-emerald-200' : 'bg-white/50 border-white/60 backdrop-blur-sm'}`}>
+                                            <span className="text-2xl">{item.icon}</span>
+                                            <div className="flex-1">
+                                                <div className="font-bold text-xs">{item.name}</div>
+                                                <div className="text-[10px] text-slate-500">{item.desc}</div>
+                                            </div>
+                                            <button
+                                                disabled={disabled}
+                                                onClick={() => handleBuyItem(item)}
+                                                className={`text-[10px] font-black px-3 py-2 rounded-xl active:scale-95 shrink-0 ${owned ? 'bg-emerald-500 text-white' : disabled ? 'bg-slate-200 text-slate-400' : 'bg-amber-500 text-white'}`}
+                                            >
+                                                {owned ? 'ALINDI' : `${item.price}₺`}
+                                            </button>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Stats Tab Overlay */}
                     {activeTab === 'stats' && (
@@ -1190,12 +2306,99 @@
                             </div>
                         </div>
                     )}
+
+                    {/* Kumarhane Modal (21 / Blackjack) */}
+                    {gamblingState && (
+                        <div className="stats-overlay" style={{ zIndex: 45 }}>
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-red-500">
+                                    🎰 21 Masası
+                                </h2>
+                                <button onClick={closeGambling} className="text-slate-400 text-lg font-black px-2">✕</button>
+                            </div>
+
+                            {gamblingState.phase === 'bet' && (
+                                <div className="flex flex-col gap-4">
+                                    <p className="text-xs text-slate-500 font-semibold text-center">Bahis miktarını seç ve masaya otur.</p>
+                                    <div className="text-center font-black text-2xl">{gamblingState.bet}₺</div>
+                                    <input
+                                        type="range" min="10" max={Math.max(10, stats.para)} step="10"
+                                        value={Math.min(gamblingState.bet, Math.max(10, stats.para))}
+                                        onChange={(e) => setGamblingState((prev) => ({ ...prev, bet: parseInt(e.target.value, 10) }))}
+                                        className="w-full"
+                                    />
+                                    <div className="flex gap-2 justify-center flex-wrap">
+                                        {[50, 100, 250, 500].map((v) => (
+                                            <button key={v} onClick={() => setGamblingState((prev) => ({ ...prev, bet: Math.min(v, Math.max(10, stats.para)) }))} className="text-[10px] font-bold bg-amber-100 text-amber-700 px-3 py-1.5 rounded-lg active:scale-95">
+                                                {v}₺
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <div className="text-[10px] text-center text-slate-400 font-semibold">Cebinde {stats.para}₺ var.</div>
+                                    <button
+                                        onClick={startRound}
+                                        disabled={stats.para < 10}
+                                        className="w-full bg-amber-500 hover:bg-amber-600 text-white font-black py-2.5 px-4 rounded-xl shadow-md active:scale-95 transition-all disabled:opacity-40 text-sm"
+                                    >
+                                        Kartları Dağıt
+                                    </button>
+                                </div>
+                            )}
+
+                            {(gamblingState.phase === 'playing' || gamblingState.phase === 'result') && (
+                                <div className="flex flex-col gap-4">
+                                    <div>
+                                        <div className="text-[10px] font-bold text-slate-400 mb-1">KURPİYER {gamblingState.phase === 'result' ? `(${calcScore(gamblingState.dealerCards)})` : ''}</div>
+                                        <div className="flex gap-1.5 flex-wrap">
+                                            {gamblingState.dealerCards.map((c, i) => (
+                                                <div key={i} className="w-10 h-14 rounded-lg bg-white border border-slate-200 shadow-sm flex flex-col items-center justify-center font-black text-xs">
+                                                    {c.hidden ? <span className="text-slate-300">🂠</span> : <><span>{c.rank}</span><span>{c.suit}</span></>}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="text-[10px] font-bold text-slate-400 mb-1">SEN ({calcScore(gamblingState.playerCards)})</div>
+                                        <div className="flex gap-1.5 flex-wrap">
+                                            {gamblingState.playerCards.map((c, i) => (
+                                                <div key={i} className="w-10 h-14 rounded-lg bg-white border border-slate-200 shadow-sm flex flex-col items-center justify-center font-black text-xs">
+                                                    <span>{c.rank}</span><span>{c.suit}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {gamblingState.phase === 'playing' && (
+                                        <div className="flex gap-2 mt-2">
+                                            <button onClick={hitCard} className="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-black py-2.5 rounded-xl shadow-md active:scale-95 text-sm">Kart Çek</button>
+                                            <button onClick={standCard} className="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-black py-2.5 rounded-xl shadow-md active:scale-95 text-sm">Dur</button>
+                                        </div>
+                                    )}
+
+                                    {gamblingState.phase === 'result' && (
+                                        <div className="flex flex-col gap-3 mt-2">
+                                            <div className={`text-center font-bold text-xs p-3 rounded-xl ${gamblingState.outcome === 'lose' ? 'bg-red-50 text-red-600' : gamblingState.outcome === 'push' ? 'bg-slate-100 text-slate-600' : 'bg-emerald-50 text-emerald-600'}`}>
+                                                {gamblingState.message}
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <button onClick={playAgainGambling} disabled={stats.para < 10} className="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-black py-2.5 rounded-xl shadow-md active:scale-95 text-sm disabled:opacity-40">Tekrar Oyna</button>
+                                                <button onClick={closeGambling} className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-black py-2.5 rounded-xl shadow-md active:scale-95 text-sm">Masadan Kalk</button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             );
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+// js/main.js — Giriş noktası: React'i başlatır ve App bileşenini ekrana basar
+const { useState, useEffect, useRef } = React;
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
     </script>
 </body>
 </html>
