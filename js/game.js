@@ -370,6 +370,105 @@ const DoctorMinigame = ({ onWin, onLose, onClose }) => {
         </div>
     );
 };
+const GymMinigame = ({ onWin, onLose, onClose }) => {
+    const [status, setStatus] = useState('playing'); // 'playing', 'won', 'lost'
+    const [clicks, setClicks] = useState(0);
+    const [timeLeft, setTimeLeft] = useState(5.0); // 5 saniye süre
+
+    const clicksRef = useRef(0);
+    const timeLeftRef = useRef(5.0);
+    const timerRef = useRef(null);
+
+    const TARGET_CLICKS = 25; // Kazanmak için gereken tıklama sayısı
+
+    useEffect(() => {
+        timerRef.current = setInterval(() => {
+            timeLeftRef.current -= 0.1;
+            if (timeLeftRef.current <= 0) {
+                clearInterval(timerRef.current);
+                if (clicksRef.current >= TARGET_CLICKS) {
+                    setStatus('won');
+                    onWin();
+                } else {
+                    setStatus('lost');
+                    onLose();
+                }
+                setTimeLeft(0);
+            } else {
+                setTimeLeft(parseFloat(timeLeftRef.current.toFixed(1)));
+            }
+        }, 100);
+
+        return () => clearInterval(timerRef.current);
+    }, [onWin, onLose]);
+
+    const handleLift = () => {
+        if (status !== 'playing') return;
+        clicksRef.current += 1;
+        setClicks(clicksRef.current);
+        
+        // Eğer süre bitmeden hedefe ulaşıldıysa hemen kazan
+        if (clicksRef.current >= TARGET_CLICKS) {
+            clearInterval(timerRef.current);
+            setStatus('won');
+            onWin();
+        }
+    };
+
+    const progressPercent = Math.min(100, (clicks / TARGET_CLICKS) * 100);
+
+    return (
+        <div className="stats-overlay" style={{ zIndex: 50 }}>
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-600">
+                    🏋️ Ağırlık Kaldırma Antrenmanı
+                </h2>
+                <button onClick={onClose} className="text-slate-400 text-lg font-black px-2">✕</button>
+            </div>
+
+            <div className="flex flex-col items-center gap-5 mt-2">
+                <div className="text-6xl mb-1 transition-transform active:scale-110">
+                    {status === 'playing' ? '🏋️‍♂️' : status === 'won' ? '🏆' : '🥵'}
+                </div>
+                
+                <div className="text-xs font-bold text-slate-600 text-center">
+                    {status === 'playing' ? 'Barı kaldırmak için butonuna olabildiğince hızlı seri şekilde bas!' : ''}
+                </div>
+
+                <div className="text-sm font-black text-slate-700">
+                    Süre: <span className="text-orange-500">{timeLeft}s</span> | Tıklama: {clicks}/{TARGET_CLICKS}
+                </div>
+
+                {/* Dolum Barı */}
+                <div className="w-full bg-slate-200 rounded-full h-6 overflow-hidden border border-slate-300 shadow-inner">
+                    <div 
+                        className="h-full bg-gradient-to-r from-orange-400 to-amber-500 transition-all duration-75"
+                        style={{ width: `${progressPercent}%` }}
+                    ></div>
+                </div>
+                
+                {status === 'playing' ? (
+                    <button 
+                        onPointerDown={handleLift}
+                        className="w-full mt-2 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 active:scale-95 text-white font-black py-5 rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 touch-none select-none"
+                    >
+                        <span className="text-xl">🔥</span>
+                        <span className="text-sm">SERİ BİR ŞEKİLDE BAS!</span>
+                    </button>
+                ) : (
+                    <div className="w-full text-center mt-2">
+                        <div className={`text-sm font-black p-4 rounded-xl mb-4 ${status === 'won' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
+                            {status === 'won' ? '💪 Harika set! Kasların gelişti ve gücün arttı.' : '💤 Yeterince hızlı olamadın, ağırlık altında ezildin ve yoruldun.'}
+                        </div>
+                        <button onClick={onClose} className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-black py-3 rounded-xl shadow-md active:scale-95">
+                            Devam Et
+                        </button>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
 		const App = () => {
 			const [doctorGameState, setDoctorGameState] = useState(null);
 
@@ -426,6 +525,25 @@ const handleThiefLose = () => {
     next.aileIliski -= 15;
     setStats(clampAll(next));
     showToast(`🚔 Polis bastı! ${ceza} adım hapis cezası aldın.`, 'text-red-500');
+	
+	const [gymGameState, setGymGameState] = useState(null);
+
+const handleGymWin = () => {
+    let next = { ...stats };
+    next.guc += 5;
+    next.saglik += 8;
+    next.mutluluk += 10;
+    setStats(clampAll(next));
+    showToast('💪 Süper antrenman! Gücün ve sağlığın arttı.', 'text-emerald-600');
+};
+
+const handleGymLose = () => {
+    let next = { ...stats };
+    next.enerji -= 15;
+    next.mutluluk -= 5;
+    setStats(clampAll(next));
+    showToast('🥵 Antrenmanda tükendin, enerjin düştü.', 'text-red-500');
+};
 };
             const [gameState, setGameState] = useState('menu'); // 'menu' veya 'playing'
             const [availablePool, setAvailablePool] = useState([...TURKEY_CITIES]); // Seçilebilir havuz
@@ -900,6 +1018,17 @@ const handleThiefLose = () => {
         showToast('Yeterli paran yok.', 'text-red-500');
         return;
     }
+	if (action.special === 'spor') {
+    let next = { ...stats };
+    if (action.cost?.enerji && next.enerji < action.cost.enerji) {
+        showToast('Yeterli enerjin yok.', 'text-red-500');
+        return;
+    }
+    if (action.cost?.enerji) next.enerji -= action.cost.enerji;
+    setStats(clampAll(next));
+    setGymGameState({ phase: 'playing' });
+    return;
+}
     if (action.cost?.para) next.para -= action.cost.para;
     setStats(clampAll(next));
     setDoctorGameState({ phase: 'playing' });
@@ -1559,6 +1688,13 @@ const handleThiefLose = () => {
         onWin={handleDoctorWin} 
         onLose={handleDoctorLose} 
         onClose={() => setDoctorGameState(null)} 
+    />
+)}
+{gymGameState && (
+    <GymMinigame 
+        onWin={handleGymWin} 
+        onLose={handleGymLose} 
+        onClose={() => setGymGameState(null)} 
     />
 )}
                 </div>

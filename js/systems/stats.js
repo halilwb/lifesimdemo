@@ -47,7 +47,7 @@ const generateRelationships = (family) => {
         // İlişki Ekranındaki Eylemler
 
 const ACTIONS = [
-            { id: 'act_spor', icon: '🏋️', title: 'Spor Salonu', desc: 'Vücut geliştir, sağlığını iyileştir.', cost: { enerji: 30 }, effect: { guc: 3, saglik: 5 }, minAge: 10 },
+            { id: 'act_spor', icon: '🏋️', title: 'Spor Salonu', desc: 'Vücut geliştir, sağlığını iyileştir.', cost: { enerji: 30 }, effect: { guc: 3, saglik: 5 }, minAge: 0, special: 'spor' },
             { id: 'act_kitap', icon: '📚', title: 'Kitap Oku', desc: 'Bilgi ve zeka kazan.', cost: { enerji: 15 }, effect: { zeka: 3, okul: 2 }, minAge: 6 },
             { id: 'act_uyu', icon: '😴', title: 'Uzun Uyku Çek', desc: 'Enerjini ve sağlığını tazele.', cost: {}, effect: { enerji: 40, saglik: 5 }, minAge: 0 },
             { id: 'act_parti', icon: '🎉', title: 'Partiye Git', desc: 'Eğlen, insanlarla tanış ama sağlığın etkilenebilir.', cost: { enerji: 25, para: 100 }, effect: { mutluluk: 15, karizma: 2, saglik: -5 }, minAge: 16 },
