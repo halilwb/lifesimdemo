@@ -51,8 +51,8 @@ const ACTIONS = [
             { id: 'act_kitap', icon: '📚', title: 'Kitap Oku', desc: 'Bilgi ve zeka kazan.', cost: { enerji: 15 }, effect: { zeka: 3, okul: 2 }, minAge: 6 },
             { id: 'act_uyu', icon: '😴', title: 'Uzun Uyku Çek', desc: 'Enerjini ve sağlığını tazele.', cost: {}, effect: { enerji: 40, saglik: 5 }, minAge: 0 },
             { id: 'act_parti', icon: '🎉', title: 'Partiye Git', desc: 'Eğlen, insanlarla tanış ama sağlığın etkilenebilir.', cost: { enerji: 25, para: 100 }, effect: { mutluluk: 15, karizma: 2, saglik: -5 }, minAge: 16 },
-            { id: 'act_doktor', icon: '🩺', title: 'Doktora Git', desc: 'Check-up yaptır, sağlığını düzelt.', cost: { para: 250 }, effect: { saglik: 20 }, minAge: 0 }
-			special: 'doktor',
+            { id: 'act_doktor', icon: '🩺', title: 'Doktora Git', desc: 'Check-up yaptır, sağlığını düzelt.', cost: { para: 250 }, effect: { saglik: 20 }, minAge: 0 
+			special: 'doktor'},
             { id: 'act_ekstra_is', icon: '💼', title: 'Ekstra Mesai', desc: 'Fazladan çalışıp para kazan.', cost: { enerji: 40 }, effect: { para: 400, tecrube: 5 }, minAge: 18 },
             {
                 id: 'act_kumar', icon: '🎰', title: 'Kumarhaneye Git', desc: '21 oyna, şansını dene.', cost: { enerji: 10 }, minAge: 18,
