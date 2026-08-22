@@ -669,6 +669,15 @@ const withMsg = (effectObj, msgs) => (s) => ({
 
 const INTERACTIVE_RANDOM_EVENTS = [
 {
+    id: 'rnd_cigarettes', minAge: 14, maxAge: 18,
+    emoji: '🚬', title: "Kötü Arkadaş",
+    description: "Okul arkadaşların kalabalık bir ortamda sigara teklif etti.",
+    choices: [
+        { text: "Kabul Et", nextId: 'hub', step: 0, icon: '😮‍💨', effect: withMsg({ karizma: 10, saglik: -10 }, "Ortama ayak uydurup sempati topladın ama sağlığın zarar gördü.") },
+        { text: "Reddet", nextId: 'hub', step: 0, icon: '🚭', effect: withMsg({ zeka: 10, karizma: -10 }, "Sağlığını önemseyip geri çevirdin ama arkadaşlarına alay konusu oldun.") }
+    ]
+	},
+	{
     id: 'rnd_okul_gezisi', minAge: 7, maxAge: 15,
     emoji: '🏫', title: "Okul Gezisi!",
     description: "Okulunda bir gezi planlandı. Arkadaşlarınla beraber şehir dışına gideceksiniz. Ücreti 400 lira.",
