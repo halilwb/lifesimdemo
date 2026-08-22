@@ -370,16 +370,16 @@ const DoctorMinigame = ({ onWin, onLose, onClose }) => {
         </div>
     );
 };
-const GymMinigame = ({ onWin, onLose, onClose }) => {
+const BoxingMinigame = ({ onWin, onLose, onClose }) => {
     const [status, setStatus] = useState('playing'); // 'playing', 'won', 'lost'
     const [clicks, setClicks] = useState(0);
-    const [timeLeft, setTimeLeft] = useState(5.0); // 5 saniye süre
+    const [timeLeft, setTimeLeft] = useState(5.0);
 
     const clicksRef = useRef(0);
     const timeLeftRef = useRef(5.0);
     const timerRef = useRef(null);
 
-    const TARGET_CLICKS = 25; // Kazanmak için gereken tıklama sayısı
+    const TARGET_CLICKS = 30; // Kazanmak için gereken yumruk sayısı
 
     useEffect(() => {
         timerRef.current = setInterval(() => {
@@ -402,12 +402,11 @@ const GymMinigame = ({ onWin, onLose, onClose }) => {
         return () => clearInterval(timerRef.current);
     }, [onWin, onLose]);
 
-    const handleLift = () => {
+    const handlePunch = () => {
         if (status !== 'playing') return;
         clicksRef.current += 1;
         setClicks(clicksRef.current);
         
-        // Eğer süre bitmeden hedefe ulaşıldıysa hemen kazan
         if (clicksRef.current >= TARGET_CLICKS) {
             clearInterval(timerRef.current);
             setStatus('won');
@@ -420,47 +419,57 @@ const GymMinigame = ({ onWin, onLose, onClose }) => {
     return (
         <div className="stats-overlay" style={{ zIndex: 50 }}>
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-600">
-                    🏋️ Ağırlık Kaldırma Antrenmanı
+                <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-500">
+                    🥊 Boks Antrenmanı
                 </h2>
                 <button onClick={onClose} className="text-slate-400 text-lg font-black px-2">✕</button>
             </div>
 
-            <div className="flex flex-col items-center gap-5 mt-2">
-                <div className="text-6xl mb-1 transition-transform active:scale-110">
-                    {status === 'playing' ? '🏋️‍♂️' : status === 'won' ? '🏆' : '🥵'}
+            <div className="flex flex-col items-center gap-5 mt-2 w-full px-2">
+                {/* Görsel Geribildirim Alanı (Parlayan ve Titreyen Eldiven) */}
+                <div className="relative w-32 h-32 flex items-center justify-center">
+                    <div className={`absolute inset-0 bg-red-500 rounded-full blur-xl opacity-20 ${status === 'playing' ? 'animate-pulse' : ''}`}></div>
+                    <div className={`text-7xl z-10 transition-transform ${status === 'playing' && clicks % 2 === 0 ? 'scale-110 -rotate-12' : status === 'playing' ? 'scale-110 rotate-12' : ''}`}>
+                        {status === 'playing' ? '🥊' : status === 'won' ? '🏆' : '😵'}
+                    </div>
                 </div>
                 
-                <div className="text-xs font-bold text-slate-600 text-center">
-                    {status === 'playing' ? 'Barı kaldırmak için butonuna olabildiğince hızlı seri şekilde bas!' : ''}
+                <div className="text-xs font-bold text-slate-500 text-center px-4">
+                    {status === 'playing' ? 'Kum torbasını parçalamak için butona seri şekilde yumruk at!' : ''}
                 </div>
 
-                <div className="text-sm font-black text-slate-700">
-                    Süre: <span className="text-orange-500">{timeLeft}s</span> | Tıklama: {clicks}/{TARGET_CLICKS}
-                </div>
-
-                {/* Dolum Barı */}
-                <div className="w-full bg-slate-200 rounded-full h-6 overflow-hidden border border-slate-300 shadow-inner">
-                    <div 
-                        className="h-full bg-gradient-to-r from-orange-400 to-amber-500 transition-all duration-75"
-                        style={{ width: `${progressPercent}%` }}
-                    ></div>
+                {/* Şık İlerleme Barı */}
+                <div className="w-full relative">
+                    <div className="flex justify-between text-[10px] font-black text-slate-400 mb-1 px-1">
+                        <span>SÜRE: <span className={timeLeft <= 2 ? 'text-red-500 animate-pulse' : 'text-slate-600'}>{timeLeft}s</span></span>
+                        <span>{clicks} / {TARGET_CLICKS} YUMRUK</span>
+                    </div>
+                    <div className="w-full bg-slate-800 rounded-2xl h-6 overflow-hidden border-[3px] border-slate-900 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]">
+                        <div 
+                            className="h-full bg-gradient-to-r from-red-600 via-orange-500 to-yellow-400 transition-all duration-75 relative"
+                            style={{ width: `${progressPercent}%` }}
+                        >
+                            {/* Çizgili desen efekti */}
+                            <div className="absolute top-0 right-0 bottom-0 left-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBMNDAgMEgweiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjYSkiLz48L3N2Zz4=')] opacity-30"></div>
+                        </div>
+                    </div>
                 </div>
                 
                 {status === 'playing' ? (
+                    /* 3D Görünümlü Arcade Buton */
                     <button 
-                        onPointerDown={handleLift}
-                        className="w-full mt-2 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 active:scale-95 text-white font-black py-5 rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 touch-none select-none"
+                        onPointerDown={handlePunch}
+                        className="w-full mt-4 bg-gradient-to-b from-red-500 to-red-700 hover:from-red-400 hover:to-red-600 active:from-red-600 active:to-red-800 active:scale-95 text-white font-black py-6 rounded-2xl shadow-[0_8px_0_rgb(153,27,27),0_15px_20px_rgba(0,0,0,0.4)] transition-all flex flex-col items-center justify-center gap-1 touch-none select-none border border-red-400/30"
+                        style={{ transform: clicks % 2 === 0 ? 'translateX(1px)' : 'translateX(-1px)' }}
                     >
-                        <span className="text-xl">🔥</span>
-                        <span className="text-sm">SERİ BİR ŞEKİLDE BAS!</span>
+                        <span className="text-2xl drop-shadow-md">💥 YUMRUK AT!</span>
                     </button>
                 ) : (
-                    <div className="w-full text-center mt-2">
-                        <div className={`text-sm font-black p-4 rounded-xl mb-4 ${status === 'won' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
-                            {status === 'won' ? '💪 Harika set! Kasların gelişti ve gücün arttı.' : '💤 Yeterince hızlı olamadın, ağırlık altında ezildin ve yoruldun.'}
+                    <div className="w-full text-center mt-4">
+                        <div className={`text-sm font-black p-4 rounded-xl mb-4 shadow-sm border ${status === 'won' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-red-50 text-red-600 border-red-200'}`}>
+                            {status === 'won' ? '🔥 İnanılmaz bir performans! Gücüne güç kattın.' : '🤕 Kolların koptu... Kum torbası seni yendi.'}
                         </div>
-                        <button onClick={onClose} className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-black py-3 rounded-xl shadow-md active:scale-95">
+                        <button onClick={onClose} className="w-full bg-slate-800 hover:bg-slate-900 text-white font-black py-4 rounded-xl shadow-md active:scale-95 transition-transform">
                             Devam Et
                         </button>
                     </div>
@@ -527,23 +536,23 @@ const handleThiefLose = () => {
     showToast(`🚔 Polis bastı! ${ceza} adım hapis cezası aldın.`, 'text-red-500');
 };
 	
-	const [gymGameState, setGymGameState] = useState(null);
+	const [boxingGameState, setBoxingGameState] = useState(null);
 
-const handleGymWin = () => {
+const handleBoxingWin = () => {
     let next = { ...stats };
-    next.guc += 5;
-    next.saglik += 8;
+    next.guc += 6; // Boks spordan biraz daha fazla güç versin
+    next.saglik += 5;
     next.mutluluk += 10;
     setStats(clampAll(next));
-    showToast('💪 Süper antrenman! Gücün ve sağlığın arttı.', 'text-emerald-600');
+    showToast('🥊 Şampiyon gibi hissettiriyor! Gücün arttı.', 'text-emerald-600');
 };
 
-const handleGymLose = () => {
+const handleBoxingLose = () => {
     let next = { ...stats };
     next.enerji -= 15;
     next.mutluluk -= 5;
     setStats(clampAll(next));
-    showToast('🥵 Antrenmanda tükendin, enerjin düştü.', 'text-red-500');
+    showToast('🤕 Kum torbası sana acımadı. Enerjin düştü.', 'text-red-500');
 };
             const [gameState, setGameState] = useState('menu'); // 'menu' veya 'playing'
             const [availablePool, setAvailablePool] = useState([...TURKEY_CITIES]); // Seçilebilir havuz
@@ -1012,6 +1021,18 @@ const handleGymLose = () => {
                     setThiefGameState({ phase: 'playing' });
                     return;
                 }
+				
+				if (action.special === 'boks') {
+    let next = { ...stats };
+    if (action.cost?.enerji && next.enerji < action.cost.enerji) {
+        showToast('Yeterli enerjin yok.', 'text-red-500');
+        return;
+    }
+    if (action.cost?.enerji) next.enerji -= action.cost.enerji;
+    setStats(clampAll(next));
+    setBoxingGameState({ phase: 'playing' });
+    return;
+}
 				if (action.special === 'doktor') {
     let next = { ...stats };
     if (action.cost?.para && next.para < action.cost.para) {
@@ -1692,11 +1713,11 @@ const handleGymLose = () => {
         onClose={() => setDoctorGameState(null)} 
     />
 )}
-{gymGameState && (
-    <GymMinigame 
-        onWin={handleGymWin} 
-        onLose={handleGymLose} 
-        onClose={() => setGymGameState(null)} 
+{{boxingGameState && (
+    <BoxingMinigame 
+        onWin={handleBoxingWin} 
+        onLose={handleBoxingLose} 
+        onClose={() => setBoxingGameState(null)} 
     />
 )}
                 </div>

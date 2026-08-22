@@ -47,8 +47,7 @@ const generateRelationships = (family) => {
         // İlişki Ekranındaki Eylemler
 
 const ACTIONS = [
-            { id: 'act_spor', icon: '🏋️', title: 'Spor Salonu', desc: 'Vücut geliştir, sağlığını iyileştir.', cost: { enerji: 30 }, effect: { guc: 3, saglik: 5 }, minAge: 0,
-			special: 'spor' },
+            
             { id: 'act_kitap', icon: '📚', title: 'Kitap Oku', desc: 'Bilgi ve zeka kazan.', cost: { enerji: 15 }, effect: { zeka: 3, okul: 2 }, minAge: 6 },
             { id: 'act_uyu', icon: '😴', title: 'Uzun Uyku Çek', desc: 'Enerjini ve sağlığını tazele.', cost: {}, effect: { enerji: 40, saglik: 5 }, minAge: 0 },
             { id: 'act_parti', icon: '🎉', title: 'Partiye Git', desc: 'Eğlen, insanlarla tanış ama sağlığın etkilenebilir.', cost: { enerji: 25, para: 100 }, effect: { mutluluk: 15, karizma: 2, saglik: -5 }, minAge: 16 },
@@ -60,7 +59,11 @@ const ACTIONS = [
                 special: 'kumar'
             },
             { id: 'act_kavga', icon: '🥊', title: 'Kavgaya Gir', desc: 'Sokakta biriyle kapıştın.', cost: { enerji: 20 }, effect: { guc: 2, saglik: -10, karizma: 1 }, minAge: 14 },
-            { id: 'act_meditasyon', icon: '🧘', title: 'Meditasyon Yap', desc: 'Zihnini dinlendir.', cost: { enerji: 10 }, effect: { mutluluk: 10, saglik: 2 }, minAge: 12 },
+            { 
+			id: 'act_boks', icon: '🥊', title: 'Boks Antrenmanı', desc: 'Mini Oyun: Kum torbasına seri yumruklar atarak güç kazan.', cost: { enerji: 30 }, minAge: 10,
+			special: 'boks' 
+},
+			{ id: 'act_meditasyon', icon: '🧘', title: 'Meditasyon Yap', desc: 'Zihnini dinlendir.', cost: { enerji: 10 }, effect: { mutluluk: 10, saglik: 2 }, minAge: 12 },
 
             // --- SUÇ SİSTEMİ (Kademeli: 12-17 hafif, 18+ ağır) ---
             {
