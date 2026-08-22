@@ -22,10 +22,140 @@
 // ===================================================
         // 03-app.js — Ana App bileşeni
         // ===================================================
-        const App = () => {
+        const CheatMinigame = ({ onWin, onLose, onClose }) => {
+    const [progress, setProgress] = useState(0);
+    const [teacher, setTeacher] = useState('board'); // 'board', 'suspicious', 'watching'
+    const [status, setStatus] = useState('playing'); // 'playing', 'won', 'lost'
+    
+    const isCheating = useRef(false);
+    const progressVal = useRef(0);
+    const teacherVal = useRef('board');
+    const timeoutRefs = useRef([]);
+
+    const startCheating = () => { isCheating.current = true; };
+    const stopCheating = () => { isCheating.current = false; };
+
+    useEffect(() => {
+        if (status !== 'playing') return;
+
+        const loop = setInterval(() => {
+            if (isCheating.current && teacherVal.current === 'watching') {
+                setStatus('lost');
+                onLose();
+            } else if (isCheating.current && teacherVal.current !== 'watching') {
+                progressVal.current += 1.5;
+                if (progressVal.current >= 100) {
+                    progressVal.current = 100;
+                    setStatus('won');
+                    onWin();
+                }
+                setProgress(progressVal.current);
+            } else if (!isCheating.current && progressVal.current > 0) {
+                progressVal.current = Math.max(0, progressVal.current - 0.2);
+                setProgress(progressVal.current);
+            }
+        }, 50);
+
+        const teacherAI = () => {
+            if (status !== 'playing') return;
+            
+            if (teacherVal.current === 'board') {
+                teacherVal.current = 'suspicious';
+                setTeacher('suspicious');
+                timeoutRefs.current.push(setTimeout(teacherAI, 600 + Math.random() * 800));
+            } else if (teacherVal.current === 'suspicious') {
+                teacherVal.current = 'watching';
+                setTeacher('watching');
+                timeoutRefs.current.push(setTimeout(teacherAI, 1500 + Math.random() * 1500));
+            } else {
+                teacherVal.current = 'board';
+                setTeacher('board');
+                timeoutRefs.current.push(setTimeout(teacherAI, 2000 + Math.random() * 3000));
+            }
+        };
+
+        timeoutRefs.current.push(setTimeout(teacherAI, 2000));
+
+        return () => {
+            clearInterval(loop);
+            timeoutRefs.current.forEach(clearTimeout);
+        };
+    }, [status, onWin, onLose]);
+
+    return (
+        <div className="stats-overlay" style={{ zIndex: 50 }}>
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">
+                    📝 Kopya Çekme Operasyonu
+                </h2>
+                <button onClick={onClose} className="text-slate-400 text-lg font-black px-2">✕</button>
+            </div>
+
+            <div className="flex flex-col items-center gap-6 mt-4">
+                <div className="text-7xl transition-transform">
+                    {teacher === 'board' ? '👨‍🏫📝' : teacher === 'suspicious' ? '👨‍🏫👀' : '👨‍🏫😡'}
+                </div>
+                
+                <div className="text-sm font-bold text-slate-600">
+                    {teacher === 'board' ? 'Hoca tahtaya yazıyor. Güvendesin.' : 
+                     teacher === 'suspicious' ? 'Hoca şüphelendi... Kapat kopyayı!' : 
+                     'HOCA BAKIYOR!'}
+                </div>
+
+                <div className="w-full bg-slate-200 rounded-full h-6 overflow-hidden border border-slate-300">
+                    <div 
+                        className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 transition-all duration-75"
+                        style={{ width: `${progress}%` }}
+                    ></div>
+                </div>
+                
+                {status === 'playing' ? (
+                    <button 
+                        onPointerDown={startCheating}
+                        onPointerUp={stopCheating}
+                        onPointerLeave={stopCheating}
+                        className="w-full h-24 mt-4 bg-rose-500 hover:bg-rose-600 active:bg-rose-700 active:scale-95 text-white font-black rounded-2xl shadow-lg select-none flex flex-col items-center justify-center touch-none"
+                    >
+                        <span className="text-2xl mb-1">👀</span>
+                        <span>BASILI TUT VE KOPYA ÇEK</span>
+                    </button>
+                ) : (
+                    <div className="w-full text-center mt-4">
+                        <div className={`text-lg font-black p-4 rounded-xl mb-4 ${status === 'won' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
+                            {status === 'won' ? '🎉 Kopyayı başarıyla çektin, notun kurtuldu!' : '📵 YAKALANDIN! Hoca kağıdını aldı.'}
+                        </div>
+                        <button onClick={onClose} className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-black py-3 rounded-xl shadow-md active:scale-95">
+                            Devam Et
+                        </button>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+		const App = () => {
+			const [cheatGameState, setCheatGameState] = useState(null);
+
+const handleCheatWin = () => {
+    let next = { ...stats };
+    next.okul += 15;
+    next.mutluluk -= 2;
+    setStats(clampAll(next));
+    showToast('✅ Kimse fark etmedi, notun kurtuldu!', 'text-emerald-600');
+};
+
+const handleCheatLose = () => {
+    let next = { ...stats };
+    next.okul -= 20;
+    next.mutluluk -= 10;
+    next.aileIliski -= 8;
+    setStats(clampAll(next));
+    showToast('📵 Öğretmen gördü, kağıdın alındı.', 'text-red-500');
+};
             const [gameState, setGameState] = useState('menu'); // 'menu' veya 'playing'
             const [availablePool, setAvailablePool] = useState([...TURKEY_CITIES]); // Seçilebilir havuz
             const [currentChoicesCities, setCurrentChoicesCities] = useState([]); // Ekranda gösterilen 3 şehir
+			const { useState, useEffect, useRef } = React;
             
             // Kilidi açılmış şehirler ve en yüksek yaş durumları
             const [cityProgress, setCityProgress] = useState({}); 
@@ -502,6 +632,13 @@
                 setStats(next);
                 showToast(resultMsg || `${action.title} tamamlandı!`, 'text-emerald-600');
             };
+			if (action.special === 'kopya') {
+    let next = { ...stats };
+    if (action.cost?.enerji) next.enerji -= action.cost.enerji;
+    setStats(clampAll(next));
+    setCheatGameState({ phase: 'playing' });
+    return;
+};
 
             // --- İLİŞKİLER TAB: Kişiyle Etkileşim ---
             const handleRelationshipAction = (relId, relAction) => {
@@ -1106,6 +1243,15 @@
                                 </div>
                             )}
                         </div>
+                    )}
+					
+					{/* Kopya Çekme Minigame Modal */}
+                    {cheatGameState && (
+                        <CheatMinigame 
+                            onWin={handleCheatWin} 
+                            onLose={handleCheatLose} 
+                            onClose={() => setCheatGameState(null)} 
+                        />
                     )}
                 </div>
             );

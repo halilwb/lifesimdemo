@@ -76,14 +76,9 @@ const ACTIONS = [
             {
                 id: 'crime_kopya', icon: '📝', title: 'Sınavda Kopya Çek', desc: 'Riskli ama okul notunu kurtarabilir.',
                 cost: { enerji: 10 }, minAge: 12, maxAge: 17,
-                effect: (s) => {
-                    const caught = Math.random() < Math.max(0.05, 0.3 - s.zeka / 300);
-                    if (caught) {
-                        return { effect: { okul: -20, mutluluk: -10, aileIliski: -8 }, msg: '📵 Öğretmen gördü, kağıdın alındı.' };
-                    }
-                    return { effect: { okul: 15, mutluluk: -2 }, msg: '✅ Kimse fark etmedi, notun kurtuldu.' };
-                }
-            },
+				special: 'kopya'
+			
+			},
             {
                 id: 'crime_hirsizlik', icon: '🕵️', title: 'Hırsızlık Yap', desc: 'Ağır suç. Yakalanırsan hapis riski yüksek.',
                 cost: { enerji: 40 }, minAge: 18,
