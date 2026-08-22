@@ -1017,7 +1017,9 @@ const handleGymLose = () => {
     if (action.cost?.para && next.para < action.cost.para) {
         showToast('Yeterli paran yok.', 'text-red-500');
         return;
-    }
+    
+ }
+
 	if (action.special === 'spor') {
     let next = { ...stats };
     if (action.cost?.enerji && next.enerji < action.cost.enerji) {
