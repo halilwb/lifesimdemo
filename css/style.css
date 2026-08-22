@@ -1,175 +1,231 @@
-        body {
-            font-family: 'Nunito', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            min-height: 100dvh;
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            color: #334155;
-            overflow: hidden;
-        }
+/* css/style.css */
 
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
+/* 1. ANA ARKA PLAN & BODY */
+body {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    /* Derin Gece & Siber Uzay Gradienti */
+    background: linear-gradient(135deg, #13151a 0%, #1e1b4b 100%);
+    color: #e2e8f0; /* Açık Gri/Beyaz metin */
+    overflow: hidden;
+}
 
-        .app-container {
-            width: 100%;
-            height: 100dvh;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
+/* Scrollbar Tasarımı (Koyu temaya uygun) */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 255, 194, 0.4); border-radius: 10px; } /* Mint scrollbar */
 
-        @media (min-width: 640px) {
-            .app-container {
-                width: 420px;
-                height: 850px;
-                max-height: 95vh;
-                border-radius: 2.5rem;
-                border: 8px solid #ffffff;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0,0,0,0.05);
-            }
-        }
+/* 2. ANA UYGULAMA KONTEYNERİ */
+.app-container {
+    width: 100%;
+    height: 100dvh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    /* Cam efekti (Dark Glassmorphism) */
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.6) 0%, rgba(2, 6, 23, 0.8) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
 
-        .bg-pattern {
-            position: absolute;
-            inset: 0;
-            opacity: 0.4;
-            background-image: radial-gradient(#ff758c 1.5px, transparent 1.5px), radial-gradient(#ff758c 1.5px, transparent 1.5px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
-            pointer-events: none;
-            z-index: 0;
-        }
+@media (min-width: 640px) {
+    .app-container {
+        width: 420px;
+        height: 850px;
+        max-height: 95vh;
+        border-radius: 2.5rem;
+        /* Dış çerçeve rengi yumuşatıldı */
+        border: 4px solid rgba(255, 255, 255, 0.1); 
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+}
 
-        .card-perspective { perspective: 1000px; }
+/* 3. ARKA PLAN DESENİ (PATTERN) */
+.bg-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.05; /* Çok hafif bir doku */
+    /* İnce çizgiler veya noktalar şeklinde beyaz/mint bir doku */
+    background-image: radial-gradient(rgba(0, 255, 194, 0.4) 1.5px, transparent 1.5px), radial-gradient(rgba(0, 255, 194, 0.4) 1.5px, transparent 1.5px);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+    pointer-events: none;
+    z-index: 0;
+}
 
-        .main-card {
-            width: 100%;
-            max-width: 280px;
-            aspect-ratio: 2 / 2.8;
-            background: #ffffff;
-            border-radius: 24px;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08), inset 0 0 0 2px rgba(255,255,255,0.5);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            text-align: center;
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, border-color 0.3s;
-            transform-style: preserve-3d;
-            margin: auto;
-            border: 4px dashed transparent;
-        }
+/* 4. KART VE ANİMASYONLAR (MAIN CARD) */
+.card-perspective { perspective: 1000px; }
 
-        .main-card.drop-hover {
-            transform: scale(1.05);
-            border-color: #4ade80;
-            box-shadow: 0 25px 50px rgba(74, 222, 128, 0.3), 0 0 30px rgba(74, 222, 128, 0.2);
-            background: #f0fdf4;
-        }
+.main-card {
+    width: 100%;
+    max-width: 280px;
+    aspect-ratio: 2 / 2.8;
+    /* Koyu Cam (Slate/Navy) Kart Arka Planı */
+    background: rgba(30, 41, 59, 0.7);
+    border-radius: 24px;
+    position: relative;
+    /* Fosforlu Turkuaz (Mint) ince iç gölge ve koyu dış gölge */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(0, 255, 194, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, border-color 0.3s;
+    transform-style: preserve-3d;
+    margin: auto;
+    border: 4px dashed transparent;
+}
 
-        .card-idle { transform: scale(1) rotateY(0deg); opacity: 1; }
-        .card-flip-out { transform: scale(0.9) rotateY(-90deg) translateY(-20px); opacity: 0; }
-        .card-flip-in { transform: scale(0.9) rotateY(90deg) translateY(20px); opacity: 0; }
+/* Seçenek kartı üstüne sürüklendiğindeki parlama (Drop Hover) */
+.main-card.drop-hover {
+    transform: scale(1.05);
+    border-color: #00FFC2; /* Carbon Mint çerçeve */
+    box-shadow: 0 25px 50px rgba(0, 255, 194, 0.2), 0 0 30px rgba(0, 255, 194, 0.1);
+    background: rgba(15, 23, 42, 0.9);
+}
 
-        /* Seçenek Kartları (Yelpaze) */
-        .fan-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            width: 100%;
-            height: 180px;
-            position: relative;
-            padding-bottom: 2rem;
-        }
+.card-idle { transform: scale(1) rotateY(0deg); opacity: 1; }
+.card-flip-out { transform: scale(0.9) rotateY(-90deg) translateY(-20px); opacity: 0; }
+.card-flip-in { transform: scale(0.9) rotateY(90deg) translateY(20px); opacity: 0; }
 
-        .choice-draggable-card {
-            width: 95px;
-            aspect-ratio: 2 / 2.8;
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-            color: #475569;
-            cursor: grab;
-            transform-origin: bottom center;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: none; 
-        }
-        
-        .choice-draggable-card:active { cursor: grabbing; }
+/* 5. SEÇENEK KARTLARI (DRAGGABLE CARDS) */
+.fan-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    height: 180px;
+    position: relative;
+    padding-bottom: 2rem;
+}
 
-        .choice-draggable-card.dragging {
-            box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 0 0 2px #ff758c;
-            opacity: 0.95;
-            background: #fff0f2;
-        }
+.choice-draggable-card {
+    width: 95px;
+    aspect-ratio: 2 / 2.8;
+    /* Koyu kartlar */
+    background: #1e293b;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    color: #cbd5e1; /* Metin rengini açtık */
+    cursor: grab;
+    transform-origin: bottom center;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none; 
+}
 
-        .choice-draggable-card:disabled {
-            opacity: 0.5;
-            filter: grayscale(100%);
-            border-color: #cbd5e1;
-            cursor: not-allowed;
-            touch-action: auto;
-        }
+.choice-draggable-card:active { cursor: grabbing; }
 
-        /* Dark Mode */
-        body.dark-theme { background: linear-gradient(135deg, #1e1e2f 0%, #151520 100%); color: #f8fafc; }
-        body.dark-theme .app-container { background: linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.4) 100%); border-color: #334155; }
-        body.dark-theme .main-card, body.dark-theme .choice-draggable-card { background: #1e293b; border-color: #475569; box-shadow: 0 10px 25px rgba(0,0,0,0.4); color: #f1f5f9; }
-        body.dark-theme .choice-draggable-card span.text-slate-700 { color: #e2e8f0; }
-        body.dark-theme .choice-draggable-card.dragging { background: #334155; box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 0 2px #ff758c; }
-        body.dark-theme .main-card p.text-slate-600 { color: #cbd5e1; }
-        body.dark-theme .bg-white\/50 { background-color: rgba(30, 41, 59, 0.7); border-color: rgba(255, 255, 255, 0.15); color: #f1f5f9; }
-        body.dark-theme .drop-hover { background: #064e3b; border-color: #4ade80; }
-        
-        /* Bottom Nav */
-        .bottom-nav {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 60px;
-            background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255,255,255,0.5); display: flex;
-            justify-content: space-around; align-items: center; z-index: 40;
-            border-bottom-left-radius: 2.5rem; border-bottom-right-radius: 2.5rem;
-        }
-        body.dark-theme .bottom-nav { background: rgba(30,41,59,0.8); border-top-color: #475569; }
-        .nav-btn {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            width: 19%; height: 80%; border-radius: 12px; font-weight: 800; font-size: 8px;
-            color: #64748b; transition: all 0.2s;
-        }
-        .nav-btn.active { color: #ff758c; background: rgba(255,117,140,0.1); }
-        body.dark-theme .nav-btn.active { color: #fb7185; background: rgba(251,113,133,0.15); }
-        .nav-btn i { font-size: 13px; margin-bottom: 2px; }
+/* Kart Sürüklenirken */
+.choice-draggable-card.dragging {
+    /* Neon Pembe/Kırmızı vurgusu (aksiyon hissi için) veya Mint yapılabilir */
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 0 2px #00FFC2;
+    opacity: 0.95;
+    background: #0f172a;
+}
 
-        /* Stats Overlay */
-        .stats-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: calc(100% - 60px);
-            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); z-index: 35;
-            display: flex; flex-direction: column; padding: 2rem 1.5rem; overflow-y: auto;
-            animation: slideUp 0.3s forwards;
-        }
-        body.dark-theme .stats-overlay { background: rgba(15,23,42,0.95); color: #f1f5f9; }
-        @keyframes slideUp { from { transform: translateY(10%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .stat-bar-bg { width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden; margin-top: 4px; }
-        body.dark-theme .stat-bar-bg { background: #334155; }
-        .stat-bar-fill { height: 100%; transition: width 0.5s ease-out; }
-    
+.choice-draggable-card:disabled {
+    opacity: 0.4;
+    filter: grayscale(100%);
+    border-color: #334155;
+    cursor: not-allowed;
+    touch-action: auto;
+}
+
+/* 6. ALT MENÜ (BOTTOM NAV) */
+.bottom-nav {
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 65px; /* Biraz büyüttüm */
+    /* Koyu Cam Menü */
+    background: rgba(15, 23, 42, 0.85); 
+    backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08); 
+    display: flex;
+    justify-content: space-around; 
+    align-items: center; 
+    z-index: 40;
+    border-bottom-left-radius: 2.5rem; 
+    border-bottom-right-radius: 2.5rem;
+}
+
+.nav-btn {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    width: 19%; 
+    height: 80%; 
+    border-radius: 12px; 
+    font-weight: 800; 
+    font-size: 9px;
+    color: #64748b; /* Pasif gri */
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Menü Butonu Aktif Olduğunda (Neon Glow) */
+.nav-btn.active { 
+    color: #00FFC2; /* Mint */
+    background: rgba(0, 255, 194, 0.1); 
+    box-shadow: 0 4px 12px rgba(0, 255, 194, 0.1);
+    transform: translateY(-2px);
+}
+
+.nav-btn i { font-size: 15px; margin-bottom: 2px; }
+
+/* 7. EKRANI KAPLAYAN OVERLAYLER (Stats, Store vb.) */
+.stats-overlay {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: calc(100% - 65px);
+    /* Koyu Cam Overlay */
+    background: rgba(15, 23, 42, 0.95); 
+    backdrop-filter: blur(15px); 
+    z-index: 35;
+    display: flex; 
+    flex-direction: column; 
+    padding: 2rem 1.5rem; 
+    overflow-y: auto;
+    animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    color: #f1f5f9;
+}
+
+@keyframes slideUp { 
+    from { transform: translateY(10%); opacity: 0; } 
+    to { transform: translateY(0); opacity: 1; } 
+}
+
+/* İlerleme Barları (Stats vb. içinde) */
+.stat-bar-bg { 
+    width: 100%; 
+    height: 12px; 
+    background: #334155; /* Koyu Gri Arka plan */
+    border-radius: 6px; 
+    overflow: hidden; 
+    margin-top: 4px; 
+}
+
+.stat-bar-fill { height: 100%; transition: width 0.5s ease-out; }
+
+/* Not: Artık "body.dark-theme" yazmamıza gerek yok çünkü oyun DOĞRUDAN dark/neon tema oldu. */
