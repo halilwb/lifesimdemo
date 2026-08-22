@@ -1,6 +1,52 @@
 // events/random.js — Rastgele (etkileşimli) olaylar ve sonuç metni motoru
 const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
+const selectRandomEvent = (events, history = []) => {
+    if (!events.length) return null;
+
+    const recent = history.slice(-3);
+
+    const weightedEvents = events.map(event => {
+        let weight = 1;
+
+        const index = recent.lastIndexOf(event.id);
+
+        if (index !== -1) {
+            const distance = recent.length - index;
+
+            if (distance === 1) {
+                weight = 0.05;
+            } else if (distance === 2) {
+                weight = 0.25;
+            } else if (distance === 3) {
+                weight = 0.50;
+            }
+        }
+
+        return {
+            event,
+            weight
+        };
+    });
+
+    const totalWeight = weightedEvents.reduce(
+        (sum, item) => sum + item.weight,
+        0
+    );
+
+    let random = Math.random() * totalWeight;
+
+    for (const item of weightedEvents) {
+        random -= item.weight;
+
+        if (random <= 0) {
+            return item.event;
+        }
+    }
+
+    return weightedEvents[weightedEvents.length - 1].event;
+};
+
         // Sabit efekte, o eyleme özel (tekil ya da havuzdan rastgele seçilen) bir mesaj bağlar.
 
 const withMsg = (effectObj, msgs) => (s) => ({

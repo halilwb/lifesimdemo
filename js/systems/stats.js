@@ -15,7 +15,9 @@ const INITIAL_STATS = {
             sans: 0,
             barinma: 'aile',
             saglikCarpani: 1.0,
-            hapisSayaci: 0
+            hapisSayaci: 0,
+			
+			randomEventHistory: []
         };
 
 const generateFamily = () => {
