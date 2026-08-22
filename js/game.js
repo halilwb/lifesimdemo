@@ -195,6 +195,122 @@
             }
         }
     };
+	const DoctorMinigame = ({ onWin, onLose, onClose }) => {
+    const [status, setStatus] = useState('playing'); // 'playing', 'won', 'lost'
+    const [sliderPos, setSliderPos] = useState(50);
+    const [targetZone, setTargetZone] = useState({ start: 35, width: 30 });
+    const [stability, setStability] = useState(100);
+
+    const posRef = useRef(50);
+    const dirRef = useRef(1);
+    const speedRef = useRef(3);
+
+    // Hedef bölgeyi rastgele konumlandır
+    const randomizeTarget = () => {
+        const newWidth = Math.max(20, 35 - Math.floor(Math.random() * 10));
+        const newStart = Math.random() * (100 - newWidth);
+        setTargetZone({ start: newStart, width: newWidth });
+    };
+
+    useEffect(() => {
+        randomizeTarget();
+    }, []);
+
+    // Slider hareketi
+    useEffect(() => {
+        if (status !== 'playing') return;
+        const interval = setInterval(() => {
+            posRef.current += dirRef.current * speedRef.current;
+            if (posRef.current >= 100) {
+                posRef.current = 100;
+                dirRef.current = -1;
+            } else if (posRef.current <= 0) {
+                posRef.current = 0;
+                dirRef.current = 1;
+            }
+            setSliderPos(posRef.current);
+        }, 25);
+        return () => clearInterval(interval);
+    }, [status]);
+
+    // Sabitleme tuşuna basıldığında
+    const handleStabilize = () => {
+        if (status !== 'playing') return;
+
+        const pos = posRef.current;
+        const inZone = pos >= targetZone.start && pos <= (targetZone.start + targetZone.width);
+
+        if (inZone) {
+            setStatus('won');
+            onWin();
+        } else {
+            const newStability = stability - 35;
+            setStability(newStability);
+            if (newStability <= 0) {
+                setStatus('lost');
+                onLose();
+            } else {
+                randomizeTarget();
+                speedRef.current += 1; // Her başarısız denemede biraz daha hızlanır
+            }
+        }
+    };
+
+    return (
+        <div className="stats-overlay" style={{ zIndex: 50 }}>
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-600">
+                    🩺 Sağlık Kontrolü / Muayene
+                </h2>
+                <button onClick={onClose} className="text-slate-400 text-lg font-black px-2">✕</button>
+            </div>
+
+            <div className="flex flex-col items-center gap-5 mt-2">
+                <div className="text-6xl mb-1 animate-pulse">
+                    {status === 'playing' ? '💓' : status === 'won' ? '✨' : '⚠️'}
+                </div>
+                
+                <div className="text-xs font-bold text-slate-600 text-center">
+                    {status === 'playing' ? 'İmleci yeşil alanda durdur ve doktorun tansiyonu ölçmesine yardım et!' : ''}
+                </div>
+
+                {/* Kalp Atış / Slider Barı */}
+                <div className="w-full bg-slate-200 rounded-full h-8 relative overflow-hidden border-2 border-slate-300 shadow-inner">
+                    <div 
+                        className="absolute h-full bg-emerald-400/80 transition-all duration-200"
+                        style={{ left: `${targetZone.start}%`, width: `${targetZone.width}%` }}
+                    ></div>
+                    <div 
+                        className="absolute h-full w-2 bg-rose-500 shadow-md z-10"
+                        style={{ left: `${sliderPos}%`, transform: 'translateX(-50%)' }}
+                    ></div>
+                </div>
+
+                <div className="text-[11px] font-black text-slate-500">
+                    Dayanıklılık: <span className="text-rose-500">{stability}%</span>
+                </div>
+                
+                {status === 'playing' ? (
+                    <button 
+                        onPointerDown={handleStabilize}
+                        className="w-full mt-4 bg-teal-500 hover:bg-teal-600 active:scale-95 text-white font-black py-4 rounded-xl shadow-lg flex items-center justify-center gap-2"
+                    >
+                        <i className="fas fa-hand-holding-medical"></i> SABİTLE / ÖLÇTÜR
+                    </button>
+                ) : (
+                    <div className="w-full text-center mt-4">
+                        <div className={`text-sm font-black p-4 rounded-xl mb-4 ${status === 'won' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
+                            {status === 'won' ? '🎉 Muayene harika geçti! Sağlığın tamamen yenilendi.' : '🤒 Doktor durumunu kritik buldu, iğne yedikçe sağlığın azaldı.'}
+                        </div>
+                        <button onClick={onClose} className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-black py-3 rounded-xl shadow-md active:scale-95">
+                            Devam Et
+                        </button>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
 
     return (
         <div className="stats-overlay" style={{ zIndex: 50 }}>
@@ -253,6 +369,23 @@
     );
 };
 		const App = () => {
+			const [doctorGameState, setDoctorGameState] = useState(null);
+
+const handleDoctorWin = () => {
+    let next = { ...stats };
+    next.saglik = 100; // Sağlığı fulle
+    next.mutluluk += 10;
+    setStats(clampAll(next));
+    showToast('🎉 Doktor kontrolleri temiz çıktı, sağlığın tazelendi!', 'text-emerald-600');
+};
+
+const handleDoctorLose = () => {
+    let next = { ...stats };
+    next.saglik = Math.max(10, next.saglik - 25); // Sağlıktan düşür
+    next.mutluluk -= 15;
+    setStats(clampAll(next));
+    showToast('🤒 Doktor kötü haberler verdi, sağlığın daha da kötüleşti.', 'text-red-500');
+};
 			const [cheatGameState, setCheatGameState] = useState(null);
 
 const handleCheatWin = () => {
@@ -759,6 +892,17 @@ const handleThiefLose = () => {
                     setThiefGameState({ phase: 'playing' });
                     return;
                 }
+				if (action.special === 'doktor') {
+    let next = { ...stats };
+    if (action.cost?.para && next.para < action.cost.para) {
+        showToast('Yeterli paran yok.', 'text-red-500');
+        return;
+    }
+    if (action.cost?.para) next.para -= action.cost.para;
+    setStats(clampAll(next));
+    setDoctorGameState({ phase: 'playing' });
+    return;
+}
 
                 let next = { ...stats };
                 if (action.cost?.enerji) next.enerji -= action.cost.enerji;
@@ -1408,6 +1552,13 @@ const handleThiefLose = () => {
                             onClose={() => setThiefGameState(null)} 
                         />
                     )}
+					{doctorGameState && (
+    <DoctorMinigame 
+        onWin={handleDoctorWin} 
+        onLose={handleDoctorLose} 
+        onClose={() => setDoctorGameState(null)} 
+    />
+)}
                 </div>
             );
         };
