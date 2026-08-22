@@ -1,94 +1,94 @@
-/* css/style.css - DOĞA / AÇIK YEŞİL TEMA */
+/* css/style.css - SAKURA / PEMBE TEMA */
 
-/* 1. ANA ARKA PLAN & BODY */
+/* 1. ANA ARKA PLAN & BODY /
 body {
-    font-family: 'Nunito', sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    min-height: 100dvh;
-    /* Açık Nane ve Krem Gradienti */
-    background: linear-gradient(135deg, #dcfce7 0%, #f8fafc 100%);
-    color: #334155; /* Koyu Gri (Slate) metin */
-    overflow: hidden;
+font-family: 'Nunito', sans-serif;
+margin: 0;
+padding: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+min-height: 100dvh;
+/ Uçuk Pembe ve Gül Rengi Gradienti /
+background: linear-gradient(135deg, #fce7f3 0%, #fff1f2 100%);
+color: #334155; / Koyu Gri metin */
+overflow: hidden;
 }
 
-/* Scrollbar Tasarımı (Açık temaya uygun) */
+/* Scrollbar Tasarımı (Pembe temaya uygun) */
 .custom-scrollbar::-webkit-scrollbar { width: 4px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); border-radius: 10px; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.3); border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(236, 72, 153, 0.3); border-radius: 10px; }
 
-/* 2. ANA UYGULAMA KONTEYNERİ */
+/* 2. ANA UYGULAMA KONTEYNERİ /
 .app-container {
-    width: 100%;
-    height: 100dvh;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    /* Ferah Cam efekti (Light Glassmorphism) */
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(240, 253, 244, 0.7) 100%);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+width: 100%;
+height: 100dvh;
+position: relative;
+overflow: hidden;
+display: flex;
+flex-direction: column;
+/ Ferah Cam efekti (Light Glassmorphism) */
+background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(253, 242, 248, 0.8) 100%);
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
 }
 
 @media (min-width: 640px) {
-    .app-container {
-        width: 420px;
-        height: 850px;
-        max-height: 95vh;
-        border-radius: 2.5rem;
-        border: 6px solid #ffffff; 
-        box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.15), 0 0 0 1px rgba(0,0,0,0.02);
-    }
+.app-container {
+width: 420px;
+height: 850px;
+max-height: 95vh;
+border-radius: 2.5rem;
+border: 6px solid #ffffff;
+box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.15), 0 0 0 1px rgba(0,0,0,0.02);
+}
 }
 
-/* 3. ARKA PLAN DESENİ (PATTERN) */
+/* 3. ARKA PLAN DESENİ (PATTERN) /
 .bg-pattern {
-    position: absolute;
-    inset: 0;
-    opacity: 0.08; /* Hafif zümrüt dokusu */
-    background-image: radial-gradient(#10b981 1.5px, transparent 1.5px), radial-gradient(#10b981 1.5px, transparent 1.5px);
-    background-size: 40px 40px;
-    background-position: 0 0, 20px 20px;
-    pointer-events: none;
-    z-index: 0;
+position: absolute;
+inset: 0;
+opacity: 0.12; / Hafif pembe doku */
+background-image: radial-gradient(#f472b6 1.5px, transparent 1.5px), radial-gradient(#f472b6 1.5px, transparent 1.5px);
+background-size: 40px 40px;
+background-position: 0 0, 20px 20px;
+pointer-events: none;
+z-index: 0;
 }
 
 /* 4. KART VE ANİMASYONLAR (MAIN CARD) */
 .card-perspective { perspective: 1000px; }
 
 .main-card {
-    width: 100%;
-    max-width: 280px;
-    aspect-ratio: 2 / 2.8;
-    /* Beyaz/Krem Cam Kart Arka Planı */
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 24px;
-    position: relative;
-    /* Yumuşak yeşil gölge */
-    box-shadow: 0 20px 40px rgba(16, 185, 129, 0.08), inset 0 0 0 2px rgba(255, 255, 255, 0.8);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    text-align: center;
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, border-color 0.3s;
-    transform-style: preserve-3d;
-    margin: auto;
-    border: 4px dashed transparent;
+width: 100%;
+max-width: 280px;
+aspect-ratio: 2 / 2.8;
+/* Beyaz/Pembe Cam Kart Arka Planı /
+background: rgba(255, 255, 255, 0.9);
+border-radius: 24px;
+position: relative;
+/ Yumuşak pembe gölge */
+box-shadow: 0 20px 40px rgba(236, 72, 153, 0.08), inset 0 0 0 2px rgba(255, 255, 255, 0.8);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 1.5rem;
+text-align: center;
+transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, border-color 0.3s;
+transform-style: preserve-3d;
+margin: auto;
+border: 4px dashed transparent;
 }
 
-/* Seçenek kartı üstüne sürüklendiğindeki parlama (Drop Hover) */
+/* Seçenek kartı üstüne sürüklendiğindeki parlama (Drop Hover) /
 .main-card.drop-hover {
-    transform: scale(1.05);
-    border-color: #10b981; /* Zümrüt çerçeve */
-    box-shadow: 0 25px 50px rgba(16, 185, 129, 0.2), 0 0 30px rgba(16, 185, 129, 0.15);
-    background: #ecfdf5;
+transform: scale(1.05);
+border-color: #ec4899; / Canlı Pembe çerçeve */
+box-shadow: 0 25px 50px rgba(236, 72, 153, 0.25), 0 0 30px rgba(236, 72, 153, 0.15);
+background: #fdf2f8;
 }
 
 .card-idle { transform: scale(1) rotateY(0deg); opacity: 1; }
@@ -97,154 +97,128 @@ body {
 
 /* 5. SEÇENEK KARTLARI (DRAGGABLE CARDS) */
 .fan-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    width: 100%;
-    height: 180px;
-    position: relative;
-    padding-bottom: 2rem;
+display: flex;
+justify-content: center;
+align-items: flex-end;
+width: 100%;
+height: 180px;
+position: relative;
+padding-bottom: 2rem;
 }
 
 .choice-draggable-card {
-    width: 95px;
-    aspect-ratio: 2 / 2.8;
-    background: #ffffff;
-    border: 2px solid #e2e8f0;
-    border-radius: 16px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem;
-    text-align: center;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    color: #475569;
-    cursor: grab;
-    transform-origin: bottom center;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: none; 
+width: 95px;
+aspect-ratio: 2 / 2.8;
+background: #ffffff;
+border: 2px solid #f1f5f9;
+border-radius: 16px;
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 0.5rem;
+text-align: center;
+box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+color: #475569;
+cursor: grab;
+transform-origin: bottom center;
+user-select: none;
+-webkit-tap-highlight-color: transparent;
+touch-action: none;
 }
 
 .choice-draggable-card:active { cursor: grabbing; }
 
 /* Kart Sürüklenirken */
 .choice-draggable-card.dragging {
-    box-shadow: 0 30px 60px rgba(16, 185, 129, 0.2), 0 0 0 2px #10b981;
-    opacity: 0.95;
-    background: #f0fdf4;
+box-shadow: 0 30px 60px rgba(236, 72, 153, 0.2), 0 0 0 2px #ec4899;
+opacity: 0.95;
+background: #fff1f2;
 }
 
 .choice-draggable-card:disabled {
-    opacity: 0.5;
-    filter: grayscale(100%);
-    border-color: #cbd5e1;
-    cursor: not-allowed;
-    touch-action: auto;
+opacity: 0.5;
+filter: grayscale(100%);
+border-color: #cbd5e1;
+cursor: not-allowed;
+touch-action: auto;
 }
 
-/* 6. ALT MENÜ (BOTTOM NAV) */
+/* 6. ALT MENÜ (BOTTOM NAV) /
 .bottom-nav {
-    position: absolute; 
-    bottom: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 65px; 
-    /* Aydınlık Cam Menü */
-    background: rgba(255, 255, 255, 0.85); 
-    backdrop-filter: blur(16px);
-    border-top: 1px solid rgba(255, 255, 255, 0.5); 
-    display: flex;
-    justify-content: space-around; 
-    align-items: center; 
-    z-index: 40;
-    border-bottom-left-radius: 2.5rem; 
-    border-bottom-right-radius: 2.5rem;
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 65px;
+/ Aydınlık Cam Menü */
+background: rgba(255, 255, 255, 0.9);
+backdrop-filter: blur(16px);
+border-top: 1px solid rgba(255, 255, 255, 0.6);
+display: flex;
+justify-content: space-around;
+align-items: center;
+z-index: 40;
+border-bottom-left-radius: 2.5rem;
+border-bottom-right-radius: 2.5rem;
 }
 
 .nav-btn {
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center;
-    width: 19%; 
-    height: 80%; 
-    border-radius: 12px; 
-    font-weight: 800; 
-    font-size: 9px;
-    color: #94a3b8; 
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+width: 19%;
+height: 80%;
+border-radius: 12px;
+font-weight: 800;
+font-size: 9px;
+color: #94a3b8;
+transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Menü Butonu Aktif Olduğunda */
-.nav-btn.active { 
-    color: #059669; /* Koyu Zümrüt Yeşili */
-    background: rgba(16, 185, 129, 0.1); 
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.05);
-    transform: translateY(-2px);
+/* Menü Butonu Aktif Olduğunda /
+.nav-btn.active {
+color: #db2777; / Koyu Pembe */
+background: rgba(236, 72, 153, 0.1);
+box-shadow: 0 4px 12px rgba(236, 72, 153, 0.05);
+transform: translateY(-2px);
 }
 
 .nav-btn i { font-size: 15px; margin-bottom: 2px; }
 
 /* 7. EKRANI KAPLAYAN OVERLAYLER (Stats, Store vb.) */
 .stats-overlay {
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: calc(100% - 65px);
-    background: rgba(255, 255, 255, 0.95); 
-    backdrop-filter: blur(15px); 
-    z-index: 35;
-    display: flex; 
-    flex-direction: column; 
-    padding: 2rem 1.5rem; 
-    overflow-y: auto;
-    animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    color: #334155;
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: calc(100% - 65px);
+background: rgba(255, 255, 255, 0.95);
+backdrop-filter: blur(15px);
+z-index: 35;
+display: flex;
+flex-direction: column;
+padding: 2rem 1.5rem;
+overflow-y: auto;
+animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+color: #334155;
 }
 
-@keyframes slideUp { 
-    from { transform: translateY(10%); opacity: 0; } 
-    to { transform: translateY(0); opacity: 1; } 
+@keyframes slideUp {
+from { transform: translateY(10%); opacity: 0; }
+to { transform: translateY(0); opacity: 1; }
 }
 
 /* İlerleme Barları (Stats vb. içinde) */
-.stat-bar-bg { 
-    width: 100%; 
-    height: 12px; 
-    background: #e2e8f0; 
-    border-radius: 6px; 
-    overflow: hidden; 
-    margin-top: 4px; 
+.stat-bar-bg {
+width: 100%;
+height: 12px;
+background: #f1f5f9;
+border-radius: 6px;
+overflow: hidden;
+margin-top: 4px;
 }
 
 .stat-bar-fill { height: 100%; transition: width 0.5s ease-out; }
-```eof
-
-### 2. Adım: React (Tailwind) Renklerini Güncelleme (`js/game.js`)
-Gönderdiğin kod bloğunda, karanlık mod için yazdığım `bg-slate-900/60` gibi Tailwind class'larını açık, beyaz/yeşil tonlarına (örneğin `bg-white/60`, `from-emerald-500 to-teal-500` vb.) çevirdim. 
-
-Lütfen `js/game.js` dosyasının içindeki **sadece `return (...)`** kısımlarında yer alan (yani HTML benzeri yerlerdeki) kodlarını aşağıdakilerle değiştir:
-
-**(Sadece ilgili Değişen Bölümleri Gösteriyorum - Eskisini Bulup Yerine Yapıştır)**
-
-**1. StatHeader Bileşeni:**
-```jsx
-// 02-helpers.js içindeki StatHeader
-const StatHeader = ({ icon, value, type, suffix = "", colorClass }) => {
-    const isDanger = (type === 'saglik' && value <= 30) || 
-                     (type === 'mutluluk' && value === 0) || 
-                     (type === 'para' && value <= -500) ||
-                     (type === 'aile' && value <= 30);
-    const displayColor = isDanger ? 'text-red-500 animate-pulse' : colorClass;
-
-    return (
-        <div className="flex flex-col items-center relative bg-white/70 backdrop-blur-md px-1.5 sm:px-2.5 py-1 rounded-2xl shadow-sm border border-white/60 text-slate-700">
-            <i className={`fas ${icon} text-[10px] sm:text-base mb-0.5 ${displayColor}`}></i>
-            <span className={`text-[9px] sm:text-xs font-black ${displayColor}`}>{value}{suffix}</span>
-        </div>
-    );
-};
