@@ -1501,7 +1501,7 @@ const handleCheatLose = () => {
             const [gameState, setGameState] = useState('menu'); // 'menu' veya 'playing'
             const [availablePool, setAvailablePool] = useState([...TURKEY_CITIES]); // Seçilebilir havuz
             const [currentChoicesCities, setCurrentChoicesCities] = useState([]); // Ekranda gösterilen 3 şehir
-			const { useState, useEffect, useRef } = React;
+			
             
             // Kilidi açılmış şehirler ve en yüksek yaş durumları
             const [cityProgress, setCityProgress] = useState({}); 
