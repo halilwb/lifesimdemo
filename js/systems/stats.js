@@ -81,16 +81,9 @@ const ACTIONS = [
 			},
             {
                 id: 'crime_hirsizlik', icon: '🕵️', title: 'Hırsızlık Yap', desc: 'Ağır suç. Yakalanırsan hapis riski yüksek.',
-                cost: { enerji: 40 }, minAge: 18,
-                effect: (s) => {
-                    const catchChance = 0.45 - (s.sans / 300) - (s.zeka / 500);
-                    const caught = Math.random() < Math.max(0.1, catchChance);
-                    if (caught) {
-                        const ceza = 3 + Math.floor(Math.random() * 4); // 3-6 adım
-                        return { effect: { hapisSayaci: ceza, mutluluk: -20, karizma: -5, aileIliski: -15 }, msg: `🚔 Polis bastı! ${ceza} adım hapis cezası aldın.` };
-                    }
-                    return { effect: { para: 900, sans: 1, mutluluk: -5 }, msg: '💰 İşi temiz çevirdin, ganimet cepte.' };
-                }
+                cost: { enerji: 40 }, minAge: 1,
+                special: 'hirsizlik'
+				
             },
             {
                 id: 'crime_dolandiricilik', icon: '🎭', title: 'Dolandırıcılık Yap', desc: 'Ağır suç. Karizma yüksekse risk azalır.',

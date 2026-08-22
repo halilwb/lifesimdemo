@@ -60,7 +60,7 @@ const INTERACTIVE_RANDOM_EVENTS = [
 {
     id: 'rnd_merakli', minAge: 10, maxAge: 14,
     emoji: '🧑🏻‍🏫', title: "Ne Gelirse Meraktan",
-    description: "Öğretmenin bahçede hararetli bir telefon konuşması yapıyor. Ne konuştuğunu çok merak ediyorsun ama zil çaldı.",
+    description: "Öğretmenin bahçede hararetli bir telefon konuşması yapıyor. Çok merak ediyorsun ama zil çaldı.",
     choices: [
         { text: "Sınıfa Dön", nextId: 'hub', step: 0, icon: '📖', effect: withMsg({ zeka: 2, mutluluk: 10 }, "Merakını yenip derse koştun. Her şey olağan akışında.") },
         { text: "Gizlice Dinle", nextId: 'hub', step: 0, icon: '🤫', effect: withMsg({ karizma: -2, zeka: -2 }, "Yakalandın ve yüklü bir ödevle cezalandırıldın.") }

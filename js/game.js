@@ -133,6 +133,125 @@
         </div>
     );
 };
+	const ThiefMinigame = ({ onWin, onLose, onClose }) => {
+    const [status, setStatus] = useState('playing'); // 'playing', 'won', 'lost'
+    const [successCount, setSuccessCount] = useState(0);
+    const [strikes, setStrikes] = useState(0);
+    const [cursorPos, setCursorPos] = useState(50);
+    const [safeZone, setSafeZone] = useState({ start: 30, width: 40 });
+
+    const posRef = useRef(50);
+    const dirRef = useRef(1); 
+    const speedRef = useRef(2.5); 
+
+    const randomizeZone = (currentSuccess) => {
+        const newWidth = Math.max(15, 40 - (currentSuccess * 10)); // Her adımda daralır
+        const newStart = Math.random() * (100 - newWidth);
+        setSafeZone({ start: newStart, width: newWidth });
+        speedRef.current = 2.5 + (currentSuccess * 1.5); // Her adımda hızlanır
+    };
+
+    useEffect(() => {
+        randomizeZone(0);
+    }, []);
+
+    useEffect(() => {
+        if (status !== 'playing') return;
+        const interval = setInterval(() => {
+            posRef.current += dirRef.current * speedRef.current;
+            if (posRef.current >= 100) {
+                posRef.current = 100;
+                dirRef.current = -1;
+            } else if (posRef.current <= 0) {
+                posRef.current = 0;
+                dirRef.current = 1;
+            }
+            setCursorPos(posRef.current);
+        }, 30);
+        return () => clearInterval(interval);
+    }, [status, successCount]);
+
+    const handlePick = () => {
+        if (status !== 'playing') return;
+        
+        const pos = posRef.current;
+        const inZone = pos >= safeZone.start && pos <= (safeZone.start + safeZone.width);
+
+        if (inZone) {
+            const newSuccess = successCount + 1;
+            setSuccessCount(newSuccess);
+            if (newSuccess >= 3) {
+                setStatus('won');
+                onWin();
+            } else {
+                randomizeZone(newSuccess);
+            }
+        } else {
+            const newStrikes = strikes + 1;
+            setStrikes(newStrikes);
+            if (newStrikes >= 3) {
+                setStatus('lost');
+                onLose();
+            }
+        }
+    };
+
+    return (
+        <div className="stats-overlay" style={{ zIndex: 50 }}>
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-600 to-slate-900">
+                    🕵️ Kilit Kırma
+                </h2>
+                <button onClick={onClose} className="text-slate-400 text-lg font-black px-2">✕</button>
+            </div>
+
+            <div className="flex flex-col items-center gap-4 mt-2">
+                <div className="flex gap-2 mb-2">
+                    {[0, 1, 2].map(i => (
+                        <div key={i} className="text-3xl transition-all">
+                            {i < successCount ? '🔓' : '🔒'}
+                        </div>
+                    ))}
+                </div>
+                
+                <div className="text-xs font-bold text-slate-500 mb-2">
+                    Hedefi yeşil alanda yakala! Hata Hakkı: <span className="text-red-500">{3 - strikes}</span>
+                </div>
+
+                <div className="w-full bg-slate-800 rounded-full h-8 relative overflow-hidden border-2 border-slate-900 shadow-inner">
+                    {/* Güvenli Alan (Yeşil) */}
+                    <div 
+                        className="absolute h-full bg-emerald-500/80 transition-all duration-300"
+                        style={{ left: `${safeZone.start}%`, width: `${safeZone.width}%` }}
+                    ></div>
+                    {/* Hareketli İmleç */}
+                    <div 
+                        className="absolute h-full w-2 bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] z-10"
+                        style={{ left: `${cursorPos}%`, transform: 'translateX(-50%)' }}
+                    ></div>
+                </div>
+                
+                {status === 'playing' ? (
+                    <button 
+                        onPointerDown={handlePick}
+                        className="w-full mt-6 bg-slate-700 hover:bg-slate-800 active:scale-95 text-white font-black py-4 rounded-xl shadow-lg flex items-center justify-center gap-2"
+                    >
+                        <i className="fas fa-key"></i> ZORLA
+                    </button>
+                ) : (
+                    <div className="w-full text-center mt-6">
+                        <div className={`text-sm font-black p-4 rounded-xl mb-4 ${status === 'won' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
+                            {status === 'won' ? '💰 Kasa açıldı! Paraları cebe indirdin.' : '🚨 ALARM ÇALDI! Polis yolda...'}
+                        </div>
+                        <button onClick={onClose} className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-black py-3 rounded-xl shadow-md active:scale-95">
+                            Devam Et
+                        </button>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
 		const App = () => {
 			const [cheatGameState, setCheatGameState] = useState(null);
 
@@ -151,6 +270,27 @@ const handleCheatLose = () => {
     next.aileIliski -= 8;
     setStats(clampAll(next));
     showToast('📵 Öğretmen gördü, kağıdın alındı.', 'text-red-500');
+};
+const [thiefGameState, setThiefGameState] = useState(null);
+
+const handleThiefWin = () => {
+    let next = { ...stats };
+    next.para += 900;
+    next.sans += 1;
+    next.mutluluk -= 5;
+    setStats(clampAll(next));
+    showToast('💰 İşi temiz çevirdin, ganimet cepte!', 'text-emerald-600');
+};
+
+const handleThiefLose = () => {
+    let next = { ...stats };
+    const ceza = 3 + Math.floor(Math.random() * 4); // 3-6 adım hapis
+    next.hapisSayaci += ceza;
+    next.mutluluk -= 20;
+    next.karizma -= 5;
+    next.aileIliski -= 15;
+    setStats(clampAll(next));
+    showToast(`🚔 Polis bastı! ${ceza} adım hapis cezası aldın.`, 'text-red-500');
 };
             const [gameState, setGameState] = useState('menu'); // 'menu' veya 'playing'
             const [availablePool, setAvailablePool] = useState([...TURKEY_CITIES]); // Seçilebilir havuz
@@ -612,6 +752,13 @@ const handleCheatLose = () => {
     setCheatGameState({ phase: 'playing' });
     return;
 }
+			if (action.special === 'hirsizlik') {
+                    let next = { ...stats };
+                    if (action.cost?.enerji) next.enerji -= action.cost.enerji;
+                    setStats(clampAll(next));
+                    setThiefGameState({ phase: 'playing' });
+                    return;
+                }
 
                 let next = { ...stats };
                 if (action.cost?.enerji) next.enerji -= action.cost.enerji;
@@ -1252,6 +1399,13 @@ const handleCheatLose = () => {
                             onWin={handleCheatWin} 
                             onLose={handleCheatLose} 
                             onClose={() => setCheatGameState(null)} 
+                        />
+                    )}
+					{thiefGameState && (
+                        <ThiefMinigame 
+                            onWin={handleThiefWin} 
+                            onLose={handleThiefLose} 
+                            onClose={() => setThiefGameState(null)} 
                         />
                     )}
                 </div>
