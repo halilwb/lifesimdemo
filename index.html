@@ -1969,7 +1969,6 @@ const handleCheatLose = () => {
                     setStats(clampAll(next));
                     openGambling();
                     return;
-					
                 }
 				if (action.special === 'kopya') {
     let next = { ...stats };
@@ -1978,6 +1977,7 @@ const handleCheatLose = () => {
     setCheatGameState({ phase: 'playing' });
     return;
 }
+
                 let next = { ...stats };
                 if (action.cost?.enerji) next.enerji -= action.cost.enerji;
                 if (action.cost?.para) next.para -= action.cost.para;

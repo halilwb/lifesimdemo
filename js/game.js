@@ -605,6 +605,13 @@ const handleCheatLose = () => {
                     openGambling();
                     return;
                 }
+				if (action.special === 'kopya') {
+    let next = { ...stats };
+    if (action.cost?.enerji) next.enerji -= action.cost.enerji;
+    setStats(clampAll(next));
+    setCheatGameState({ phase: 'playing' });
+    return;
+}
 
                 let next = { ...stats };
                 if (action.cost?.enerji) next.enerji -= action.cost.enerji;
@@ -632,13 +639,7 @@ const handleCheatLose = () => {
                 setStats(next);
                 showToast(resultMsg || `${action.title} tamamlandı!`, 'text-emerald-600');
             };
-			if (action.special === 'kopya') {
-    let next = { ...stats };
-    if (action.cost?.enerji) next.enerji -= action.cost.enerji;
-    setStats(clampAll(next));
-    setCheatGameState({ phase: 'playing' });
-    return;
-};
+			
 
             // --- İLİŞKİLER TAB: Kişiyle Etkileşim ---
             const handleRelationshipAction = (relId, relAction) => {
