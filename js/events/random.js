@@ -58,6 +58,25 @@ const withMsg = (effectObj, msgs) => (s) => ({
 
 const INTERACTIVE_RANDOM_EVENTS = [
 {
+    id: 'rnd_merakli', minAge: 10, maxAge: 14,
+    emoji: '🧑🏻‍🏫', title: "Ne Gelirse Meraktan",
+    description: "Öğretmenin bahçede hararetli bir telefon konuşması yapıyor. Ne konuştuğunu çok merak ediyorsun ama zil çaldı.",
+    choices: [
+        { text: "Sınıfa Dön", nextId: 'hub', step: 0, icon: '📖', effect: withMsg({ zeka: 2, mutluluk: 10 }, "Merakını yenip derse koştun. Her şey olağan akışında.") },
+        { text: "Gizlice Dinle", nextId: 'hub', step: 0, icon: '🤫', effect: withMsg({ karizma: -2, zeka: -2 }, "Yakalandın ve yüklü bir ödevle cezalandırıldın.") }
+    ]
+	},
+	{
+    id: 'rnd_toy', minAge: 1, maxAge: 4,
+    emoji: '🪀', title: "Oyuncak Krizi",
+    description: "Komşunun bebeğinin büyüleyici bir oyuncağı var. Sende aynısı olmadığı için çok üzgünsün.",
+    choices: [
+        { text: "Ağla ve İste", nextId: 'hub', step: 0, icon: '😭', effect: withMsg({ karizma: -2, mutluluk: 10 }, "Oyuncağı eve götürdünüz. Ailen çok mahcup.") },
+        { text: "Usulca Vazgeç", nextId: 'hub', step: 0, icon: '😔', effect: withMsg({ mutluluk: -10 }, "Oyuncakla vedalaşmak zorunda kaldığın için üzgünsün.") },
+        { text: "Ailenden Aynısını İste", nextId: 'hub', step: 0, icon: '👪', effect: withMsg({ para: -20, mutluluk: 10 }, "Ebeveynlerin sana oyuncaktan aldı. Karizmayı çizdirmeden çözdün.") }
+    ]
+	},
+	{
     id: 'rnd_cigarettes', minAge: 14, maxAge: 18,
     emoji: '🚬', title: "Kötü Arkadaş",
     description: "Okul arkadaşların kalabalık bir ortamda sigara teklif etti.",
