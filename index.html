@@ -1549,7 +1549,7 @@ const EVENTS = {
                     }
 
                     // Etkileşimli Rastgele Olay Tetikleme (%25 İhtimal - Hublardayken)
-                    if (targetId === 'hub' && Math.random() < 0.25) {
+                    if (targetId === 'hub' && Math.random() < 0.75) {
                         const availableRandoms = INTERACTIVE_RANDOM_EVENTS.filter(e => 
                             newStats.yas >= e.minAge && newStats.yas <= e.maxAge && (!e.condition || e.condition(newStats)) &&
                             (!e.cities || e.cities.includes(selectedCity))
