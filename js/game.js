@@ -525,6 +525,7 @@ const handleThiefLose = () => {
     next.aileIliski -= 15;
     setStats(clampAll(next));
     showToast(`🚔 Polis bastı! ${ceza} adım hapis cezası aldın.`, 'text-red-500');
+};
 	
 	const [gymGameState, setGymGameState] = useState(null);
 
@@ -543,7 +544,6 @@ const handleGymLose = () => {
     next.mutluluk -= 5;
     setStats(clampAll(next));
     showToast('🥵 Antrenmanda tükendin, enerjin düştü.', 'text-red-500');
-};
 };
             const [gameState, setGameState] = useState('menu'); // 'menu' veya 'playing'
             const [availablePool, setAvailablePool] = useState([...TURKEY_CITIES]); // Seçilebilir havuz
