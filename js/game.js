@@ -85,7 +85,176 @@
             }
         }
     };
-	const DoctorMinigame = ({ onWin, onLose, onClose }) => {
+	
+    return (
+        <div className="stats-overlay" style={{ zIndex: 50 }}>
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-600 to-slate-900">
+                    🕵️ Kilit Kırma
+                </h2>
+                <button onClick={onClose} className="text-slate-400 text-lg font-black px-2">✕</button>
+            </div>
+
+            <div className="flex flex-col items-center gap-4 mt-2">
+                <div className="flex gap-2 mb-2">
+                    {[0, 1, 2].map(i => (
+                        <div key={i} className="text-3xl transition-all">
+                            {i < successCount ? '🔓' : '🔒'}
+                        </div>
+                    ))}
+                </div>
+                
+                <div className="text-xs font-bold text-slate-500 mb-2">
+                    Hedefi yeşil alanda yakala! Hata Hakkı: <span className="text-red-500">{3 - strikes}</span>
+                </div>
+
+                <div className="w-full bg-slate-800 rounded-full h-8 relative overflow-hidden border-2 border-slate-900 shadow-inner">
+                    {/* Güvenli Alan (Yeşil) */}
+                    <div 
+                        className="absolute h-full bg-emerald-500/80 transition-all duration-300"
+                        style={{ left: `${safeZone.start}%`, width: `${safeZone.width}%` }}
+                    ></div>
+                    {/* Hareketli İmleç */}
+                    <div 
+                        className="absolute h-full w-2 bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] z-10"
+                        style={{ left: `${cursorPos}%`, transform: 'translateX(-50%)' }}
+                    ></div>
+                </div>
+                
+                {status === 'playing' ? (
+                    <button 
+                        onPointerDown={handlePick}
+                        className="w-full mt-6 bg-slate-700 hover:bg-slate-800 active:scale-95 text-white font-black py-4 rounded-xl shadow-lg flex items-center justify-center gap-2"
+                    >
+                        <i className="fas fa-key"></i> ZORLA
+                    </button>
+                ) : (
+                    <div className="w-full text-center mt-6">
+                        <div className={`text-sm font-black p-4 rounded-xl mb-4 ${status === 'won' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
+                            {status === 'won' ? '💰 Kasa açıldı! Paraları cebe indirdin.' : '🚨 ALARM ÇALDI! Polis yolda...'}
+                        </div>
+                        <button onClick={onClose} className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-black py-3 rounded-xl shadow-md active:scale-95">
+                            Devam Et
+                        </button>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+	const CheatMinigame = ({ onWin, onLose, onClose }) => {
+    const [progress, setProgress] = useState(0);
+    const [teacher, setTeacher] = useState('board'); // 'board', 'suspicious', 'watching'
+    const [status, setStatus] = useState('playing'); // 'playing', 'won', 'lost'
+    
+    const isCheating = useRef(false);
+    const progressVal = useRef(0);
+    const teacherVal = useRef('board');
+    const timeoutRefs = useRef([]);
+
+    const startCheating = () => { isCheating.current = true; };
+    const stopCheating = () => { isCheating.current = false; };
+
+    useEffect(() => {
+        if (status !== 'playing') return;
+
+        const loop = setInterval(() => {
+            if (isCheating.current && teacherVal.current === 'watching') {
+                setStatus('lost');
+                onLose();
+            } else if (isCheating.current && teacherVal.current !== 'watching') {
+                progressVal.current += 1.5;
+                if (progressVal.current >= 100) {
+                    progressVal.current = 100;
+                    setStatus('won');
+                    onWin();
+                }
+                setProgress(progressVal.current);
+            } else if (!isCheating.current && progressVal.current > 0) {
+                progressVal.current = Math.max(0, progressVal.current - 0.2);
+                setProgress(progressVal.current);
+            }
+        }, 50);
+
+        const teacherAI = () => {
+            if (status !== 'playing') return;
+            
+            if (teacherVal.current === 'board') {
+                teacherVal.current = 'suspicious';
+                setTeacher('suspicious');
+                timeoutRefs.current.push(setTimeout(teacherAI, 600 + Math.random() * 800));
+            } else if (teacherVal.current === 'suspicious') {
+                teacherVal.current = 'watching';
+                setTeacher('watching');
+                timeoutRefs.current.push(setTimeout(teacherAI, 1500 + Math.random() * 1500));
+            } else {
+                teacherVal.current = 'board';
+                setTeacher('board');
+                timeoutRefs.current.push(setTimeout(teacherAI, 2000 + Math.random() * 3000));
+            }
+        };
+
+        timeoutRefs.current.push(setTimeout(teacherAI, 2000));
+
+        return () => {
+            clearInterval(loop);
+            timeoutRefs.current.forEach(clearTimeout);
+        };
+    }, [status, onWin, onLose]);
+
+    return (
+        <div className="stats-overlay" style={{ zIndex: 50 }}>
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">
+                    📝 Kopya Çekme Operasyonu
+                </h2>
+                <button onClick={onClose} className="text-slate-400 text-lg font-black px-2">✕</button>
+            </div>
+
+            <div className="flex flex-col items-center gap-6 mt-4">
+                <div className="text-7xl transition-transform">
+                    {teacher === 'board' ? '👨‍🏫📝' : teacher === 'suspicious' ? '👨‍🏫👀' : '👨‍🏫😡'}
+                </div>
+                
+                <div className="text-sm font-bold text-slate-600">
+                    {teacher === 'board' ? 'Hoca tahtaya yazıyor. Güvendesin.' : 
+                     teacher === 'suspicious' ? 'Hoca şüphelendi... Kapat kopyayı!' : 
+                     'HOCA BAKIYOR!'}
+                </div>
+
+                <div className="w-full bg-slate-200 rounded-full h-6 overflow-hidden border border-slate-300">
+                    <div 
+                        className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 transition-all duration-75"
+                        style={{ width: `${progress}%` }}
+                    ></div>
+                </div>
+                
+                {status === 'playing' ? (
+                    <button 
+                        onPointerDown={startCheating}
+                        onPointerUp={stopCheating}
+                        onPointerLeave={stopCheating}
+                        className="w-full h-24 mt-4 bg-rose-500 hover:bg-rose-600 active:bg-rose-700 active:scale-95 text-white font-black rounded-2xl shadow-lg select-none flex flex-col items-center justify-center touch-none"
+                    >
+                        <span className="text-2xl mb-1">👀</span>
+                        <span>BASILI TUT VE KOPYA ÇEK</span>
+                    </button>
+                ) : (
+                    <div className="w-full text-center mt-4">
+                        <div className={`text-lg font-black p-4 rounded-xl mb-4 ${status === 'won' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
+                            {status === 'won' ? '🎉 Kopyayı başarıyla çektin, notun kurtuldu!' : '📵 YAKALANDIN! Hoca kağıdını aldı.'}
+                        </div>
+                        <button onClick={onClose} className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-black py-3 rounded-xl shadow-md active:scale-95">
+                            Devam Et
+                        </button>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+const DoctorMinigame = ({ onWin, onLose, onClose }) => {
     const [status, setStatus] = useState('playing'); // 'playing', 'won', 'lost'
     const [sliderPos, setSliderPos] = useState(50);
     const [targetZone, setTargetZone] = useState({ start: 35, width: 30 });
@@ -191,175 +360,6 @@
                     <div className="w-full text-center mt-4">
                         <div className={`text-sm font-black p-4 rounded-xl mb-4 ${status === 'won' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
                             {status === 'won' ? '🎉 Muayene harika geçti! Sağlığın tamamen yenilendi.' : '🤒 Doktor durumunu kritik buldu, iğne yedikçe sağlığın azaldı.'}
-                        </div>
-                        <button onClick={onClose} className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-black py-3 rounded-xl shadow-md active:scale-95">
-                            Devam Et
-                        </button>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
-};
-	
-
-    return (
-        <div className="stats-overlay" style={{ zIndex: 50 }}>
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-600 to-slate-900">
-                    🕵️ Kilit Kırma
-                </h2>
-                <button onClick={onClose} className="text-slate-400 text-lg font-black px-2">✕</button>
-            </div>
-
-            <div className="flex flex-col items-center gap-4 mt-2">
-                <div className="flex gap-2 mb-2">
-                    {[0, 1, 2].map(i => (
-                        <div key={i} className="text-3xl transition-all">
-                            {i < successCount ? '🔓' : '🔒'}
-                        </div>
-                    ))}
-                </div>
-                
-                <div className="text-xs font-bold text-slate-500 mb-2">
-                    Hedefi yeşil alanda yakala! Hata Hakkı: <span className="text-red-500">{3 - strikes}</span>
-                </div>
-
-                <div className="w-full bg-slate-800 rounded-full h-8 relative overflow-hidden border-2 border-slate-900 shadow-inner">
-                    {/* Güvenli Alan (Yeşil) */}
-                    <div 
-                        className="absolute h-full bg-emerald-500/80 transition-all duration-300"
-                        style={{ left: `${safeZone.start}%`, width: `${safeZone.width}%` }}
-                    ></div>
-                    {/* Hareketli İmleç */}
-                    <div 
-                        className="absolute h-full w-2 bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] z-10"
-                        style={{ left: `${cursorPos}%`, transform: 'translateX(-50%)' }}
-                    ></div>
-                </div>
-                
-                {status === 'playing' ? (
-                    <button 
-                        onPointerDown={handlePick}
-                        className="w-full mt-6 bg-slate-700 hover:bg-slate-800 active:scale-95 text-white font-black py-4 rounded-xl shadow-lg flex items-center justify-center gap-2"
-                    >
-                        <i className="fas fa-key"></i> ZORLA
-                    </button>
-                ) : (
-                    <div className="w-full text-center mt-6">
-                        <div className={`text-sm font-black p-4 rounded-xl mb-4 ${status === 'won' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
-                            {status === 'won' ? '💰 Kasa açıldı! Paraları cebe indirdin.' : '🚨 ALARM ÇALDI! Polis yolda...'}
-                        </div>
-                        <button onClick={onClose} className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-black py-3 rounded-xl shadow-md active:scale-95">
-                            Devam Et
-                        </button>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
-};
-	const CheatMinigame = ({ onWin, onLose, onClose }) => {
-    const [progress, setProgress] = useState(0);
-    const [teacher, setTeacher] = useState('board'); // 'board', 'suspicious', 'watching'
-    const [status, setStatus] = useState('playing'); // 'playing', 'won', 'lost'
-    
-    const isCheating = useRef(false);
-    const progressVal = useRef(0);
-    const teacherVal = useRef('board');
-    const timeoutRefs = useRef([]);
-
-    const startCheating = () => { isCheating.current = true; };
-    const stopCheating = () => { isCheating.current = false; };
-
-    useEffect(() => {
-        if (status !== 'playing') return;
-
-        const loop = setInterval(() => {
-            if (isCheating.current && teacherVal.current === 'watching') {
-                setStatus('lost');
-                onLose();
-            } else if (isCheating.current && teacherVal.current !== 'watching') {
-                progressVal.current += 1.5;
-                if (progressVal.current >= 100) {
-                    progressVal.current = 100;
-                    setStatus('won');
-                    onWin();
-                }
-                setProgress(progressVal.current);
-            } else if (!isCheating.current && progressVal.current > 0) {
-                progressVal.current = Math.max(0, progressVal.current - 0.2);
-                setProgress(progressVal.current);
-            }
-        }, 50);
-
-        const teacherAI = () => {
-            if (status !== 'playing') return;
-            
-            if (teacherVal.current === 'board') {
-                teacherVal.current = 'suspicious';
-                setTeacher('suspicious');
-                timeoutRefs.current.push(setTimeout(teacherAI, 600 + Math.random() * 800));
-            } else if (teacherVal.current === 'suspicious') {
-                teacherVal.current = 'watching';
-                setTeacher('watching');
-                timeoutRefs.current.push(setTimeout(teacherAI, 1500 + Math.random() * 1500));
-            } else {
-                teacherVal.current = 'board';
-                setTeacher('board');
-                timeoutRefs.current.push(setTimeout(teacherAI, 2000 + Math.random() * 3000));
-            }
-        };
-
-        timeoutRefs.current.push(setTimeout(teacherAI, 2000));
-
-        return () => {
-            clearInterval(loop);
-            timeoutRefs.current.forEach(clearTimeout);
-        };
-    }, [status, onWin, onLose]);
-
-    return (
-        <div className="stats-overlay" style={{ zIndex: 50 }}>
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">
-                    📝 Kopya Çekme Operasyonu
-                </h2>
-                <button onClick={onClose} className="text-slate-400 text-lg font-black px-2">✕</button>
-            </div>
-
-            <div className="flex flex-col items-center gap-6 mt-4">
-                <div className="text-7xl transition-transform">
-                    {teacher === 'board' ? '👨‍🏫📝' : teacher === 'suspicious' ? '👨‍🏫👀' : '👨‍🏫😡'}
-                </div>
-                
-                <div className="text-sm font-bold text-slate-600">
-                    {teacher === 'board' ? 'Hoca tahtaya yazıyor. Güvendesin.' : 
-                     teacher === 'suspicious' ? 'Hoca şüphelendi... Kapat kopyayı!' : 
-                     'HOCA BAKIYOR!'}
-                </div>
-
-                <div className="w-full bg-slate-200 rounded-full h-6 overflow-hidden border border-slate-300">
-                    <div 
-                        className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 transition-all duration-75"
-                        style={{ width: `${progress}%` }}
-                    ></div>
-                </div>
-                
-                {status === 'playing' ? (
-                    <button 
-                        onPointerDown={startCheating}
-                        onPointerUp={stopCheating}
-                        onPointerLeave={stopCheating}
-                        className="w-full h-24 mt-4 bg-rose-500 hover:bg-rose-600 active:bg-rose-700 active:scale-95 text-white font-black rounded-2xl shadow-lg select-none flex flex-col items-center justify-center touch-none"
-                    >
-                        <span className="text-2xl mb-1">👀</span>
-                        <span>BASILI TUT VE KOPYA ÇEK</span>
-                    </button>
-                ) : (
-                    <div className="w-full text-center mt-4">
-                        <div className={`text-lg font-black p-4 rounded-xl mb-4 ${status === 'won' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
-                            {status === 'won' ? '🎉 Kopyayı başarıyla çektin, notun kurtuldu!' : '📵 YAKALANDIN! Hoca kağıdını aldı.'}
                         </div>
                         <button onClick={onClose} className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-black py-3 rounded-xl shadow-md active:scale-95">
                             Devam Et
