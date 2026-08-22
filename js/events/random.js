@@ -19,8 +19,8 @@ const INTERACTIVE_RANDOM_EVENTS = [
         { text: "Cebinden Öde", nextId: 'hub', step: 0, icon: '😆', effect: withMsg({ mutluluk: 45, para: -400 }, "Birikmiş paranla ödeme yap.") },
         { text: "Ailenden iste", nextId: 'hub', step: 0, icon: '👪', effect: withMsg({ mutluluk: -30 }, "Parayı ailenden istedin ailen vermedi. Geziye gidemedin.") }
     ]
-},
-{
+		},
+		{
             id: 'rnd_mud_jump', minAge: 4, maxAge: 12,
             emoji: '💦', title: "Kocaman Çamur!",
             description: "Yağmurdan sonra sokakta kocaman bir çamur birikintisi gördün.",
