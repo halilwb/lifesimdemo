@@ -12,6 +12,15 @@ const withMsg = (effectObj, msgs) => (s) => ({
 
 const INTERACTIVE_RANDOM_EVENTS = [
 {
+    id: 'rnd_okul_gezisi', minAge: 7, maxAge: 15,
+    emoji: '🏫', title: "Okul Gezisi!",
+    description: "Okulunda bir gezi planlandı. Arkadaşlarınla beraber şehir dışına gideceksiniz. Ücreti 400 lira.",
+    choices: [
+        { text: "Cebinden Öde", nextId: 'hub', step: 0, icon: '😆', effect: withMsg({ mutluluk: 45, para: -400 }, "Birikmiş paranla ödeme yap.") },
+        { text: "Ailenden iste", nextId: 'hub', step: 0, icon: '👪', effect: withMsg({ mutluluk: -30 }, "Parayı ailenden istedin ailen vermedi. Geziye gidemedin.") }
+    ]
+},
+{
             id: 'rnd_mud_jump', minAge: 4, maxAge: 12,
             emoji: '💦', title: "Kocaman Çamur!",
             description: "Yağmurdan sonra sokakta kocaman bir çamur birikintisi gördün.",
@@ -20,15 +29,6 @@ const INTERACTIVE_RANDOM_EVENTS = [
                 { text: "Etrafından Dolaş", nextId: 'hub', step: 0, icon: '🚶', effect: withMsg({ zeka: 5, mutluluk: -5 }, "Üstün temiz kaldı ama aklın o çamurda kaldı.") }
             ]
         },
-		{
-    id: 'rnd_okul_gezisi', minAge: 7, maxAge: 15,
-    emoji: '🏫', title: "Okul Gezisi!",
-    description: "Okulunda bir gezi planlandı. Arkadaşlarınla beraber şehir dışına gideceksiniz. Ücreti 400 lira.",
-    choices: [
-        { text: "Cebinden Öde", nextId: 'hub', step: 0, icon: '😆', effect: withMsg({ mutluluk: 45, para: -400 }, "Birikmiş paranla ödeme yap.") },
-        { text: "Ailenden iste", nextId: 'hub', step: 0, icon: '👪', effect: withMsg({ mutluluk: -30 }, "Parayı ailenden istedin ailen vermedi. Geziye gidemedin.") }
-    ]
-}
         {
             id: 'rnd_weird_bug', minAge: 4, maxAge: 12,
             emoji: '🐛', title: "İlginç Bir Böcek",
