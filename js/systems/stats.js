@@ -60,7 +60,7 @@ const ACTIONS = [
             },
             { id: 'act_kavga', icon: '🥊', title: 'Kavgaya Gir', desc: 'Sokakta biriyle kapıştın.', cost: { enerji: 20 }, effect: { guc: 2, saglik: -10, karizma: 1 }, minAge: 14 },
             { 
-			id: 'act_boks', icon: '🥊', title: 'Boks Antrenmanı', desc: 'Mini Oyun: Kum torbasına seri yumruklar atarak güç kazan.', cost: { enerji: 30 }, minAge: 10,
+			id: 'act_boks', icon: '🥊', title: 'Boks Antrenmanı', desc: 'Mini Oyun: Kum torbasına seri yumruklar atarak güç kazan.', cost: { enerji: 30 }, minAge: 0,
 			special: 'boks' 
 },
 			{ id: 'act_meditasyon', icon: '🧘', title: 'Meditasyon Yap', desc: 'Zihnini dinlendir.', cost: { enerji: 10 }, effect: { mutluluk: 10, saglik: 2 }, minAge: 12 },
