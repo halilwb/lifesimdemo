@@ -1,4 +1,4 @@
-/* css/style.css - SAKURA / PEMBE TEMA */
+/* css/style.css - SAKURA / PEMBE "BUZLU CAM" (GLASSMORPHISM) TEMA */
 
 /* 1. ANA ARKA PLAN & BODY /
 body {
@@ -10,13 +10,13 @@ justify-content: center;
 align-items: center;
 min-height: 100vh;
 min-height: 100dvh;
-/ Uçuk Pembe ve Gül Rengi Gradienti /
-background: linear-gradient(135deg, #fce7f3 0%, #fff1f2 100%);
-color: #334155; / Koyu Gri metin */
+/ Uçuk Pembe ve Gül Rengi Gradienti (Daha Canlı, Camdan Yansısın Diye) */
+background: linear-gradient(135deg, #fbcfe8 0%, #fce7f3 50%, #fff1f2 100%);
+color: #334155;
 overflow: hidden;
 }
 
-/* Scrollbar Tasarımı (Pembe temaya uygun) */
+/* Scrollbar Tasarımı */
 .custom-scrollbar::-webkit-scrollbar { width: 4px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); border-radius: 10px; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(236, 72, 153, 0.3); border-radius: 10px; }
@@ -29,10 +29,12 @@ position: relative;
 overflow: hidden;
 display: flex;
 flex-direction: column;
-/ Ferah Cam efekti (Light Glassmorphism) */
-background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(253, 242, 248, 0.8) 100%);
-backdrop-filter: blur(20px);
--webkit-backdrop-filter: blur(20px);
+/ Saf Cam Efekti: Çok saydam beyaz + yüksek blur /
+background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(253, 242, 248, 0.4) 100%);
+backdrop-filter: blur(30px);
+-webkit-backdrop-filter: blur(30px);
+/ Camın keskin kenarları için incecik bir ışık çizgisi */
+border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
 @media (min-width: 640px) {
@@ -41,8 +43,9 @@ width: 420px;
 height: 850px;
 max-height: 95vh;
 border-radius: 2.5rem;
-border: 6px solid #ffffff;
-box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.15), 0 0 0 1px rgba(0,0,0,0.02);
+/* Desktop'ta dış çerçeveyi kalın ama yarı saydam yapıyoruz */
+border: 4px solid rgba(255, 255, 255, 0.7);
+box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.25), 0 0 0 1px rgba(0,0,0,0.02);
 }
 }
 
@@ -50,10 +53,10 @@ box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.15), 0 0 0 1px rgba(0,0,0,0.0
 .bg-pattern {
 position: absolute;
 inset: 0;
-opacity: 0.12; / Hafif pembe doku */
-background-image: radial-gradient(#f472b6 1.5px, transparent 1.5px), radial-gradient(#f472b6 1.5px, transparent 1.5px);
-background-size: 40px 40px;
-background-position: 0 0, 20px 20px;
+opacity: 0.15; / Deseni belirginleştirdik ki camın arkasından iyi görünsün */
+background-image: radial-gradient(#db2777 2px, transparent 2px), radial-gradient(#db2777 2px, transparent 2px);
+background-size: 50px 50px;
+background-position: 0 0, 25px 25px;
 pointer-events: none;
 z-index: 0;
 }
@@ -65,30 +68,32 @@ z-index: 0;
 width: 100%;
 max-width: 280px;
 aspect-ratio: 2 / 2.8;
-/* Beyaz/Pembe Cam Kart Arka Planı /
-background: rgba(255, 255, 255, 0.9);
+/* GERÇEK CAM KART: Yüksek saydamlık, belirgin blur /
+background: rgba(255, 255, 255, 0.35);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
 border-radius: 24px;
 position: relative;
-/ Yumuşak pembe gölge */
-box-shadow: 0 20px 40px rgba(236, 72, 153, 0.08), inset 0 0 0 2px rgba(255, 255, 255, 0.8);
+/ Parlak cam kenarı ve yumuşak pembe gölge */
+border: 1px solid rgba(255, 255, 255, 0.9);
+box-shadow: 0 20px 40px rgba(236, 72, 153, 0.12), inset 0 0 0 2px rgba(255, 255, 255, 0.5);
 display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
 padding: 1.5rem;
 text-align: center;
-transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, border-color 0.3s;
+transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, border-color 0.3s, background 0.3s;
 transform-style: preserve-3d;
 margin: auto;
-border: 4px dashed transparent;
 }
 
 /* Seçenek kartı üstüne sürüklendiğindeki parlama (Drop Hover) /
 .main-card.drop-hover {
 transform: scale(1.05);
-border-color: #ec4899; / Canlı Pembe çerçeve */
-box-shadow: 0 25px 50px rgba(236, 72, 153, 0.25), 0 0 30px rgba(236, 72, 153, 0.15);
-background: #fdf2f8;
+border-color: #ec4899;
+box-shadow: 0 25px 50px rgba(236, 72, 153, 0.3), 0 0 30px rgba(236, 72, 153, 0.2);
+background: rgba(253, 242, 248, 0.6); / Üstüne gelince biraz pembeleşen cam */
 }
 
 .card-idle { transform: scale(1) rotateY(0deg); opacity: 1; }
@@ -109,8 +114,11 @@ padding-bottom: 2rem;
 .choice-draggable-card {
 width: 95px;
 aspect-ratio: 2 / 2.8;
-background: #ffffff;
-border: 2px solid #f1f5f9;
+/* Mini Cam Kartlar */
+background: rgba(255, 255, 255, 0.6);
+backdrop-filter: blur(8px);
+-webkit-backdrop-filter: blur(8px);
+border: 1px solid rgba(255, 255, 255, 0.8);
 border-radius: 16px;
 position: relative;
 display: flex;
@@ -119,7 +127,7 @@ align-items: center;
 justify-content: center;
 padding: 0.5rem;
 text-align: center;
-box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+box-shadow: 0 10px 20px rgba(236, 72, 153, 0.08);
 color: #475569;
 cursor: grab;
 transform-origin: bottom center;
@@ -132,15 +140,15 @@ touch-action: none;
 
 /* Kart Sürüklenirken */
 .choice-draggable-card.dragging {
-box-shadow: 0 30px 60px rgba(236, 72, 153, 0.2), 0 0 0 2px #ec4899;
+box-shadow: 0 30px 60px rgba(236, 72, 153, 0.3), 0 0 0 2px #ec4899;
 opacity: 0.95;
-background: #fff1f2;
+background: rgba(255, 241, 242, 0.9);
 }
 
 .choice-draggable-card:disabled {
 opacity: 0.5;
 filter: grayscale(100%);
-border-color: #cbd5e1;
+border-color: rgba(255, 255, 255, 0.4);
 cursor: not-allowed;
 touch-action: auto;
 }
@@ -152,10 +160,11 @@ bottom: 0;
 left: 0;
 width: 100%;
 height: 65px;
-/ Aydınlık Cam Menü */
-background: rgba(255, 255, 255, 0.9);
-backdrop-filter: blur(16px);
-border-top: 1px solid rgba(255, 255, 255, 0.6);
+/ Ekstrem Saydamlık + Yüksek Blur */
+background: rgba(255, 255, 255, 0.35);
+backdrop-filter: blur(25px);
+-webkit-backdrop-filter: blur(25px);
+border-top: 1px solid rgba(255, 255, 255, 0.7);
 display: flex;
 justify-content: space-around;
 align-items: center;
@@ -181,22 +190,25 @@ transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 /* Menü Butonu Aktif Olduğunda /
 .nav-btn.active {
 color: #db2777; / Koyu Pembe */
-background: rgba(236, 72, 153, 0.1);
-box-shadow: 0 4px 12px rgba(236, 72, 153, 0.05);
+background: rgba(236, 72, 153, 0.15);
+box-shadow: inset 0 0 10px rgba(255,255,255,0.5), 0 4px 12px rgba(236, 72, 153, 0.1);
 transform: translateY(-2px);
 }
 
 .nav-btn i { font-size: 15px; margin-bottom: 2px; }
 
-/* 7. EKRANI KAPLAYAN OVERLAYLER (Stats, Store vb.) */
+/* 7. EKRANI KAPLAYAN OVERLAYLER (Stats, Store vb.) /
 .stats-overlay {
 position: absolute;
 top: 0;
 left: 0;
 width: 100%;
 height: calc(100% - 65px);
-background: rgba(255, 255, 255, 0.95);
-backdrop-filter: blur(15px);
+/ İçerik ekranları için cam efektli overlay */
+background: rgba(255, 255, 255, 0.5);
+backdrop-filter: blur(25px);
+-webkit-backdrop-filter: blur(25px);
+border-bottom: 1px solid rgba(255,255,255,0.6);
 z-index: 35;
 display: flex;
 flex-direction: column;
@@ -215,7 +227,9 @@ to { transform: translateY(0); opacity: 1; }
 .stat-bar-bg {
 width: 100%;
 height: 12px;
-background: #f1f5f9;
+background: rgba(255, 255, 255, 0.6);
+border: 1px solid rgba(255,255,255,0.8);
+box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
 border-radius: 6px;
 overflow: hidden;
 margin-top: 4px;
