@@ -1713,7 +1713,7 @@ const handleBoxingLose = () => {
         onClose={() => setDoctorGameState(null)} 
     />
 )}
-{{boxingGameState && (
+{boxingGameState && (
     <BoxingMinigame 
         onWin={handleBoxingWin} 
         onLose={handleBoxingLose} 
