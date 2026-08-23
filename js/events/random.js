@@ -268,7 +268,7 @@ const INTERACTIVE_RANDOM_EVENTS = [
             {
                 id: 'rnd_yerel_festival', minAge: 0, maxAge: 99,
                 emoji: '🎪', title: "Yerel Festival",
-                description": "İlçenizde geleneksel bir festival düzenlenmiş. Halk oyunları, yerel lezzetler ve müzik konserleri var. Giris ücreti 50 lira.",
+                description: "İlçenizde geleneksel bir festival düzenlenmiş. Halk oyunları, yerel lezzetler ve müzik konserleri var. Giris ücreti 50 lira.",
                 choices: [
                     { text: "Festivale Git", nextId: 'hub', step: 0, icon: '💃', effect: withMsg({ mutluluk: 25, para: -50, sosial: 10 }, ["Festivalde keyifli zaman geçirdin, dans ettin ve yerel lezzetleri denedin.", "Festival bir Séries guzeldi, yeni insanlarla tanıştın ve kültüründen keyif aldın."]) },
                     { text: "Gitme", nextId: 'hub', step: 0, icon: '🏠', effect: withMsg({ mutluluk: -10 }, "Festivale gitmek yerine evde dinlemek istedin, ama sonraları fotoları gördüğün için biraz pişman oldun.") }
