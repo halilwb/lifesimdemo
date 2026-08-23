@@ -1,228 +1,211 @@
+// events/events.js — Yaş bazlı olay ağacı (EVENTS) — çocukluk/gençlik/yetişkinlik zincirleri
 const EVENTS = {
-                // --- 0-15 YAŞ LİNER HİKAYE ZİNCİRİ ---
+                // --- 0-7 YAŞ LİNEER HİKAYE ZİNCİRİ ---
                 // Yaş 0
                 age_0_ev_1: {
                     id: 'age_0_ev_1', emoji: '👶', title: "0 Yaş",
-                    description: "Dünyaya geldin, hâlâ ne olduğunu anlamıyorsun.",
+                    description: "Ne yaptığını hatırlamıyorsun.",
                     choices: [
-                        { text: "Ağla", nextId: 'age_1_ev_1', step: 1, icon: '🍼', effect: { yas: 1, mutluluk: -5, msg: "Ağlayarak ihtiyaçlarını belirttin, annen seni buldu." } },
-                        { text: "Gülümse", nextId: 'age_1_ev_1', step: 1, icon: '😊', effect: { yas: 1, mutluluk: 5, msg: "Hafif bir gülümsemeyle annenin güveni kazandın." } }
+                        { text: "Irrgh", nextId: 'age_1_ev_1', step: 1, icon: '🍼', effect: { yas: 1, msg: "Öyle böyle derken 1 sene geçti." } },
+                        { text: "Hımmm", nextId: 'age_1_ev_1', step: 1, icon: '🤔', effect: { yas: 1, msg: "Öyle böyle derken 1 sene geçti." } }
                     ]
                 },
-
+                
                 // Yaş 1
                 age_1_ev_1: {
-                    id: 'age_1_ev_1', emoji: '🚶', title: "1 Yaş",
-                    description: "İlk adımlarını attınız, eve dolaşmaya başlıyorsunuz.",
+                    id: 'age_1_ev_1', emoji: '💉', title: "Aşı Vakti",
+                    description: "Annen seni sağlık ocağına götürüyor. Aşıların yapılacak.",
                     choices: [
-                        { text: "Yürümeyi Öğren", nextId: 'age_2_ev_1', step: 1, icon: '👣', effect: { yas: 1, guc: 2, mutluluk: 10, msg: "Ayaklarınızı sıcak tuttunuz, artık ev içinde rahatça dolaşabiliyorsunuz." } },
-                        { text: "Söylemeyi Deneme", nextId: 'age_2_ev_1', step: 1, icon: '💬', effect: { yas: 1, zeka: 2, mutluluk: 5, msg: "İlk kelimenizi \"anna\" gibi basit seslerle ifade etmeye çalıştınız." } }
+                        { text: "Kabullen", nextId: 'age_2_ev_1', step: 1, icon: '😇', effect: { yas: 1, saglikCarpani: 1.10, msg: "Aşıları oldun. Sağlık kazanımların kalıcı olarak %10 arttı!" } },
+                        { text: "Reddet", nextId: 'age_2_ev_1', step: 1, icon: '😡', effect: { yas: 1, karizma: 1, enerji: -10, msg: "Ortalığı birbirine kattın. Karizman arttı ama aşı da olmadın." } }
                     ]
                 },
 
                 // Yaş 2
                 age_2_ev_1: {
-                    id: 'age_2_ev_1', emoji: '🧒', title: "2 Yaş",
-                    description: "Sözlüğünüz gelişmeye başlıyor, çevrinizi keşfetmeyi seviyorsunuz.",
+                    id: 'age_2_ev_1', emoji: '🤹', title: "Uçan Bebek",
+                    description: "Baban seni havaya atıp tutarak seninle oyun oynuyor.",
                     choices: [
-                        { text: "Bloklarla Oyna", nextId: 'age_3_ev_1', step: 1, icon: '🧱', effect: { yas: 1, zeka: 3, mutluluk: 15, msg: "Bloklarla kule yaparak uzaysal düşüncenizi geliştirdiniz." } },
-                        { text: "Topla At", nextId: 'age_3_ev_1', step: 1, icon: '⚽', effect: { yas: 1, guc: 3, mutluluk: 10, msg: "Topla oynayarak koordinasyonunuz ve refleksleriniz gelişti." } }
+                        { text: "Ağla", nextId: 'age_2_ev_2', step: 1, icon: '😭', effect: { mutluluk: -10, msg: "Annen geldi ve seni babanın elinden aldı." } },
+                        { text: "Eğlen", nextId: 'age_2_ev_2', step: 1, icon: '😆', effect: (s) => {
+                            if(Math.random() < 0.03) return { effect: { saglik: -100 }, msg: "Baban eğlencenin dozunu kaçırdı. Seni kafa üstü yere düşürdü..." };
+                            return { effect: { zeka: -3, mutluluk: 10, enerji: -10 }, msg: "Kafan biraz sarsıldı ama çok eğlenceliydi!" };
+                        } }
+                    ]
+                },
+                age_2_ev_2: {
+                    id: 'age_2_ev_2', emoji: '👵', title: "Altın Günü",
+                    description: "Eve akrabalar doluştu. Yabancı teyzeler ve amcalar etrafını sardı.",
+                    choices: [
+                        { text: "Gülücük Saç", nextId: 'age_3_ev_1', step: 1, icon: '😊', effect: { yas: 1, karizma: 2, mutluluk: -5, enerji: -10, msg: "Teyzeler \"aaa ne tatlı\" diye üstüne üşüştü, yanaklarını sıkı sıkı çimdiklediler." } },
+                        { text: "Ağla", nextId: 'age_3_ev_1', step: 1, icon: '😭', effect: { yas: 1, sans: 1, aileIliski: -5, msg: "Bağıra bağıra ağladın, bir teyze \"nazar değmiş\" deyip cebine para sıkıştırdı." } }
                     ]
                 },
 
                 // Yaş 3
                 age_3_ev_1: {
-                    id: 'age_3_ev_1', emoji: '🎒', title: "3 Yaş",
-                    description: "İlk kez anaokuluna gittiğiniz gün, yeni arkadaşlar edinmeyi umutla bekliyorsunuz.",
+                    id: 'age_3_ev_1', emoji: '💬', title: "İlk Kelimeler",
+                    description: "Konuşmaya başladın. Ne diyeceksin?",
                     choices: [
-                        { text: "Anaokuluna Git", nextId: 'age_4_ev_1', step: 1, icon: '👧', effect: { yas: 1, okul: 5, mutluluk: 10, msg: "Öğretmeniniz hoş karşıladı, yeni arkadaşlarınızla oyuncağla oynadınız." } },
-                        { text: "Evde Kal", nextId: 'age_4_ev_1', step: 1, icon: '🏠', effect: { yas: 1, mutluluk: 5, okul: -5, msg: "Anne-babanızla evde zaman geçirdiniz, fakat arkadaşlık yapma fırsatını kaçırdınız." } }
+                        { text: "Anne/Baba", nextId: 'age_3_ev_2', step: 1, icon: '❤️', effect: { aileIliski: 10, msg: "İlk kelimen bu oldu, annen gözyaşlarını tutamadı." } },
+                        { text: "Süt!", nextId: 'age_3_ev_2', step: 1, icon: '🥛', effect: { guc: 2, msg: "Herkes \"anne\" ya da \"baba\" beklerken sen önceliklerini net koydun: süt." } },
+                        { text: "Küfür Et", nextId: 'age_3_ev_2', step: 1, icon: '🤬', effect: { karizma: 5, aileIliski: -20, msg: "İlk kelimen bir küfür oldu. Salon donup kaldı, dayın kahvesini burnundan içti." } }
+                    ]
+                },
+                age_3_ev_2: {
+                    id: 'age_3_ev_2', emoji: '🍼', title: "Kayıp Biberon",
+                    description: "Biberonunu saklamışlar. Hiçbir yerde yok.",
+                    choices: [
+                        { text: "Ağla", nextId: 'age_3_ev_3', step: 1, icon: '😭', effect: { enerji: -10, msg: "Ağlamanın hiçbir faydası olmadı." } },
+                        { text: "Aramaya Başla", nextId: 'age_3_ev_3', step: 1, icon: '🕵️', effect: { zeka: 3, enerji: -15, msg: "Bulamadın ama artık evin içinde tek başına gezebiliyorsun." } },
+                        { text: "İhtiyacım Yok", nextId: 'age_3_ev_3', step: 1, icon: '😎', effect: { karizma: 2, msg: "Karizman arttı. Ama hala bir bebeksin..." } }
+                    ]
+                },
+                age_3_ev_3: {
+                    id: 'age_3_ev_3', emoji: '🧸', title: "AVM Krizi",
+                    description: "Oyuncak mağazasında inanılmaz bir oyuncak gördün.",
+                    choices: [
+                        { text: "Kriz Çıkar", nextId: 'age_4_ev_1', step: 1, icon: '😱', effect: { yas: 1, aileIliski: -10, karizma: -2, mutluluk: -5, enerji: -20, msg: "Yerlere yattın, tekme attın; mağazadaki herkes seni izledi, annen kucaklayıp dışarı çıkardı." } },
+                        { text: "İçe Çekil", nextId: 'age_4_ev_1', step: 1, icon: '🥺', effect: { yas: 1, zeka: 2, mutluluk: -5, msg: "Oyuncağa uzun uzun baktın, içini çektin ve sessizce yürüyüp gittin." } },
+                        { text: "Sevimli Bak", nextId: 'age_4_ev_1', step: 1, icon: '😻', req: { karizma: 30 }, effect: { yas: 1, karizma: 3, mutluluk: 10, msg: "Gözlerini kocaman açıp öyle bir baktın ki annen dayanamayıp oyuncağı aldı." } }
                     ]
                 },
 
                 // Yaş 4
                 age_4_ev_1: {
-                    id: 'age_4_ev_1', emoji: '🤝', title: "4 Yaş",
-                    description: "Paylaşmayı ve başkalarına saygı göstermeyi öğrenmeye başlıyorsunuz.",
+                    id: 'age_4_ev_1', emoji: '🚂', title: "Kuzen Terörü",
+                    description: "Akraba oturmasında kuzenin en sevdiğin oyuncağı elinden aldı.",
                     choices: [
-                        { text: "Oyuncağını Paylaş", nextId: 'age_5_ev_1', step: 1, icon: '🧸', effect: { yas: 1, karizma: 3, mutluluk: 10, aileIliski: 5, msg: "Arkadaşınızla oyuncağınızı paylaştınız, beraber bir kaset inşa ettiniz." } },
-                        { text: "Kendine Davet Et", nextId: 'age_5_ev_1', step: 1, icon: '🙅‍♂️', effect: { yas: 1, mutluluk: -5, karizma: -2, msg: "Oyuncağınızı tek başınıza tuttunuz, fakat biraz kendi dünyanızda kaldınız." } }
+                        { text: "Pes Et, Ağla", nextId: 'age_4_ev_2', step: 1, icon: '😭', effect: { mutluluk: -10, guc: -2, msg: "Oyuncağını kaptırdın, hıçkıra hıçkıra ağladın, kuzenin umursamadı bile." } },
+                        { text: "Geri Çek", nextId: 'age_4_ev_2', step: 1, icon: '😠', effect: { guc: 2, aileIliski: -5, enerji: -10, msg: "Oyuncağı geri çektin, kısa bir çekişme yaşandı, büyükler araya girmek zorunda kaldı." } },
+                        { text: "Takas Et", nextId: 'age_4_ev_2', step: 1, icon: '🤝', req: { zeka: 40 }, effect: { zeka: 3, karizma: 2, mutluluk: 10, msg: "Kafanı çalıştırıp kuzeninle akıllıca bir takas yaptın, ikiniz de kazançlı çıktınız." } }
+                    ]
+                },
+                age_4_ev_2: {
+                    id: 'age_4_ev_2', emoji: '🏫', title: "Kreş Zamanı",
+                    description: "Anne-baban seni bir yere göndermek istiyor.",
+                    choices: [
+                        { text: "Kabul Et", nextId: 'age_4_ev_3', step: 1, icon: '👍', effect: { okul: 10, aileIliski: 5, msg: "Kreşe gitmeyi kabul ettin, ilk gün ağladın ama sonra yeni arkadaşlar edindin." } },
+                        { text: "Evde Kalıcam", nextId: 'age_4_ev_3', step: 1, icon: '🏠', effect: { aileIliski: 15, okul: -5, karizma: -2, msg: "Ayak dirediğinle kaldın, anneannenin yanında evde takılmaya devam ettin." } },
+                        { text: "Burs Kazan", nextId: 'age_4_ev_3', step: 1, icon: '🎓', req: { sans: 40 }, effect: { zeka: 5, okul: 25, karizma: 3, msg: "Yaptığın küçük testte gösterdiğin performansla seni özel bir programa aldılar." } }
+                    ]
+                },
+                age_4_ev_3: {
+                    id: 'age_4_ev_3', emoji: '🥦', title: "Halilişkonun Rüyası",
+                    description: "Masada brokoli var ama sen fast-food istiyorsun.",
+                    choices: [
+                        { text: "Ağla & İste", nextId: 'age_5_ev_1', step: 1, icon: '🍟', effect: { yas: 1, guc: -3, mutluluk: 15, saglik: -5, msg: "Masayı ayağa kaldırdın, sonunda dönerci arandı; akşam yine fast-food kazandın." } },
+                        { text: "Bitir", nextId: 'age_5_ev_1', step: 1, icon: '🍽️', effect: { yas: 1, guc: 3, saglik: 10, mutluluk: -10, msg: "Dişini sıkıp brokolileri bitirdin, annen gururla başını okşadı." } }
                     ]
                 },
 
                 // Yaş 5
                 age_5_ev_1: {
-                    id: 'age_5_ev_1', emoji: '🚲', title: "5 Yaş",
-                    description: "İlk kez iki tekerlekli bisiklete binmeye karar veriyorsunuz.",
+                    id: 'age_5_ev_1', emoji: '📱', title: "Dijital Emzik",
+                    description: "Çizgi film izlemen için sana ekran uzatıldı.",
                     choices: [
-                        { text: "Bisikleti Deneme", nextId: 'age_6_ev_1', step: 1, icon: '🚴‍♂️', effect: { yas: 1, guc: 4, mutluluk: 15, msg: "Birkaç kez düştünüz fakat sonunda dengeyi buldunuz, ailesiniz gururla İzledi." } },
-                        { text: "Üç Tekerlekliye Bağlı Kal", nextId: 'age_6_ev_1', step: 1, icon: '🚲', effect: { yas: 1, guc: 2, mutluluk: 5, msg: "Güvenli olan üç tekerlekli bisikletinizle yardımcı olsansız, hâlâ ikiliye geçmeye hazır değilsiniz." } }
+                        { text: "Video İzle", nextId: 'age_5_ev_2', step: 1, icon: '👀', effect: { zeka: -3, saglik: -10, mutluluk: 10, enerji: 10, msg: "Saatlerce ekrana kilitlendin, gözlerin yandı ama içerik harikaydı." } },
+                        { text: "Sokağa Çık", nextId: 'age_5_ev_2', step: 1, icon: '🏃', effect: { guc: 3, karizma: 3, saglik: 10, enerji: -25, msg: "Ekranı bırakıp sokakta koşturdun, akşam bacakların ağrıyordu ama mutluydun." } }
+                    ]
+                },
+                age_5_ev_2: {
+                    id: 'age_5_ev_2', emoji: '🐑', title: "Kurban Bayramı",
+                    description: "Eve bir sürü akraba doluştu. Harçlık avı başlasın!",
+                    choices: [
+                        { text: "Odana Kaç", nextId: 'age_5_ev_3', step: 1, icon: '🚪', effect: { guc: -2, mutluluk: -10, msg: "Kalabalıktan kaçıp odana saklandın, akrabalar \"ne çekingen çocuk\" dedi." } },
+                        { text: "Yardım Et", nextId: 'age_5_ev_3', step: 1, icon: '☕', effect: { aileIliski: 10, karizma: 2, guc: 1, enerji: -15, msg: "Çay tepsisini taşıdın, herkes \"aferin sana\" dedi, annen seninle gurur duydu." } },
+                        { text: "El Öp (Tur)", nextId: 'age_5_ev_3', step: 1, icon: '💰', req: { karizma: 50 }, effect: { para: 1000, karizma: 3, mutluluk: 15, enerji: -10, msg: "Elden ele dolaşıp herkesin elini öptün, cepler bayram harçlığıyla şişti." } }
+                    ]
+                },
+                age_5_ev_3: {
+                    id: 'age_5_ev_3', emoji: '🏖️', title: "Kum Havuzu Mafyası",
+                    description: "Parktaki kum havuzunda diğer çocuklar kaleni yıkmak istiyor.",
+                    choices: [
+                        { text: "Savaş", nextId: 'age_6_ev_1', step: 1, icon: '⚔️', effect: { yas: 1, guc: 2, saglik: -5, mutluluk: -5, enerji: -20, msg: "Kumdan kaleni son ana kadar savundun, üstün başın kum içinde kaldı ama kale ayaktaydı." } },
+                        { text: "Kaç", nextId: 'age_6_ev_1', step: 1, icon: '🏃', effect: { yas: 1, karizma: -2, mutluluk: -10, enerji: -5, msg: "Kaleyi bırakıp koşarak uzaklaştın, arkandan kahkahalar duydun." } },
+                        { text: "Lider Ol", nextId: 'age_6_ev_1', step: 1, icon: '👑', req: { guc: 30 }, effect: { yas: 1, karizma: 5, mutluluk: 15, msg: "Diğer çocukları ikna edip yanına çektin, kum havuzunun yeni kralı sensin." } }
                     ]
                 },
 
                 // Yaş 6
                 age_6_ev_1: {
-                    id: 'age_6_ev_1', emoji: '📚', title: "6 Yaş",
-                    description: "İlkokulünüzün ilk günü, tembel kağıt ve yeni bir başlangıç."
-                    ,
+                    id: 'age_6_ev_1', emoji: '🎒', title: "1. Sınıf Sezonu",
+                    description: "Okulun ilk günü! Sıranı ve öğretmenini seçeceksin.",
                     choices: [
-                        { text: "İlkokula Kayıt Ol", nextId: 'age_7_ev_1', step: 1, icon: '🏫', effect: { yas: 1, okul: 10, mutluluk: 10, msg: "Öğretmeniniz adınızı okudu, sınıfınızla tanıştınız, ilk dersiniz güzel geçti." } },
-                        { text: "Henüz Okul Değil", nextId: 'age_7_ev_1', step: 1, icon: '⏳', effect: { yas: 1, okul: -5, mutluluk: 5, msg: "Aileniz sizi bir yıl daha evde tutmaya karar verdi, fakat okula olan merakınız hâlâ var." } }
+                        { text: "Arka Sıra", nextId: 'age_6_ev_2', step: 1, icon: '🪑', effect: { okul: 5, karizma: -1, msg: "Arka sırayı kaptın, öğretmen seni pek fark etmedi ama sen de kimseyi rahatsız etmedin." } },
+                        { text: "Öğretmenin Gözdesi", nextId: 'age_6_ev_2', step: 1, icon: '🍎', req: { zeka: 40 }, effect: { okul: 15, karizma: 5, zeka: 2, msg: "Ön sırada elini kaldırıp durdun, öğretmen seni sınıfın yıldızı ilan etti." } }
+                    ]
+                },
+                age_6_ev_2: {
+                    id: 'age_6_ev_2', emoji: '✏️', title: "Kaybolan Silgi",
+                    description: "En sevdiğin kokulu silgini kaybettin.",
+                    choices: [
+                        { text: "Ağla", nextId: 'age_6_ev_3', step: 1, icon: '😭', effect: { mutluluk: -10, karizma: -1, msg: "Sıranın başına düşüp ağladın, kokulu silgin bir daha çıkmadı." } },
+                        { text: "Çal", nextId: 'age_6_ev_3', step: 1, icon: '🥷', effect: { okul: -5, aileIliski: -5, sans: -2, msg: "Yan sıradaki arkadaşınınkini aşırdın, vicdanın seni bütün gün rahatsız etti." } },
+                        { text: "Hocadan İste", nextId: 'age_6_ev_3', step: 1, icon: '🙋', req: { karizma: 30 }, effect: { karizma: 2, okul: 2, msg: "Öğretmenden yedek silgi istedin, sana fazladan bir tane daha verdi." } }
+                    ]
+                },
+                age_6_ev_3: {
+                    id: 'age_6_ev_3', emoji: '🐕', title: "Köpek Sorunu",
+                    description: "Okul yolunda karşına 3 tane başıboş köpek çıktı.",
+                    choices: [
+                        { text: "Çığlık At, Kaç", nextId: 'age_6_ev_4', step: 1, icon: '😱', effect: { guc: -2, saglik: -10, enerji: -30, msg: "Çığlık atarak koşmaya başladın, köpekler de peşinden koştu, dizin sıyrıldı." } },
+                        { text: "Sakin Geç", nextId: 'age_6_ev_4', step: 1, icon: '🚶', effect: { zeka: 2, sans: 1, msg: "Yavaş adımlarla, göz teması kurmadan yanlarından geçtin, köpekler seni umursamadı." } },
+                        { text: "Üstlerine Yürü", nextId: 'age_6_ev_4', step: 1, icon: '🦁', req: { guc: 30 }, effect: { guc: 4, karizma: 3, mutluluk: 10, msg: "Korkusuzca üstlerine yürüdün, köpekler şaşırıp geri çekildi." } }
+                    ]
+                },
+                age_6_ev_4: {
+                    id: 'age_6_ev_4', emoji: '👻', title: "Tuvalet Canavarı",
+                    description: "Okul tuvaletinde canavar olduğu söylentisi var. Çişin geldi.",
+                    choices: [
+                        { text: "Altına Yap", nextId: 'age_7_ev_1', step: 1, icon: '💦', effect: { yas: 1, karizma: -10, mutluluk: -15, okul: -5, msg: "Dayanamadın, sınıfın ortasında büyük bir olay yaşandı. Lakabın haftalarca peşini bırakmadı." } },
+                        { text: "Cesurca Git", nextId: 'age_7_ev_1', step: 1, icon: '🦸', effect: { yas: 1, guc: 3, karizma: 2, msg: "Korkuyu yenip tuvalete gittin, canavar falan yoktu, sadece bozuk bir musluk vardı." } },
+                        { text: "Mantıklı Düşün", nextId: 'age_7_ev_1', step: 1, icon: '🧠', req: { zeka: 30 }, effect: { yas: 1, zeka: 3, sans: 2, msg: "Söylentinin mantıksız olduğunu çözüp rahatça işini hallettin." } }
                     ]
                 },
 
                 // Yaş 7
                 age_7_ev_1: {
-                    id: 'age_7_ev_1', emoji: '🔠', title: "7 Yaş",
-                    description: "Okuma ve yazma becerilerinizi geliştirmeye başlıyorsunuz."
-                    ,
+                    id: 'age_7_ev_1', emoji: '💵', title: "Şeytandan Şeytan",
+                    description: "Bakkal amca yanlışlıkla 100 TL fazla verdi.",
                     choices: [
-                        { text: "Harfleri Öğren", nextId: 'age_8_ev_1', step: 1, icon: '🔤', effect: { yas: 1, zeka: 8, okul: 5, mutluluk: 10, msg: "Harfleri birleştirecek şekilde okurken, ilk cümlelerinizi kurmaya başladınız." } },
-                        { text: "Resimle Anlat", nextId: 'age_8_ev_1', step: 1, icon: '🎨', effect: { yas: 1, mutluluk: 8, okul: 3, msg: "Henüz yazmak zorunda hissetmediğiniz için, duygularınızı boya kağıdına dökmeye karar verdiniz." } }
+                        { text: "Cebe At", nextId: 'age_7_ev_2', step: 1, icon: '🤫', effect: { para: 100, sans: -3, msg: "Parayı sessizce cebine attın, bakkal amca fark etmedi ama içinde bir sızı kaldı." } },
+                        { text: "İade Et", nextId: 'age_7_ev_2', step: 1, icon: '😇', effect: { karizma: 2, aileIliski: 5, msg: "Parayı geri verdin, bakkal amca gülümseyip sana bedava çikolata uzattı." } },
+                        { text: "Hakkını İste", nextId: 'age_7_ev_2', step: 1, icon: '⚖️', req: { zeka: 40 }, effect: { zeka: 3, karizma: 2, para: 50, msg: "Durumu bakkal amcaya net anlattın; hem doğru olanı yaptın hem küçük bir bahşiş kazandın." } }
+                    ]
+                },
+                age_7_ev_2: {
+                    id: 'age_7_ev_2', emoji: '👊', title: "Zorba Sınıf Arkadaşı",
+                    description: "Arka sıradaki zorba çocuk senden tost paranı istiyor.",
+                    choices: [
+                        { text: "Parayı Ver", nextId: 'age_7_ev_3', step: 1, icon: '💸', effect: { para: -20, mutluluk: -5, guc: -1, msg: "Tost paranı zorbaya verdin, o gün aç kaldın ama sorun çıkmadı." } },
+                        { text: "Karşı Koy", nextId: 'age_7_ev_3', step: 1, icon: '🥊', req: { guc: 30 }, effect: { guc: 3, karizma: 5, saglik: -5, enerji: -20, msg: "Zorbaya karşı durdun, ufak bir itişme oldu ama bir daha seni rahatsız etmedi." } },
+                        { text: "Sessizce Hallet", nextId: 'age_7_ev_3', step: 1, icon: '🕵️', req: { zeka: 40 }, effect: { zeka: 2, okul: 5, msg: "Durumu öğretmene akıllıca sızdırdın, zorba fark ettirmeden hizaya geldi." } }
+                    ]
+                },
+                age_7_ev_3: {
+                    id: 'age_7_ev_3', emoji: '🎨', title: "Resim Dersi",
+                    description: "Öğretmen serbest çalışma verdi.",
+                    choices: [
+                        { text: "Çöp Adam Çiz", nextId: 'age_7_ev_4', step: 1, icon: '🖍️', effect: { okul: -2, zeka: -1, msg: "Beş dakikada bir çöp adam karaladın, öğretmen \"bu kadar mı\" dedi." } },
+                        { text: "Boyama Yap", nextId: 'age_7_ev_4', step: 1, icon: '🖼️', effect: { okul: 3, mutluluk: 5, msg: "Özenle boyadın, resmin sınıf panosunu süsledi." } },
+                        { text: "Soyut Sanat", nextId: 'age_7_ev_4', step: 1, icon: '🧑‍🎨', req: { zeka: 40 }, effect: { zeka: 3, okul: 10, karizma: 2, msg: "Kimsenin anlamadığı ama herkesin \"derin\" bulduğu bir eser çıkardın ortaya." } }
+                    ]
+                },
+                age_7_ev_4: {
+                    id: 'age_7_ev_4', emoji: '⚽', title: "Hafta Sonu Kursu",
+                    description: "Bir kulübe kaydolman gerekiyor.",
+                    choices: [
+                        { text: "Futbol", nextId: 'hub', step: 1, icon: '🥅', effect: { yas: 1, guc: 5, saglik: 10, enerji: -30, msg: "Sahaya çıktın, top peşinde koştukça koştun, formanda ismin bile yazılı artık." } },
+                        { text: "Satranç", nextId: 'hub', step: 1, icon: '♟️', effect: { yas: 1, zeka: 5, okul: 10, enerji: -15, msg: "Tahtanın başına oturdun, taşları hesaplaya hesaplaya kafan gelişti." } },
+                        { text: "İkisi Birden", nextId: 'hub', step: 1, icon: '🏆', req: { karizma: 40 }, effect: { yas: 1, zeka: 3, guc: 3, karizma: 3, aileIliski: -5, enerji: -40, msg: "Hem sahaya hem tahtaya koştun, eve bitkin ama gururla döndün." } }
                     ]
                 },
 
-                // Yaş 8
-                age_8_ev_1: {
-                    id: 'age_8_ev_1', emoji: '⚽', title: "8 Yaş",
-                    description: "Okul kulüplerinden birine katılmak için deneyorsunuz."
-                    ,
-                    choices: [
-                        { text: "Spor Kulübü", nextId: 'age_9_ev_1', step: 1, icon: '🏃‍♀️', effect: { yas: 1, guc: 5, saglik: 5, mutluluk: 10, msg: "Futbol takımı seçtiniz, antrenmanlarda takım çalışması ve disiplin öğrendiniz." } },
-                        { text: "Sanat Kulübü", nextId: 'age_9_ev_1', step: 1, icon: '🎭', effect: { yas: 1, mutluluk: 8, karizma: 5, okul: 3, msg: "Resim ve Drama kulübüne katıldınız, yaratıcı enerjinizi serbest bırakmaya başladınız." } }
-                    ]
-                },
-
-                // Yaş 9
-                age_9_ev_1: {
-                    id: 'age_9_ev_1', emoji: '🔬', title: "9 Yaş",
-                    description: "Fen fuarı için bir proje hazırlamanız gerekiyor."
-                    ,
-                    choices: [
-                        { text: "Su Dönüşü Maquette", nextId: 'age_10_ev_1', step: 1, icon: '💧', effect: { yas: 1, zeka: 7, okul: 10, mutluluk: 12, msg: "Su döngüsü maquettenizi öğretmen beğendi, sınıf önünde sergilendi." } },
-                        { text: "Uzay Sistemleri Poster", nextId: 'age_10_ev_1', step: 1, icon: '🪐', effect: { yas: 1, zeka: 5, okul: 8, mutluluk: 8, msg: "Güneş sistemini anlatan renkli posterinizi hazırladınız, arkadaşlarınızla birlikte sundunuz." } }
-                    ]
-                },
-
-                // Yaş 10
-                age_10_ev_1: {
-                    id: 'age_10_ev_1', emoji: '🎓', title: "10 Yaş",
-                    description: "İlkokulünüzün son yılı, ortaokula geçiş için hazırlık yapıyorsunuz."
-                    ,
-                    choices: [
-                        { text: "Ders Çalışma Programı", nextId: 'age_11_ev_1', step: 1, icon: '📖', effect: { yas: 1, okul: 12, zeka: 8, tecrube: 5, mutluluk: 5, msg: "Her gün bir saat ekstra çalışarak temel konuları pekiştirdiniz, güvendiniz." } },
-                        { text: "Arkadaşla Proje", nextId: 'age_11_ev_1', step: 1, icon: '👥', effect: { yas: 1, okul: 10, zeka: 5, mutluluk: 10, tecrube: 3, msg: "Arkadaşınızla birlikte bir fen projesi yaptınız, iş birliği ve paydaşlık öğrendiniz." } }
-                    ]
-                },
-
-                // Yaş 11
-                age_11_ev_1: {
-                    id: 'age_11_ev_1', emoji: '🏫', title: "11 Yaş",
-                    description: "Ortaokulunuzun ilk günü, yeni bir bölüm ve yeni öğretmenler."
-                    ,
-                    choices: [
-                        { text: "Ortaokula Kayıt Ol", nextId: 'age_12_ev_1', step: 1, icon: '🚪', effect: { yas: 1, okul: 10, mutluluk: 10, msg: "Yeni sınıf arkadaşlarınızla tanıştınız, dersler ilginç ve zorlayıcı başladı." } },
-                        { text: "Henüz Hazır Değil", nextId: 'age_12_ev_1', step: 1, icon: '⏳', effect: { yas: 1, okul: -5, mutluluk: 5, msg: "Ortaokul sistemine hâlâ alışamadınız fakat öğretmenlerin desteği sayesinde lentelerle geçiş yapıyorsunuz." } }
-                    ]
-                },
-
-                // Yaş 12
-                age_12_ev_1: {
-                    id: 'age_12_ev_1', emoji: '🌱', title: "12 Yaş",
-                    description: "Erken puberte belirtileriyle başbaşa kalıyorsunuz, bedeniniz ve duygualarınız değişiyor."
-                    ,
-                    choices: [
-                        { text: "Ailele Konuş", nextId: 'age_13_ev_1', step: 1, icon: '💬', effect: { yas: 1, aileIliski: 8, mutluluk: 5, msg: "Ailenizle duygualarınızı paylaştınız, anlayış ve destek hissettiniz." } },
-                        { text: "Bir Notebook Tut", nextId: 'age_13_ev_1', step: 1, icon: '📓', effect: { yas: 1, zeka: 3, mutluluk: -5, tecrube: 2, msg: "Duygularınızı bir deftere not alarak izlemeye başladınız, bu da kendinizi daha iyi anlamanıza yardımcı oldu." } }
-                    ]
-                },
-
-                // Yaş 13
-                age_13_ev_1: {
-                    id: 'age_13_ev_1', emoji: '💘', title: "13 Yaş",
-                    description: "İlk çocukluğa ilişkin bir çarpışma veya zaukal hissetmeye başlıyorsunuz."
-                    ,
-                    choices: [
-                        { text: "Sınıf Arkadaşına Yaklaş", nextId: 'age_14_ev_1', step: 1, icon: '👦', effect: { yas: 1, karizma: 6, mutluluk: 10, aileIliski: -3, msg: "Sınıf arkadaşınızla kısa bir sohbet ettiniz, bir birinizi daha iyi anlama çabasını gösterdiniz." } },
-                        { text: "Odada Zaman Geçir", nextId: 'age_14_ev_1', step: 1, icon: '🚪', effect: { yas: 1, mutluluk: -5, karizma: -3, msg: "Kendinizi biraz izole ettiniz, duygusal dengeyi bulmak için kendiyle zaman geçirdiniz." } }
-                    ]
-                },
-
-                // Yaş 14
-                age_14_ev_1: {
-                    id: 'age_14_ev_1', emoji: '📚', title: "14 Yaş",
-                    description: "Liseye hazırlık sınavları (LGS) için yoğun bir çalışma dönemine giriyorsunuz."
-                    ,
-                    choices: [
-                        { text: "Yoğun Çalışma", nextId: 'age_15_ev_1', step: 1, icon: '⏰', effect: { yas: 1, okul: 15, zeka: 12, tecrube: 8, mutluluk: -10, msg: "Her gün iki saat ekstra çalışarak matematik ve Türkçe konularını pekiştirdiniz, endişeniz azaldı." } },
-                        { text: "Dinlenme ve Sosyalleşme", nextId: 'age_15_ev_1', step: 1, icon: '🌿', effect: { yas: 1, mutluluk: 8, tecrube: 3, okul: 5, msg: "Aile ve arkadaşlarınızla zaman geçirerek stresinizi azaldınız, hâlâ ilerleme kaydettiniz." } }
-                    ]
-                },
-
-                // Yaş 15
-                age_15_ev_1: {
-                    id: 'age_15_ev_1', emoji: '🎒', title: "15 Yaş",
-                    description: "Ortaokulunuzun son yılı, liseye yönelik bir karar vermeniz gerekiyor.",
-                    choices: [
-                        { text: "Fen Lisesi Seç", nextId: 'age_16_ev_1', step: 1, icon: '🔬', effect: { yas: 1, okul: 10, zeka: 15, tecrube: 5, mutluluk: 5, msg: "Fen ve matematik yoğun olan liseyi seçtiniz, bilim kariyerinizi şekillendirecek bir temel kazandınız." } },
-                        { text: "Sosyal Lisesi Seç", nextId: 'age_16_ev_1', step: 1, icon: '👥', effect: { yas: 1, okul: 8, zeka: 8, tecrube: 4, mutluluk: 8, msg: "İnsan ilişkileri ve sanat odaklı liseyi tercih ettiniz, insanlar ve toplum hakkında derinlemesine bilgi sahibi oldunuz." } }
-                    ]
-                },
-
-                // Yaş 16
-                age_16_ev_1: {
-                    id: 'age_16_ev_1', emoji: '🏫', title: "16 Yaş",
-                    description: "Lisenizin ilk yılında yeni ortamaya uyum sağlıyorsunuz.",
-                    choices: [
-                        { text: "Kulüp Katıl", nextId: 'age_17_ev_1', step: 1, icon: '🏃‍♀️', effect: { yas: 1, karizma: 5, mutluluk: 10, enerji: -5, msg: "Basketbol kulübüne katıldınız, yeni arkadaşlar edindiniz ve takım çalışmanızı geliştirdiniz." } },
-                        { text: "Derslere Odaklan", nextId: 'age_17_ev_1', step: 1, icon: '📖', effect: { yas: 1, okul: 10, zeka: 5, mutluluk: -5, msg: "Derslere ekstra zaman ayırarak zorlandığınız konuları pekiştirdiniz, ders başarılarınızı artırdınız." } }
-                    ]
-                },
-
-                // Yaş 17
-                age_17_ev_1: {
-                    id: 'age_17_ev_1', emoji: '📚', title: "17 Yaş",
-                    description: "Lisenizin ikinci yılında universitaireye hazırlık başlıyor.",
-                    choices: [
-                        { text: "Özel Ders Al", nextId: 'age_18_ev_1', step: 1, icon: '👓', effect: { yas: 1, okul: 15, zeka: 10, para: -50, mutluluk: -10, msg: "Matematik ve Fizik için özel ders alarak zorlu konuları anlamaya başladınız, ücret ödediniz." } },
-                        { text: "Arkadaşlarla Çıktı", nextId: 'age_18_ev_1', step: 1, icon: '🍕', effect: { yas: 1, mutluluk: 15, karizma: 5, okul: -5, enerji: -10, msg: "Hafta sonu arkadaşlarınızla kafede zaman geçirdiğiniz için stresiniz azaldı ama ders çalışmanız etkisiz kaldı." } }
-                    ]
-                },
-
-                // Yaş 18
-                age_18_ev_1: {
-                    id: 'age_18_ev_1', emoji: '🎓', title: "18 Yaş",
-                    description: "Lisenizin son yılı, universitelerine sınav sonuçları bekleniyor.",
-                    choices: [
-                        { text: "Üniversite Hazırlığı", nextId: 'age_19_ev_1', step: 1, icon: '⏰', effect: { yas: 1, okul: 20, zeka: 15, tecrube: 5, mutluluk: -15, enerji: -20, msg: "YKS hazırlıkları için yoğun bir programa girdiniz, her gün birden fazla test çözdünüz." } },
-                        { text: "Sosyal Aktiviteler", nextId: 'age_19_ev_1', step: 1, icon: '🎉', effect: { yas: 1, mutluluk: 20, karizma: 10, tecrube: 3, okul: -10, msg: "Okul düzenlediği konserde ve etkinliklerde aktif rol oynadınız, arkadaş ağınız genişledi." } }
-                    ]
-                },
-
-                // Yaş 19
-                age_19_ev_1: {
-                    id: 'age_19_ev_1', emoji: '🏢', title: "19 Yaş",
-                    description: "Üniversitenizin ilk yılında yeni bir şehirde yaşıyor olabilirsiniz.",
-                    choices: [
-                        { text: "Yurt Hayatı", nextId: 'age_20_ev_1', step: 1, icon: '🏫', effect: { yas: 1, mutluluk: 10, aileIliski: -5, para: -300, tecrube: 5, msg: "Üniversite yurtunda odada arkadaşınızla paylaştınız, yeni kültürlerle tanıştınız." } },
-                        { text: "Evde Kal", nextId: 'age_20_ev_1', step: 1, icon: '🏠', effect: { yas: 1, aileIliski: 10, mutluluk: 5, para: 200, okul: 5, msg: "Ailenizin evinde kalarak aile ile daha fazla zaman geçirdiniz, hem ders çalışmanızı yaptınız hem de ev işlerine katkı sağladınız." } }
-                    ]
-                },
-
-                // Yaş 20
-                age_20_ev_1: {
-                    id: 'age_20_ev_1', emoji: '💼', title: "20 Yaş",
-                    description: "Üniversitenizin ikinci yılında, mesleki hedefleriniz daha netleşiyor.",
-                    choices: [
-                        { text: "Staj Başvuru", nextId: 'hub_adult', step: 1, icon: '📄', effect: { yas: 1, tecrube: 15, okul: 10, zeka: 5, mutluluk: 5, para: -20, msg: "İlgili alanınızda staj pozisyonu için başvuru yaptınız, bazı firmalardan olumlu yanıt bekliyorsunuz." } },
-                        { text: "Yarı Zamanlı İş", nextId: 'hub_adult', step: 1, icon: '💰', effect: { yas: 1, para: 300, tecrube: 10, enerji: -20, mutluluk: -5, okul: -5, msg: "Üniversite yanınızda bir kafe'de yarı zamanlı çalıştınız, ekstra kazancınız sayesinde bazı ihtiyaçlarınızı karşılayabildiniz." } }
-                    ]
-                },
-
-                // --- OKUL ÇAĞI (15+ YAŞ HUB) ---
+                // --- OKUL ÇAĞI (8+ YAŞ HUB) ---
                 hub_school: {
-                    id: 'hub_school', emoji: '🎒', title: "Lise",
-                    description: `Lise yılları. Derinlemesine öğrenme ve kariyer planlaması.`,
+                    id: 'hub_school', emoji: '🎒', title: "İlköğretim",
+                    description: `Okul yılları. Dersler ve oyun arasında denge kur.`,
                     choices: [
                         { text: "Ders Çalış", nextId: 'hub', step: 1, icon: '📚', effect: withMsg({ okul: 15, zeka: 2, enerji: -20, tecrube: 5 }, ["Kitapların başına çöktün, gözlerin sulanana kadar çalıştın.", "Ödevleri bitirdin, defterlerin tertemiz oldu.", "Konuyu tekrar tekrar okudun, sonunda kafana oturdu."]) },
                         { text: "Spor Yap", nextId: 'hub', step: 1, icon: '⚽', effect: withMsg({ guc: 5, saglik: 5, enerji: -30, mutluluk: 15 }, ["Teneffüste top koşturdun, forman terden değişti.", "Beden dersinde herkesten çok koştun, nefes nefese kaldın.", "Sahada kendini kanıtladın, arkadaşların takım kaptanı seçti."]) },
@@ -238,7 +221,7 @@ const EVENTS = {
                         { text: "Sınava Kas", nextId: 'hub', step: 1, icon: '📖', effect: withMsg({ okul: 20, zeka: 3, enerji: -30, tecrube: 15 }, ["Gece geç saate kadar test çözdün, gözlerin kan çanağına döndü.", "Ders kitaplarını kurcaladın, kahve fincanların bitmek bilmedi.", "Konuları özetleyip tekrar tekrar çalıştın, kafan artık dolu."]) },
                         { text: "Sosyalleş", nextId: 'hub', step: 1, icon: '🍕', req: { para: 50 }, effect: withMsg({ para: -50, karizma: 2, mutluluk: 20, enerji: -15 }, ["Arkadaşlarla dışarı çıktın, hesap gelince herkes cebini karıştırdı.", "Kafede saatlerce sohbet edip gündemi kapattınız.", "Grup dışarı çıktı, sen de tabii ki hazırdın."]) },
                         { text: "Spor Yap", nextId: 'hub', step: 1, icon: '🏋️', effect: withMsg({ guc: 5, saglik: 10, enerji: -40 }, ["Salona gidip ter attın, aynadaki değişimi fark etmeye başladın.", "Koşuya çıktın, kulağındaki müzikle kilometreler geride kaldı.", "Antrenman sonrası kaslar ağrıyor ama için rahat."]) },
-                        { text: "Uyu": nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 50, saglik: 10 }, ["Telefonu bırakıp erkenden yattın, ertesi gün taze uyandın.", "Uzun bir gece uykusuyla enerjini topladın.", "Battaniyeye sarılıp kendini dünyadan soyutladın."]) }
+                        { text: "Uyu", nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 50, saglik: 10 }, ["Telefonu bırakıp erkenden yattın, ertesi gün taze uyandın.", "Uzun bir gece uykusuyla enerjini topladın.", "Battaniyeye sarılıp kendini dünyadan soyutladın."]) }
                     ]
                 },
                 // --- YETİŞKİNLİK ---
@@ -247,9 +230,9 @@ const EVENTS = {
                     description: `Hayat mücadelesi. İş, güç, sorumluluk.`,
                     choices: [
                         { text: "Çalış (Mesai)", nextId: 'adult_work', step: 1, icon: '💼' },
-                        { text: "Spora Git": nextId: 'hub', step: 1, icon: '🏃', effect: withMsg({ guc: 5, saglik: 10, enerji: -40 }, ["İşten çıkar çıkmaz spor salonuna koştun, terin damla damla aktı.", "Koşu bandında kilometreler yaktın, stres de yanında gitti.", "Ağırlıkları kaldırdın, aynadan memnun ayrıldın."]) },
-                        { text: "Gelişim": nextId: 'hub', step: 1, icon: '📈', effect: withMsg({ zeka: 3, tecrube: 20, enerji: -25 }, ["Bir kurs kaydı yaptırıp yeni bir şey öğrendin.", "Alanınla ilgili bir kitap bitirdin, kafan yeni fikirlerle doldu.", "Bir sertifika programına başladın, kariyerine yatırım yaptın."]) },
-                        { text: "Dinlen": nextId: 'hub', step: 1, icon: '☕', effect: withMsg({ enerji: 60, saglik: 10, mutluluk: 5 }, ["Kanepeye uzanıp bir kahve eşliğinde günü kapattın.", "Telefonu bırakıp sessizce dinlendin, omuzların gevşedi.", "Uzun bir sıcak duş aldın, yorgunluk üzerinden akıp gitti."]) }
+                        { text: "Spora Git", nextId: 'hub', step: 1, icon: '🏃', effect: withMsg({ guc: 5, saglik: 10, enerji: -40 }, ["İşten çıkar çıkmaz spor salonuna koştun, terin damla damla aktı.", "Koşu bandında kilometreler yaktın, stres de yanında gitti.", "Ağırlıkları kaldırdın, aynadan memnun ayrıldın."]) },
+                        { text: "Gelişim", nextId: 'hub', step: 1, icon: '📈', effect: withMsg({ zeka: 3, tecrube: 20, enerji: -25 }, ["Bir kurs kaydı yaptırıp yeni bir şey öğrendin.", "Alanınla ilgili bir kitap bitirdin, kafan yeni fikirlerle doldu.", "Bir sertifika programına başladın, kariyerine yatırım yaptın."]) },
+                        { text: "Dinlen", nextId: 'hub', step: 1, icon: '☕', effect: withMsg({ enerji: 60, saglik: 10, mutluluk: 5 }, ["Kanepeye uzanıp bir kahve eşliğinde günü kapattın.", "Telefonu bırakıp sessizce dinlendin, omuzların gevşedi.", "Uzun bir sıcak duş aldın, yorgunluk üzerinden akıp gitti."]) }
                     ]
                 },
                 adult_work: {
@@ -266,7 +249,7 @@ const EVENTS = {
                 kicked_out_young: {
                     id: 'kicked_out_young', emoji: '🚪', title: "Evden Atıldın!",
                     description: "Ailenle ipler koptu! Yaşın küçük olduğu için Yetiştirme Yurdu'na alındın.",
-                    effect: withMsg({ barinma: 'yurt', okul: -10, mutluluk: -50 }, "Ailenle aranız iyice bozuldu, sosyal hizmetler seni yetiştirme yurdu'na teslim etti."),
+                    effect: withMsg({ barinma: 'yurt', okul: -10, mutluluk: -50 }, "Ailenle aranız iyice bozuldu, sosyal hizmetler seni yetiştirme yurduna teslim etti."),
                     choices: [{ text: "Kabullen", nextId: 'hub', step: 0, icon: '😔' }]
                 },
                 hub_orphanage: {
@@ -274,15 +257,15 @@ const EVENTS = {
                     description: `Kurallara uymak zorundasın.`,
                     choices: [
                         { text: "Ders Çalış", nextId: 'hub', step: 1, icon: '📚', effect: withMsg({ okul: 15, enerji: -20, tecrube: 5 }, ["Yurdun küçük kütüphanesine kapanıp çalıştın.", "Ödevlerini bitirip nöbetçi bakıcıdan takdir aldın.", "Sessiz köşende kitaplara gömüldün."]) },
-                        { text: "Kavga Et": nextId: 'hub', step: 1, icon: '🥊', effect: withMsg({ saglik: -15, guc: 2, okul: -10, enerji: -30 }, ["Koğuştaki bir çocukla kapıştın, ikinizde nöbetçiden azar işittiniz.", "Ufak bir tartışma büyüdü, yumruklar havada uçuştu.", "Kavga bitince ikinizde yerde oturup nefes nefese kaldınız."]) },
-                        { text: "Gizlice Uyu": nextId: 'hub', step: 1, icon: '🛌', effect: withMsg({ enerji: 40, saglik: 5 }, ["Battaniyenin altına saklanıp nöbetçiden gizlice uyudun.", "Işıklar sönmeden gözlerini kapattın, kimse fark etmedi.", "Yorganın altında saklanıp uyumaya çalıştın."]) }
+                        { text: "Kavga Et", nextId: 'hub', step: 1, icon: '🥊', effect: withMsg({ saglik: -15, guc: 2, okul: -10, enerji: -30 }, ["Koğuştaki bir çocukla kapıştın, ikiniz de nöbetçiden azar işittiniz.", "Ufak bir tartışma büyüdü, yumruklar havada uçuştu.", "Kavga bitince ikiniz de yerde oturup nefes nefese kaldınız."]) },
+                        { text: "Gizlice Uyu", nextId: 'hub', step: 1, icon: '🛌', effect: withMsg({ enerji: 40, saglik: 5 }, ["Battaniyenin altına saklanıp nöbetçiden gizlice uyudun.", "Işıklar sönmeden gözlerini kapattın, kimse fark etmedi.", "Yorganın altında saklanıp uyumaya çalıştın."]) }
                     ]
                 },
                 orphanage_leave: {
                     id: 'orphanage_leave', emoji: '🎒', title: "Yurttan Ayrılış",
                     description: "18 yaşına bastın. Devlet yurdundan ayrılma vakti geldi. Sokaklardasın.",
                     effect: withMsg({ barinma: 'sokak', para: 500 }, "Devlet sana biraz harçlık verdi ve kapıyı gösterdi. Artık kendi başınasın."),
-                    choices: [{ text: "Hayata Atıl": nextId: 'hub', step: 0, icon: '🚶' }]
+                    choices: [{ text: "Hayata Atıl", nextId: 'hub', step: 0, icon: '🚶' }]
                 },
 
                 // --- SOKAK / EVSİZ (Barınma: Sokak) ---
@@ -297,9 +280,9 @@ const EVENTS = {
                     description: `Sokakta yaşamak çok yıpratıcı.`,
                     choices: [
                         { text: "Dilencilik", nextId: 'hub', step: 1, icon: '🤲', effect: withMsg({ para: 50, mutluluk: -15, enerji: -20 }, ["Kaldırımda oturup geçenlerden yardım istedin, cebine biraz bozukluk düştü.", "Bir köşeye çöküp bekledin, birkaç kişi acıyıp para bıraktı.", "Sokakta uzun saatler geçirdin, akşam eline az da olsa para geçti."]) },
-                        { text: "Günlük İş": nextId: 'hub', step: 1, icon: '🧱', effect: withMsg({ para: 150, saglik: -10, enerji: -50 }, ["İnşaatta günlük işçi olarak çalıştın, sırtın kırıldı ama cebin doldu.", "Ağır yükler taşıdın, akşam bitkin düştün ama para kazandın.", "Bir esnafa yardım ettin, karşılığında biraz para aldın."]) },
-                        { text: "Uyu": nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 30, saglik: -5 }, ["Bir köprü altında, gazete kağıtlarına sarılıp uyumaya çalıştın.", "Soğuk kaldırımda gözlerini kapattın, sabah üşüyerek uyandın.", "Bulduğun bir kutuya sığınıp gözlerini yumdun."]) },
-                        { text: "Ev Tut": nextId: 'rent_house', step: 1, icon: '🏠', req: { para: 2000 } }
+                        { text: "Günlük İş", nextId: 'hub', step: 1, icon: '🧱', effect: withMsg({ para: 150, saglik: -10, enerji: -50 }, ["İnşaatta günlük işçi olarak çalıştın, sırtın kırıldı ama cebin doldu.", "Ağır yükler taşıdın, akşam bitkin düştün ama para kazandın.", "Bir esnafa yardım ettin, karşılığında biraz para aldın."]) },
+                        { text: "Uyu", nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 30, saglik: -5 }, ["Bir köprü altında, gazete kağıtlarına sarılıp uyumaya çalıştın.", "Soğuk kaldırımda gözlerini kapattın, sabah üşüyerek uyandın.", "Bulduğun bir kutuya sığınıp gözlerini yumdun."]) },
+                        { text: "Ev Tut", nextId: 'rent_house', step: 1, icon: '🏠', req: { para: 2000 } }
                     ]
                 },
                 rent_house: {
