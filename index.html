@@ -1168,7 +1168,7 @@ const INTERACTIVE_RANDOM_EVENTS = [
             {
                 id: 'rnd_belediye_firin', minAge: 0, maxAge: 99,
                 emoji: '🍞', title: "Belediye Fırını",
-                description": "Belediye fırını bugün özel bir ekmek pişırmiş ve ücretsiz dağıtıyor. Kuyruk çok uzun ama değmiş gibi görünüyor.",
+                description: "Belediye fırını bugün özel bir ekmek pişırmiş ve ücretsiz dağıtıyor. Kuyruk çok uzun ama değmiş gibi görünüyor.",
                 choices: [
                     { text: "Kuyruğa Gir", nextId: 'hub', step: 0, icon: '👥', effect: withMsg({ mutluluk: 15, enerji: -10 }, ["Sıcak ekmeni aldın ve keyifle yedin.", "Ekmek çok lezzetliydi ve gününü güzel bir başlangıç için hazırlıklı hissettin."]) },
                     { text: "Devam Et", nextId: 'hub', step: 0, icon: '➡️', effect: withMsg({ mutluluk: -5 }, "Kuyruğu gördüğün için gitmeye karar verdin, bugün normal ekmek alacaksın.") }
@@ -1177,7 +1177,7 @@ const INTERACTIVE_RANDOM_EVENTS = [
             {
                 id: 'rnd_ogrenci_kredisi', minAge: 18, maxAge: 25,
                 emoji: '📚', title: "Öğrenci Kredisi Başvurusu",
-                description": "Üniversiteden mezun olup iş bulmakta zorlandığın için devlet tarafından verilen düşük faizli öğrenci kredisi başvurusu yaptığın ilan çıktı.",
+                description: "Üniversiteden mezun olup iş bulmakta zorlandığın için devlet tarafından verilen düşük faizli öğrenci kredisi başvurusu yaptığın ilan çıktı.",
                 choices: [
                     { text: "Başvur Yap", nextId: 'hub', step: 0, icon: '📝', effect: withMsg({ para: 5000, okul: 5, mutluluk: -5 }, ["Kredi onaylandı ve hesabına yatırıldı. Şimdi bir iş arayabilir veya daha fazla eğitim alabilirsin.", "Kredi onaylandı! Artık kendi işini başlatmak için sermaye biriktirmeye başlayabilirsin."]) },
                     { text: "Başvurma", nextId: 'hub', step: 0, icon: '🚫', effect: withMsg({ zeka: 5 }, "Kredi borç olduğundan düşündüğün için başvurmaya karar verdin, kendini daha çok zorlamaya karar verdin.") }
