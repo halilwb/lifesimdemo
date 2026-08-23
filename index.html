@@ -1155,6 +1155,42 @@ const INTERACTIVE_RANDOM_EVENTS = [
                     { text: "Fazla Mesaiye Kal", nextId: 'hub', step: 0, icon: '🔧', effect: withMsg({ para: 35, enerji: -25, saglik: -5 }, ["Uzun vardiyanın sonunda yorgun ama cepte fazladan parayla eve döndün.", "Makinelerin sesi kulağında çınlarken vardiyayı bitirdin."]) },
                     { text: "Eve Erken Dön", nextId: 'hub', step: 0, icon: '🏡', effect: withMsg({ mutluluk: 10, enerji: 10, para: -5 }, ["Fazla mesaiyi reddedip ailenle vakit geçirmeyi tercih ettin.", "Erken çıkıp dinlendin, yorgunluğun üzerinden atmaya çalıştın."]) }
                 ]
+            },
+            {
+                id: 'rnd_turk_kahvesi', minAge: 18, maxAge: 99,
+                emoji: '☕', title: "Türk Kahvesi Falı",
+                description: "Komşun güzel bir Türk kahvesi faldı ve senin falına bakmak istedi. Kahve koje eli okunabilir mi?",
+                choices: [
+                    { text: "Falına Bak", nextId: 'hub', step: 0, icon: '👁️', effect: withMsg({ sans: 5, mutluluk: 10 }, ["Falcı güzel haberler verdi: 'Yakında sıpır sıpır dinheiro geliyor!'", "Falcı biraz hayal kurdu ama genel olarak pozitif bir gün önceden gördü."]) },
+                    { text: "İnkar Et", nextId: 'hub', step: 0, icon: '🙅‍♂️', effect: withMsg({ zeka: 5 }, "Falculara güvenmediğin için sadece kahvesini içip sohbete devam ettin.") }
+                ]
+            },
+            {
+                id: 'rnd_belediye_firin', minAge: 0, maxAge: 99,
+                emoji: '🍞', title: "Belediye Fırını",
+                description": "Belediye fırını bugün özel bir ekmek pişırmiş ve ücretsiz dağıtıyor. Kuyruk çok uzun ama değmiş gibi görünüyor.",
+                choices: [
+                    { text: "Kuyruğa Gir", nextId: 'hub', step: 0, icon: '👥', effect: withMsg({ mutluluk: 15, enerji: -10 }, ["Sıcak ekmeni aldın ve keyifle yedin.", "Ekmek çok lezzetliydi ve gününü güzel bir başlangıç için hazırlıklı hissettin."]) },
+                    { text: "Devam Et", nextId: 'hub', step: 0, icon: '➡️', effect: withMsg({ mutluluk: -5 }, "Kuyruğu gördüğün için gitmeye karar verdin, bugün normal ekmek alacaksın.") }
+                ]
+            },
+            {
+                id: 'rnd_ogrenci_kredisi', minAge: 18, maxAge: 25,
+                emoji: '📚', title: "Öğrenci Kredisi Başvurusu",
+                description": "Üniversiteden mezun olup iş bulmakta zorlandığın için devlet tarafından verilen düşük faizli öğrenci kredisi başvurusu yaptığın ilan çıktı.",
+                choices: [
+                    { text: "Başvur Yap", nextId: 'hub', step: 0, icon: '📝', effect: withMsg({ para: 5000, okul: 5, mutluluk: -5 }, ["Kredi onaylandı ve hesabına yatırıldı. Şimdi bir iş arayabilir veya daha fazla eğitim alabilirsin.", "Kredi onaylandı! Artık kendi işini başlatmak için sermaye biriktirmeye başlayabilirsin."]) },
+                    { text: "Başvurma", nextId: 'hub', step: 0, icon: '🚫', effect: withMsg({ zeka: 5 }, "Kredi borç olduğundan düşündüğün için başvurmaya karar verdin, kendini daha çok zorlamaya karar verdin.") }
+                ]
+            },
+            {
+                id: 'rnd_yerel_festival', minAge: 0, maxAge: 99,
+                emoji: '🎪', title: "Yerel Festival",
+                description": "İlçenizde geleneksel bir festival düzenlenmiş. Halk oyunları, yerel lezzetler ve müzik konserleri var. Giris ücreti 50 lira.",
+                choices: [
+                    { text: "Festivale Git", nextId: 'hub', step: 0, icon: '💃', effect: withMsg({ mutluluk: 25, para: -50, sosial: 10 }, ["Festivalde keyifli zaman geçirdin, dans ettin ve yerel lezzetleri denedin.", "Festival bir Séries guzeldi, yeni insanlarla tanıştın ve kültüründen keyif aldın."]) },
+                    { text: "Gitme", nextId: 'hub', step: 0, icon: '🏠', effect: withMsg({ mutluluk: -10 }, "Festivale gitmek yerine evde dinlemek istedin, ama sonraları fotoları gördüğün için biraz pişman oldun.") }
+                ]
             }
         ];
 
