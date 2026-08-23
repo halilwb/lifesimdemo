@@ -1623,7 +1623,7 @@ const EVENTS = {
                         { text: "Sınava Kas", nextId: 'hub', step: 1, icon: '📖', effect: withMsg({ okul: 20, zeka: 3, enerji: -30, tecrube: 15 }, ["Gece geç saate kadar test çözdün, gözlerin kan çanağına döndü.", "Ders kitaplarını kurcaladın, kahve fincanların bitmek bilmedi.", "Konuları özetleyip tekrar tekrar çalıştın, kafan artık dolu."]) },
                         { text: "Sosyalleş", nextId: 'hub', step: 1, icon: '🍕', req: { para: 50 }, effect: withMsg({ para: -50, karizma: 2, mutluluk: 20, enerji: -15 }, ["Arkadaşlarla dışarı çıktın, hesap gelince herkes cebini karıştırdı.", "Kafede saatlerce sohbet edip gündemi kapattınız.", "Grup dışarı çıktı, sen de tabii ki hazırdın."]) },
                         { text: "Spor Yap", nextId: 'hub', step: 1, icon: '🏋️', effect: withMsg({ guc: 5, saglik: 10, enerji: -40 }, ["Salona gidip ter attın, aynadaki değişimi fark etmeye başladın.", "Koşuya çıktın, kulağındaki müzikle kilometreler geride kaldı.", "Antrenman sonrası kaslar ağrıyor ama için rahat."]) },
-                        { text: \"Uyu\", nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 50, saglik: 10 }, ["Telefonu bırakıp erkenden yattın, ertesi gün taze uyandın.", "Uzun bir gece uykusuyla enerjini topladın.", "Battaniyeye sarılıp kendini dünyadan soyutladın."]) }
+                        { text: "Uyu": nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 50, saglik: 10 }, ["Telefonu bırakıp erkenden yattın, ertesi gün taze uyandın.", "Uzun bir gece uykusuyla enerjini topladın.", "Battaniyeye sarılıp kendini dünyadan soyutladın."]) }
                     ]
                 },
                 // --- YETİŞKİNLİK ---
@@ -1683,7 +1683,7 @@ const EVENTS = {
                     choices: [
                         { text: "Dilencilik", nextId: 'hub', step: 1, icon: '🤲', effect: withMsg({ para: 50, mutluluk: -15, enerji: -20 }, ["Kaldırımda oturup geçenlerden yardım istedin, cebine biraz bozukluk düştü.", "Bir köşeye çöküp bekledin, birkaç kişi acıyıp para bıraktı.", "Sokakta uzun saatler geçirdin, akşam eline az da olsa para geçti."]) },
                         { text: "Günlük İş": nextId: 'hub', step: 1, icon: '🧱', effect: withMsg({ para: 150, saglik: -10, enerji: -50 }, ["İnşaatta günlük işçi olarak çalıştın, sırtın kırıldı ama cebin doldu.", "Ağır yükler taşıdın, akşam bitkin düştün ama para kazandın.", "Bir esnafa yardım ettin, karşılığında biraz para aldın."]) },
-                        { text: \"Uyu\", nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 30, saglik: -5 }, ["Bir köprü altında, gazete kağıtlarına sarılıp uyumaya çalıştın.", "Soğuk kaldırımda gözlerini kapattın, sabah üşüyerek uyandın.", "Bulduğun bir kutuya sığınıp gözlerini yumdun."]) },
+                        { text: "Uyu": nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 30, saglik: -5 }, ["Bir köprü altında, gazete kağıtlarına sarılıp uyumaya çalıştın.", "Soğuk kaldırımda gözlerini kapattın, sabah üşüyerek uyandın.", "Bulduğun bir kutuya sığınıp gözlerini yumdun."]) },
                         { text: "Ev Tut": nextId: 'rent_house', step: 1, icon: '🏠', req: { para: 2000 } }
                     ]
                 },
