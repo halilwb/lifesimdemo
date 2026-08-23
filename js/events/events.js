@@ -196,11 +196,91 @@ const EVENTS = {
                     id: 'age_7_ev_4', emoji: '⚽', title: "Hafta Sonu Kursu",
                     description: "Bir kulübe kaydolman gerekiyor.",
                     choices: [
-                        { text: "Futbol", nextId: 'hub', step: 1, icon: '🥅', effect: { yas: 1, guc: 5, saglik: 10, enerji: -30, msg: "Sahaya çıktın, top peşinde koştukça koştun, formanda ismin bile yazılı artık." } },
-                        { text: "Satranç", nextId: 'hub', step: 1, icon: '♟️', effect: { yas: 1, zeka: 5, okul: 10, enerji: -15, msg: "Tahtanın başına oturdun, taşları hesaplaya hesaplaya kafan gelişti." } },
-                        { text: "İkisi Birden", nextId: 'hub', step: 1, icon: '🏆', req: { karizma: 40 }, effect: { yas: 1, zeka: 3, guc: 3, karizma: 3, aileIliski: -5, enerji: -40, msg: "Hem sahaya hem tahtaya koştun, eve bitkin ama gururla döndün." } }
+                        { text: "Futbol", nextId: 'age_8_ev_1', step: 1, icon: '🥅', effect: { yas: 1, guc: 5, saglik: 10, enerji: -30, msg: "Sahaya çıktın, top peşinde koştukça koştun, formanda ismin bile yazılı artık." } },
+                        { text: "Satranç", nextId: 'age_8_ev_1', step: 1, icon: '♟️', effect: { yas: 1, zeka: 5, okul: 10, enerji: -15, msg: "Tahtanın başına oturdun, taşları hesaplaya hesaplaya kafan gelişti." } },
+                        { text: "İkisi Birden", nextId: 'age_8_ev_1', step: 1, icon: '🏆', req: { karizma: 40 }, effect: { yas: 1, zeka: 3, guc: 3, karizma: 3, aileIliski: -5, enerji: -40, msg: "Hem sahaya hem tahtaya koştun, eve bitkin ama gururla döndün." } }
                     ]
                 },
+
+                // Yaş 8
+                age_8_ev_1: {
+                    id: 'age_8_ev_1', emoji: '📚', title: "Kitap Fuarı",
+                    description: "Okulda kitap fuarı düzenlenmiş. Yeni bir macera kitabı gördün ve hemen okumak istiyorsun.",
+                    choices: [
+                        { text: "Kitabı Al", nextId: 'age_8_ev_2', step: 1, icon: '📖', effect: { yas: 1, okul: 10, zeka: 5, mutluluk: 15, msg: "Kitabı aldın ve hemen okumaya başladın. Macera dolu sayfalarla uyku gelmedi!" } },
+                        { text: "Kitabı İnade Et", nextId: 'age_8_ev_2', step: 1, icon: '🚫', effect: { yas: 1, karizma: 5, mutluluk: -10, msg: "Kitabı almadan geri kaldın. Arkadaşların \"okumadan ne olacak\" diye gülümsedi." } }
+                    ]
+                },
+                age_8_ev_2: {
+                    id: 'age_8_ev_2', emoji: '🔬', title: "Fen Laboratuvarı",
+                    description: "Fen dersiyle mikroskop kullandığını gördükten sonra meraklandın.",
+                    choices: [
+                        { text: "Deney Yap", nextId: 'age_8_ev_3', step: 1, icon: '⚗️', effect: { yas: 1, zeka: 10, okul: 5, mutluluk: 10, msg: "Mikroskopla hücreleri inceledin. Küçük küçük canlılar gördüğün için hayret ettin!" } },
+                        { text: "Sınıfı Temizle", nextId: 'age_8_ev_3', step: 1, icon: '🧹', effect: { yas: 1, mutluluk: 5, okul: -5, msg: "Laboratuvar temizliği yaptın. Öğretmen \"temiz bir zeka temiz bir çalışma\" dedi." } }
+                    ]
+                },
+                age_8_ev_3: {
+                    id: 'age_8_ev_3', emoji: '🎵', title: "Müzik Kursu",
+                    description: "Müzik öğretmeni sınıflara flute kursu açtığını duyurdu.",
+                    choices: [
+                        { text: "Flute Çal", nextId: 'age_9_ev_1', step: 1, icon: '🎶', effect: { yas: 1, mutluluk: 15, karizma: 10, msg: "Flute çalmayı öğrendin. İlk konserin annen izledi ve gururla övdü." } },
+                        { text: "Piyano Denemek", nextId: 'age_9_ev_1', step: 1, icon: '🎹', effect: { yas: 1, mutluluk: 10, zeka: 5, msg: "Piyano tuşlarını denedin. Sesler hoşuma gitti ama flute daha eğlenceli geliyor." } }
+                    ]
+                },
+
+                // Yaş 9
+                age_9_ev_1: {
+                    id: 'age_9_ev_1', emoji: '⚽', title: "Okul Takımı Seçimleri",
+                    description: "Futbol takımı için试训 yapılıyor. Kandın donuyor ama katılmak istiyorsun.",
+                    choices: [
+                        { text: "Takımı Deneme", nextId: 'age_9_ev_2', step: 1, icon: '💪', effect: { yas: 1, guc: 10, saglik: 5, mutluluk: 10, enerji: -15, msg: "Kabul ettin! İlk maçın annen tribünden izledi ve haykırdı." } },
+                        { text: "Hakem Olmak", nextId: 'age_9_ev_2', step: 1, icon: '🤚', effect: { yas: 1, okul: 5, zeka: 5, mutluluk: 5, msg: "Hakemlik kursuna kaydoldun. Şimdi saat sayarken whistle çalmayı öğreniyorsun." } }
+                    ]
+                },
+                age_9_ev_2: {
+                    id: 'age_9_ev_2', emoji: '💻', title: "Bilgisayar Laboratuvarı",
+                    description: "Bilgisayar dersiyle ilk kez kod yazmaya başladın.",
+                    choices: [
+                        { text: "İlk Kodum", nextId: 'age_9_ev_3', step: 1, icon: '</>', effect: { yas: 1, zeka: 15, okul: 10, mutluluk: 20, msg: "\"Merhaba Dünya\" yazdın. Ekrandaki yazılar gördüğün için bağırdın!" } },
+                        { text: "Oyun Yapalım", nextId: 'age_9_ev_3', step: 1, icon: '🎮', effect: { yas: 1, mutluluk: 15, zeka: 5, okul: 5, msg: "Basit bir hareket oyunu yaptın. Arkadaşlarınla turno alırken oynadık." } }
+                    ]
+                },
+                age_9_ev_3: {
+                    id: 'age_9_ev_3', emoji: '🧪', title: "Fen Fuarı Projesi",
+                    description: "Fen fuarı için grup projeleri verildi. Su döngüsü hakkında bir maquett yapacaksın.",
+                    choices: [
+                        { text: "Maquette Yap", nextId: 'age_10_ev_1', step: 1, icon: '🌊', effect: { yas: 1, zeka: 10, okul: 15, mutluluk: 10, msg: "Su döngüsü maquettin harika oldu. Öğretmen sınıfın önünde sergiledi." } },
+                        { text: "Poster Hazırla", nextId: 'age_10_ev_1', step: 1, icon: '📋', effect: { yas: 1, okul: 10, zeka: 5, mutluluk: 5, msg: "Su döngüsü hakkında poster hazırladın. Grup arkadaşlarınla birlikte sundun." } }
+                    ]
+                },
+
+                // Yaş 10
+                age_10_ev_1: {
+                    id: 'age_10_ev_1', emoji: '🎒', title: " Ortaokula Hazırlık",
+                    description: "5. sınıf son sınavları yaklaşıyor. Ortaokula geçiş için hazırlık yapıyorsun.",
+                    choices: [
+                        { text: "Sınav Çalış", nextId: 'age_10_ev_2', step: 1, icon: '📝', effect: { yas: 1, okul: 20, zeka: 10, tecrube: 5, msg: "Her gün iki saat ekstra çalıştın. Konular pekiştirildi ve güvendin." } },
+                        { text: "Arkadaşla Çalış", nextId: 'age_10_ev_2', step: 1, icon: '👥', effect: { yas: 1, okul: 15, zeka: 5, mutluluk: 15, msg: "Arkadaşının evine giderek grup çalışması yaptın. Konuları birlikte anlattın." } }
+                    ]
+                },
+                age_10_ev_2: {
+                    id: 'age_10_ev_2', emoji: '🏆', title: "Başarı Töreni",
+                    description: "5. sınıf başarı töreni yapılıyor. Ödüller dağıtılacak.",
+                    choices: [
+                        { text: "Ödülleri Al", nextId: 'age_10_ev_3', step: 1, icon: '🎖️', effect: { yas: 1, okul: 10, zeka: 5, mutluluk: 20, tecrube: 10, msg: "İlk üç qualifié oldun! Ailen törene geldi ve gururla Fotoğraf çekti." } },
+                        { text: "Katılımcı Ol", nextId: 'age_10_ev_3', step: 1, icon: '🙋', effect: { yas: 1, okul: 5, mutluluk: 10, tecrube: 5, msg: "Katılım belgesi aldınız. Ailenle partito yaptınız ve güzel bir gün geçirdiniz." } }
+                    ]
+                },
+                age_10_ev_3: {
+                    id: 'age_10_ev_3', emoji: '🎒', title: " Ortaokul Başlangıcı",
+                    description: "6. sınıfya geçtik. Yeni öğretmenler, yeni arkadaşlar ve yeni derslerle karşılaştın.",
+                    choices: [
+                        { text: "Sınıfa Gir", nextId: 'hub_school', step: 1, icon: '🚪', effect: { yas: 1, mutluluk: 15, zeka: 5, okul: 10, msg: "İlk günün harika geçti! Yeni sınıf arkadaşlarınla tanıştın ve derslerine başladın." } },
+                        { text: "Henüz Hazır Değil", nextId: 'hub_school', step: 1, icon: '⏳', effect: { yas: 1, mutluluk: 5, zeka: 0, okul: -5, msg: "Henüz yeni sisteme alışamadın ama öğretmen destek oldu ve lentemente geçiyorsun." } }
+                    ]
+                },
+
+                // --- OKUL ÇAĞI (8+ YAŞ HUB) ---
 
                 // --- OKUL ÇAĞI (8+ YAŞ HUB) ---
                 hub_school: {
