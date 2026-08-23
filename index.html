@@ -3,59 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🌌 Türkiye Yaşam Simülatörü</title>
+    <title>🇹🇷 Türkiye Yaşam Simülatörü</title>
 
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Modern display font stack -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Modern font stack -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- ===== MODERN UI (Midnight Aurora) — bu blok hemşe index.html'e hemşe build.js'de kopyır. ===== -->
+    <!-- Modern design system -->
     <style>
-        /* ---- Accent palette (shared) ---- */
+        /* ===== MODERN DESIGN SYSTEM ===== */
         :root {
-            --acc-1: #6366f1;   /* indigo  */
-            --acc-2: #8b5cf6;   /* violet  */
-            --acc-3: #d946ef;   /* fuchsia */
-            --acc-4: #22d3ee;   /* cyan    */
+            /* Color palette - Modern & Clean */
+            --primary: #6366f1;         /* Indigo */
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;       /* Emerald */
+            --accent: #f59e0b;          /* Amber */
+            --background: #f8fafc;      /* Slate 50 */
+            --surface: #ffffff;         /* White */
+            --surface-variant: #f1f5f9; /* Slate 100 */
+            --border: #e2e8f0;          /* Slate 200 */
+            --text-primary: #1e293b;    /* Slate 800 */
+            --text-secondary: #64748b;  /* Slate 500 */
+            --text-muted: #94a3b8;      /* Slate 400 */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+            /* Border radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition-normal: 250ms ease;
+            --transition-slow: 350ms ease;
         }
 
-        /* 1. ANA ARKA PLAN & BODY */
-        body {
-            font-family: 'Space Grotesk', 'Nunito', 'Segoe UI', sans-serif;
-            margin: 0; padding: 0;
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; min-height: 100dvh;
-            color: #1e293b;
-            overflow: hidden;
-            /* Light: "pearl mist" premium glass ground */
-            background: #eef2f9;
-            background-image:
-                radial-gradient(circle at 15% -10%, rgba(99,102,241,.16), transparent 48%),
-                radial-gradient(circle at 85% 115%, rgba(34,211,238,.14), transparent 48%),
-                radial-gradient(circle at 50% 55%, rgba(168,85,247,.10), transparent 60%);
-        }
-
-        /* ---- DARK MODE: Midnight Aurora ---- */
+        /* Dark mode */
         body.dark-theme {
-            background: #060a14;
-            background-image:
-                radial-gradient(circle at 18% -12%, rgba(99,102,241,.38), transparent 50%),
-                radial-gradient(circle at 82% 112%, rgba(34,211,238,.30), transparent 50%),
-                radial-gradient(circle at 48% 42%, rgba(217,70,239,.20), transparent 55%),
-                radial-gradient(circle at 70% 20%, rgba(139,92,246,.22), transparent 45%);
-            color: #e2e8f0;
+            --background: #0f172a;      /* Slate 900 */
+            --surface: #1e293b;         /* Slate 800 */
+            --surface-variant: #334155; /* Slate 700 */
+            --border: #475569;          /* Slate 600 */
+            --text-primary: #f8fafc;    /* Slate 50 */
+            --text-secondary: #cbd5e1;  /* Slate 300 */
+            --text-muted: #94a3b8;      /* Slate 400 */
+            --primary: #818cf8;
+            --primary-light: #a5b4fc;
+            --primary-dark: #6366f1;
+            --secondary: #34d399;
+            --accent: #fbbf24;
+
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.35);
         }
 
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(127,127,127,.08); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(138,132,248,.4); border-radius: 10px; }
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* 2. ANA UYGULAMA KONTEYNERİ */
+        html, body, #root {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* App container - Modern card/glass effect */
         .app-container {
             width: 100%;
             height: 100dvh;
@@ -63,251 +110,707 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            background: linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(234,240,250,.35) 100%);
-            backdrop-filter: blur(30px) saturate(160%);
-            -webkit-backdrop-filter: blur(30px) saturate(160%);
-            border: 1px solid rgba(255,255,255,.55);
-        }
-        body.dark-theme .app-container {
-            background: linear-gradient(180deg, rgba(9,14,26,.5) 0%, rgba(11,18,34,.55) 100%);
-            border-color: rgba(99,102,241,.35);
-            box-shadow: 0 0 120px rgba(99,102,241,.18), inset 0 0 1px rgba(148,163,184,.15);
+            background: var(--surface);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-2xl);
+            margin: 1rem;
+            position: relative;
+            isolation: isolate;
         }
 
+        body.dark-theme .app-container {
+            background: var(--surface);
+            border-color: var(--border);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Responsive container sizing */
         @media (min-width: 640px) {
             .app-container {
                 width: 420px;
-                height: 850px;
-                max-height: 95vh;
-                border-radius: 2.5rem;
-                border: 1px solid rgba(255,255,255,.6);
-                box-shadow:
-                    0 25px 60px -12px rgba(59,66,200,.35),
-                    0 0 0 1px rgba(0,0,0,.04),
-                    inset 0 0 0 1px rgba(255,255,255,.25);
-            }
-            body.dark-theme .app-container {
-                border: 1px solid rgba(148,163,184,.25);
-                box-shadow:
-                    0 30px 70px -15px rgba(3,6,18,.9),
-                    0 0 90px rgba(124,58,237,.25),
-                    inset 0 0 0 1px rgba(120,120,255,.08);
+                height: 800px;
+                max-height: 90vh;
+                margin: 2rem auto;
+                border-radius: var(--radius-2xl);
             }
         }
 
-        /* 3. ARKA PLAN DESENİ */
-        .bg-pattern {
-            position: absolute; inset: 0;
-            opacity: 0.14;
+        /* Subtle animated background gradient */
+        .app-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg,
+                    rgba(99, 102, 241, 0.03) 0%,
+                    rgba(16, 185, 129, 0.03) 50%,
+                    rgba(245, 158, 11, 0.03) 100%);
+            animation: gradientShift 15s ease infinite;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        body.dark-theme .app-container::before {
+            background:
+                linear-gradient(135deg,
+                    rgba(99, 102, 241, 0.1) 0%,
+                    rgba(16, 185, 129, 0.1) 50%,
+                    rgba(245, 158, 11, 0.1) 100%);
+        }
+
+        .app-container:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Floating decorative elements */
+        .app-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
             background-image:
-                radial-gradient(rgba(120,120,255,.5) 1.4px, transparent 1.4px),
-                radial-gradient(rgba(80,180,255,.4) 1.4px, transparent 1.4px);
-            background-size: 46px 46px;
-            background-position: 0 0, 23px 23px;
-            pointer-events: none; z-index: 0;
+                radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.08) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+            animation: float 8s ease-in-out infinite;
         }
 
-        .card-perspective { perspective: 1100px; }
+        body.dark-theme .app-container::after {
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.15) 0%, transparent 40%);
+        }
 
-        /* 4. REDAKSIYONAL KART */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+        }
+
+        /* Main content card */
         .main-card {
+            flex: 1;
             width: 100%;
             max-width: 280px;
             aspect-ratio: 2 / 2.8;
-            background: linear-gradient(160deg, rgba(255,255,255,.55), rgba(240,245,255,.25));
-            backdrop-filter: blur(14px) saturate(150%);
-            -webkit-backdrop-filter: blur(14px) saturate(150%);
-            border-radius: 26px;
+            background: var(--surface);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
             position: relative;
-            border: 1px solid rgba(255,255,255,.85);
-            box-shadow:
-                0 24px 48px -14px rgba(80,80,220,.28),
-                inset 0 0 0 1px rgba(255,255,255,.55),
-                inset 0 1px 12px rgba(255,255,255,.5);
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            padding: 1.5rem; text-align: center;
-            transition: transform .5s cubic-bezier(.34,1.56,.64,1), box-shadow .3s, border-color .3s, background .3s;
-            transform-style: preserve-3d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
             margin: auto;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
         }
+
         body.dark-theme .main-card {
-            background: linear-gradient(160deg, rgba(30,41,59,.72), rgba(15,23,42,.55));
-            border: 1px solid rgba(148,163,184,.3);
-            box-shadow:
-                0 24px 52px -12px rgba(0,0,0,.7),
-                0 0 40px rgba(99,102,241,.22),
-                inset 0 1px 12px rgba(139,92,246,.12);
+            background: var(--surface-variant);
+            border-color: var(--border);
+            box-shadow: var(--shadow-lg);
         }
 
+        .main-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        body.dark-theme .main-card:hover {
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Interactive states */
         .main-card.drop-hover {
-            transform: scale(1.05);
-            border-color: var(--acc-1);
-            box-shadow:
-                0 28px 55px rgba(99,102,241,.4),
-                0 0 45px rgba(139,92,246,.35);
-            background: linear-gradient(160deg, rgba(99,102,241,.28), rgba(217,70,239,.2));
+            border: 2px dashed var(--primary);
+            background: rgba(99, 102, 241, 0.03);
+            animation: pulse 2s infinite;
         }
 
-        .card-idle { transform: scale(1) rotateY(0deg); opacity: 1; }
-        .card-flip-out { transform: scale(.9) rotateY(-90deg) translateY(-20px); opacity: 0; }
-        .card-flip-in { transform: scale(.9) rotateY(90deg) translateY(20px); opacity: 0; }
+        @keyframes pulse {
+            0%, 100% {
+                background: rgba(99, 102, 241, 0.03);
+            }
+            50% {
+                background: rgba(99, 102, 241, 0.06);
+            }
+        }
 
-        /* 5. SEÇENEK KARTLARI (Draggable) */
+        /* Card animations */
+        .card-idle { transform: scale(1) rotateY(0deg); opacity: 1; }
+        .card-flip-out { transform: scale(.95) rotateY(-90deg) translateY(-10px); opacity: 0; }
+        .card-flip-in { transform: scale(.95) rotateY(90deg) translateY(10px); opacity: 0; }
+
+        /* Choice cards - Modern glass/morphism */
         .fan-container {
-            display: flex; justify-content: center; align-items: flex-end;
-            width: 100%; height: 180px; position: relative; padding-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            width: 100%;
+            height: 180px;
+            position: relative;
+            padding-bottom: 2rem;
         }
 
         .choice-draggable-card {
-            width: 95px;
+            width: 90px;
             aspect-ratio: 2 / 2.8;
-            background: linear-gradient(170deg, rgba(255,255,255,.82), rgba(235,241,255,.4));
+            background: var(--surface);
             backdrop-filter: blur(10px) saturate(150%);
             -webkit-backdrop-filter: blur(10px) saturate(150%);
-            border: 1px solid rgba(255,255,255,.7);
-            border-radius: 18px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
             position: relative;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: .5rem; text-align: center;
-            box-shadow: 0 12px 26px -8px rgba(80,80,220,.22), inset 0 1px 8px rgba(255,255,255,.55);
-            color: #475569;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            color: var(--text-secondary);
             cursor: grab;
             transform-origin: bottom center;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
             touch-action: none;
-        }
-        body.dark-theme .choice-draggable-card {
-            background: linear-gradient(170deg, rgba(30,41,66,.85), rgba(15,23,42,.6));
-            border-color: rgba(148,163,184,.3);
-            box-shadow: 0 14px 30px -8px rgba(0,0,0,.65), inset 0 1px 10px rgba(255,137,208,.08);
-            color: #cbd5e1;
+            transition: var(--transition-fast);
+            font-weight: 500;
+            font-size: 0.875rem;
+            letter-spacing: -0.025em;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
         }
 
-        .choice-draggable-card:active { cursor: grabbing; }
+        body.dark-theme .choice-draggable-card {
+            background: var(--surface-variant);
+            border-color: var(--border);
+            color: var(--text-muted);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .choice-draggable-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 100%
+            );
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .choice-draggable-card:hover::before {
+            opacity: 1;
+        }
+
+        .choice-draggable-card:active {
+            cursor: grabbing;
+        }
 
         .choice-draggable-card.dragging {
-            box-shadow:
-                0 34px 70px -12px rgba(99,102,241,.45),
-                0 0 0 2px var(--acc-3),
-                0 0 45px rgba(217,70,239,.35);
-            opacity: .96;
-            transform: scale(1.06);
-            background: linear-gradient(160deg, rgba(99,102,241,.3), rgba(217,70,239,.28));
+            box-shadow: var(--shadow-lg);
+            transform: scale(1.05);
+            border-color: var(--primary);
+            background: var(--surface);
+            z-index: 10;
         }
+
         body.dark-theme .choice-draggable-card.dragging {
-            background: linear-gradient(160deg, rgba(99,102,241,.55), rgba(217,70,239,.5));
+            background: var(--surface-variant);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .choice-draggable-card.dragging::before {
+            opacity: 0;
         }
 
         .choice-draggable-card:disabled,
         body.dark-theme .choice-draggable-card:disabled {
-            opacity: .5;
-            filter: grayscale(90%);
-            border-color: rgba(255,255,255,.2);
+            opacity: 0.5;
+            filter: grayscale(0.8);
             cursor: not-allowed;
             touch-action: auto;
+            transform: none;
         }
 
-        /* 6. ALT MENÜ */
+        /* Bottom navigation */
         .bottom-nav {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 65px;
-            background: rgba(255,255,255,.4);
-            backdrop-filter: blur(28px) saturate(180%);
-            -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border-top: 1px solid rgba(255,255,255,.6);
-            display: flex; justify-content: space-around; align-items: center;
-            z-index: 40;
-            border-bottom-left-radius: 2.5rem; border-bottom-right-radius: 2.5rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--surface);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 10;
+            padding: 0 0.5rem;
+            gap: 0.5rem;
         }
+
         body.dark-theme .bottom-nav {
-            background: rgba(9,14,28,.7);
-            border-top-color: rgba(99,102,241,.3);
+            background: var(--surface-variant);
+            border-top-color: var(--border);
         }
 
         .nav-btn {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            width: 19%; height: 80%;
-            border-radius: 14px; font-weight: 800; font-size: 9px;
-            color: #94a3b8;
-            transition: all .2s cubic-bezier(.4,0,.2,1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 20%;
+            height: 100%;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            transition: var(--transition-fast);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 100%
+            );
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .nav-btn:hover::after {
+            opacity: 1;
         }
 
         .nav-btn.active {
-            background: linear-gradient(135deg, rgba(99,102,241,.32), rgba(217,70,239,.28));
-            border: 1px solid rgba(139,92,246,.45);
-            box-shadow:
-                inset 0 0 14px rgba(255,255,255,.35),
-                0 6px 18px rgba(99,102,241,.25);
-            color: var(--acc-1);
-            transform: translateY(-2px);
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
         }
+
         body.dark-theme .nav-btn.active {
-            background: linear-gradient(135deg, rgba(99,102,241,.4), rgba(217,70,239,.35));
-            box-shadow: 0 6px 20px rgba(99,102,241,.3), inset 0 0 1px rgba(148,163,184,.2);
-            color: #a5b4fc;
+            background: var(--primary-dark);
+            box-shadow: var(--shadow-lg);
         }
 
-        .nav-btn i { font-size: 15px; margin-bottom: 2px; }
+        .nav-btn.active::after {
+            opacity: 0;
+        }
 
-        /* 7. FİT BAZL: STOVE / EKRAN OVERLAYLER */
+        .nav-btn i {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-btn span {
+            font-size: 0.65rem;
+            letter-spacing: 0.025em;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* Stats overlay */
         .stats-overlay {
-            position: absolute; top: 0; left: 0; width: 100%;
-            height: calc(100% - 65px);
-            background: rgba(255,255,255,.55);
-            backdrop-filter: blur(28px) saturate(170%);
-            -webkit-backdrop-filter: blur(28px) saturate(170%);
-            border-bottom: 1px solid rgba(255,255,255,.6);
-            z-index: 35;
-            display: flex; flex-direction: column;
-            padding: 2rem 1.5rem; overflow-y: auto;
-            animation: slideUp .3s cubic-bezier(.34,1.56,.64,1) forwards;
-            color: #334155;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 60px);
+            background: var(--surface);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            border-bottom: 1px solid var(--border);
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem 1rem;
+            overflow-y: auto;
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            color: var(--text-secondary);
+            gap: 1rem;
         }
+
         body.dark-theme .stats-overlay {
-            background: rgba(4,8,20,.86);
-            border-bottom-color: rgba(99,102,241,.28);
-            color: #e2e8f0;
+            background: var(--surface-variant);
+            border-bottom-color: var(--border);
+            color: var(--text-muted);
         }
 
         @keyframes slideUp {
-            from { transform: translateY(10%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(10%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .stat-bar-bg {
-            width: 100%; height: 12px;
-            background: rgba(255,255,255,.55);
-            border: 1px solid rgba(255,255,255,.7);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,.03);
-            border-radius: 6px; overflow: hidden; margin-top: 4px;
+            width: 100%;
+            height: 8px;
+            background: var(--surface-variant);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-top: 0.5rem;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
         }
-        body.dark-theme .stat-bar-bg { background: rgba(30,41,59,.55); border-color: rgba(100,116,139,.3); }
+
+        body.dark-theme .stat-bar-bg {
+            background: var(--border);
+        }
 
         .stat-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--acc-4), var(--acc-1), var(--acc-3));
-            transition: width .5s ease-out;
+            background: linear-gradient(90deg, var(--secondary), var(--accent), var(--primary));
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        /* ---- DARK MODE: inline Tailwind chips / text normalization ---- */
-        body.dark-theme [class*="text-slate-700"] { color: #e2e8f0; }
-        body.dark-theme [class*="text-slate-600"] { color: #cbd5e1; }
-        body.dark-theme [class*="text-slate-500"] { color: #94a3b8; }
-        body.dark-theme [class*="text-slate-400"] { color: #64748b; }
-        body.dark-theme [class*="text-slate-300"] { color: #94a3b8; }
-
-        body.dark-theme [class*="from-slate-600"] {
-            background-image: linear-gradient(90deg, #818cf8, #e2e8f0) !important;
+        /* Modern scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
         }
-        body.dark-theme [class*="from-slate"] { color: #cbd5e1; }
-        body.dark-theme [class*="to-slate"]   { color: #94a3b8; }
 
-        body.dark-theme [class*="bg-white/"]   { background-color: rgba(26,38,68,.72); }
-        body.dark-theme [class*="border-white/"] { border-color: rgba(148,163,184,.28); }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: var(--surface-variant);
+            border-radius: 3px;
+        }
 
-        /* Keep light surface buttons (close etc.) readable on dark */
-        body.dark-theme [class*="bg-slate-200"] { background-color: #273047; }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+            transition: background 0.2s ease;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        body.dark-theme .custom-scrollbar::-webkit-scrollbar-track {
+            background: var(--border);
+        }
+
+        body.dark-theme .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--surface-variant);
+        }
+
+        body.dark-theme .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Typography enhancements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Button styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--surface-variant);
+            border-color: var(--text-muted);
+        }
+
+        /* Input styles */
+        .input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--surface);
+            color: var(--text-primary);
+            transition: var(--transition-fast);
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        body.dark-theme .input {
+            background: var(--surface-variant);
+            border-color: var(--border);
+            color: var(--text-primary);
+        }
+
+        body.dark-theme .input:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+        }
+
+        body.dark-theme .input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Card/badge styles */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+        }
+
+        .badge-primary {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .badge-secondary {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+
+        .badge-accent {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent);
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 2rem;
+            height: 2rem;
+            border: 2px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        body.dark-theme .spinner {
+            border-color: var(--border);
+            border-top-color: var(--primary-light);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            min-width: 250px;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            z-index: 1000;
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        .toast-success {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .toast-error {
+            background: var(--error);
+            color: white;
+        }
+
+        .toast-info {
+            background: var(--info);
+            color: white;
+        }
+
+        .toast-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-close {
+            background: transparent;
+            border: none;
+            color: inherit;
+            opacity: 0.7;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            line-height: 1;
+        }
+
+        .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        :focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        body.dark-theme :focus-visible {
+            outline: 2px solid var(--primary-light);
+        }
+
+        /* Reduce motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+
+            .app-container {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -791,26 +1294,7 @@ const generateRelationships = (family) => {
 
 const ACTIONS = [
             
-                        { id: 'act_gunluk', icon: '📔', title: 'Günlük Tut', desc: 'Duygularını yaz, kafanı topla.', cost: { enerji: 5 }, effect: { mutluluk: 5, zeka: 1 }, minAge: 0 },
-            { id: 'act_cizgifilm', icon: '📺', title: 'Çizgi Film / Dizi İzle', desc: 'Ekran karşısında dinlen.', cost: { enerji: 5 }, effect: { mutluluk: 10, enerji: -5 }, minAge: 0 },
-            { id: 'act_tepki', icon: '⚡', title: 'Tepki Testi Oyna', desc: 'Ekran yeşile dönünce hemen bas, refleksini test et!', cost: { enerji: 10 }, minAge: 5, special: 'tepki' },
-            { id: 'act_hafiza', icon: '🧠', title: 'Hafıza Kartları Oyna', desc: 'Eşleri bul, ne kadar az hamlede biterse o kadar iyi.', cost: { enerji: 15 }, minAge: 6, special: 'hafiza' },
-            { id: 'act_cark', icon: '🎡', title: 'Şans Çarkını Çevir', desc: '100₺ karşılığında çarkı çevir, ne çıkacak bilinmez.', cost: { enerji: 5 }, minAge: 12, special: 'cark' },
-            { id: 'act_oyuncak', icon: '🧸', title: 'Oyuncaklarla Oyna', desc: 'Hayal gücünü kullan, eğlen.', cost: { enerji: 10 }, effect: { mutluluk: 10 }, minAge: 3, maxAge: 9 },
-            { id: 'act_resim', icon: '🎨', title: 'Resim Çiz', desc: 'Yaratıcılığını geliştir.', cost: { enerji: 10 }, effect: { zeka: 2, mutluluk: 6 }, minAge: 3, maxAge: 12 },
-            { id: 'act_sokakoyunu', icon: '⚽', title: 'Arkadaşlarla Sokakta Oyna', desc: 'Mahalle çocuklarıyla koştur.', cost: { enerji: 20 }, effect: { mutluluk: 10, karizma: 2, saglik: 2 }, minAge: 5, maxAge: 13 },
-            { id: 'act_bisiklet', icon: '🚲', title: 'Bisiklete Bin', desc: 'Mahallede tur at.', cost: { enerji: 15 }, effect: { saglik: 5, guc: 2, mutluluk: 5 }, minAge: 5 },
-            { id: 'act_evodev', icon: '📝', title: 'Ev Ödevini Yap', desc: 'Notlarını kurtar ama yorucu.', cost: { enerji: 15 }, effect: { okul: 6, zeka: 2, mutluluk: -2 }, minAge: 6, maxAge: 18 },
-            { id: 'act_yuzme', icon: '🏊', title: 'Yüzmeye Git', desc: 'Formunu ve sağlığını geliştir.', cost: { enerji: 20, para: 50 }, effect: { saglik: 8, guc: 2, mutluluk: 4 }, minAge: 6 },
-            { id: 'act_muzikaleti', icon: '🎸', title: 'Müzik Aleti Çal', desc: 'Yeteneğini geliştir, rahatlar.', cost: { enerji: 15 }, effect: { karizma: 2, zeka: 2, mutluluk: 6 }, minAge: 8 },
-            { id: 'act_dershane', icon: '🏫', title: 'Dershaneye / Kursa Git', desc: 'Sınavlara hazırlan.', cost: { enerji: 25, para: 400 }, effect: { okul: 10, zeka: 3 }, minAge: 12, maxAge: 18 },
-            { id: 'act_sosyalmedya', icon: '📱', title: 'Sosyal Medyada Gez', desc: 'Vakit geçir ama işleri aksatabilir.', cost: { enerji: 10 }, effect: { mutluluk: 6, karizma: 1, okul: -2 }, minAge: 13 },
-            { id: 'act_gonullu', icon: '🤝', title: 'Gönüllü Çalışma Yap', desc: 'Topluma katkı sağla, insanlarla tanış.', cost: { enerji: 25 }, effect: { karizma: 3, aileIliski: 3, mutluluk: 6 }, minAge: 14 },
-            { id: 'act_partimesai', icon: '🧾', title: 'Yarı Zamanlı İş', desc: 'Okul yanında biraz para kazan.', cost: { enerji: 25 }, effect: { para: 200, tecrube: 2 }, minAge: 16, maxAge: 18 },
-            { id: 'act_yoga', icon: '🧘‍♀️', title: 'Yoga Yap', desc: 'Beden ve zihin dengesi kur.', cost: { enerji: 15 }, effect: { mutluluk: 8, saglik: 5 }, minAge: 18 },
-            { id: 'act_terapi', icon: '🛋️', title: 'Terapiye Git', desc: 'Profesyonel destek al, rahatla.', cost: { enerji: 10, para: 600 }, effect: { mutluluk: 15 }, minAge: 18 },
-            { id: 'act_network', icon: '🥂', title: 'Networking Etkinliğine Git', desc: 'Yeni bağlantılar kur, kariyerine yatırım yap.', cost: { enerji: 25, para: 200 }, effect: { karizma: 5, tecrube: 3 }, minAge: 20 },
-			{ id: 'act_kitap', icon: '📚', title: 'Kitap Oku', desc: 'Bilgi ve zeka kazan.', cost: { enerji: 15 }, effect: { zeka: 3, okul: 2 }, minAge: 6 },
+            { id: 'act_kitap', icon: '📚', title: 'Kitap Oku', desc: 'Bilgi ve zeka kazan.', cost: { enerji: 15 }, effect: { zeka: 3, okul: 2 }, minAge: 6 },
             { id: 'act_uyu', icon: '😴', title: 'Uzun Uyku Çek', desc: 'Enerjini ve sağlığını tazele.', cost: {}, effect: { enerji: 40, saglik: 5 }, minAge: 0 },
             { id: 'act_parti', icon: '🎉', title: 'Partiye Git', desc: 'Eğlen, insanlarla tanış ama sağlığın etkilenebilir.', cost: { enerji: 25, para: 100 }, effect: { mutluluk: 15, karizma: 2, saglik: -5 }, minAge: 16 },
             { id: 'act_doktor', icon: '🩺', title: 'Doktora Git', desc: 'Check-up yaptır, sağlığını düzelt.', cost: { para: 250 }, effect: { saglik: 20 }, minAge: 0, 
@@ -1623,7 +2107,7 @@ const EVENTS = {
                         { text: "Sınava Kas", nextId: 'hub', step: 1, icon: '📖', effect: withMsg({ okul: 20, zeka: 3, enerji: -30, tecrube: 15 }, ["Gece geç saate kadar test çözdün, gözlerin kan çanağına döndü.", "Ders kitaplarını kurcaladın, kahve fincanların bitmek bilmedi.", "Konuları özetleyip tekrar tekrar çalıştın, kafan artık dolu."]) },
                         { text: "Sosyalleş", nextId: 'hub', step: 1, icon: '🍕', req: { para: 50 }, effect: withMsg({ para: -50, karizma: 2, mutluluk: 20, enerji: -15 }, ["Arkadaşlarla dışarı çıktın, hesap gelince herkes cebini karıştırdı.", "Kafede saatlerce sohbet edip gündemi kapattınız.", "Grup dışarı çıktı, sen de tabii ki hazırdın."]) },
                         { text: "Spor Yap", nextId: 'hub', step: 1, icon: '🏋️', effect: withMsg({ guc: 5, saglik: 10, enerji: -40 }, ["Salona gidip ter attın, aynadaki değişimi fark etmeye başladın.", "Koşuya çıktın, kulağındaki müzikle kilometreler geride kaldı.", "Antrenman sonrası kaslar ağrıyor ama için rahat."]) },
-                        { text: 'Uyu', nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 50, saglik: 10 }, ["Telefonu bırakıp erkenden yattın, ertesi gün taze uyandın.", "Uzun bir gece uykusuyla enerjini topladın.", "Battaniyeye sarılıp kendini dünyadan soyutladın."]) }
+                        { text: "Uyu": nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 50, saglik: 10 }, ["Telefonu bırakıp erkenden yattın, ertesi gün taze uyandın.", "Uzun bir gece uykusuyla enerjini topladın.", "Battaniyeye sarılıp kendini dünyadan soyutladın."]) }
                     ]
                 },
                 // --- YETİŞKİNLİK ---
@@ -1632,9 +2116,9 @@ const EVENTS = {
                     description: `Hayat mücadelesi. İş, güç, sorumluluk.`,
                     choices: [
                         { text: "Çalış (Mesai)", nextId: 'adult_work', step: 1, icon: '💼' },
-                        { text: "Spora Git", nextId: 'hub', step: 1, icon: '🏃', effect: withMsg({ guc: 5, saglik: 10, enerji: -40 }, ["İşten çıkar çıkmaz spor salonuna koştun, terin damla damla aktı.", "Koşu bandında kilometreler yaktın, stres de yanında gitti.", "Ağırlıkları kaldırdın, aynadan memnun ayrıldın."]) },
-                        { text: "Gelişim", nextId: 'hub', step: 1, icon: '📈', effect: withMsg({ zeka: 3, tecrube: 20, enerji: -25 }, ["Bir kurs kaydı yaptırıp yeni bir şey öğrendin.", "Alanınla ilgili bir kitap bitirdin, kafan yeni fikirlerle doldu.", "Bir sertifika programına başladın, kariyerine yatırım yaptın."]) },
-                        { text: "Dinlen", nextId: 'hub', step: 1, icon: '☕', effect: withMsg({ enerji: 60, saglik: 10, mutluluk: 5 }, ["Kanepeye uzanıp bir kahve eşliğinde günü kapattın.", "Telefonu bırakıp sessizce dinlendin, omuzların gevşedi.", "Uzun bir sıcak duş aldın, yorgunluk üzerinden akıp gitti."]) }
+                        { text: "Spora Git": nextId: 'hub', step: 1, icon: '🏃', effect: withMsg({ guc: 5, saglik: 10, enerji: -40 }, ["İşten çıkar çıkmaz spor salonuna koştun, terin damla damla aktı.", "Koşu bandında kilometreler yaktın, stres de yanında gitti.", "Ağırlıkları kaldırdın, aynadan memnun ayrıldın."]) },
+                        { text: "Gelişim": nextId: 'hub', step: 1, icon: '📈', effect: withMsg({ zeka: 3, tecrube: 20, enerji: -25 }, ["Bir kurs kaydı yaptırıp yeni bir şey öğrendin.", "Alanınla ilgili bir kitap bitirdin, kafan yeni fikirlerle doldu.", "Bir sertifika programına başladın, kariyerine yatırım yaptın."]) },
+                        { text: "Dinlen": nextId: 'hub', step: 1, icon: '☕', effect: withMsg({ enerji: 60, saglik: 10, mutluluk: 5 }, ["Kanepeye uzanıp bir kahve eşliğinde günü kapattın.", "Telefonu bırakıp sessizce dinlendin, omuzların gevşedi.", "Uzun bir sıcak duş aldın, yorgunluk üzerinden akıp gitti."]) }
                     ]
                 },
                 adult_work: {
@@ -1659,15 +2143,15 @@ const EVENTS = {
                     description: `Kurallara uymak zorundasın.`,
                     choices: [
                         { text: "Ders Çalış", nextId: 'hub', step: 1, icon: '📚', effect: withMsg({ okul: 15, enerji: -20, tecrube: 5 }, ["Yurdun küçük kütüphanesine kapanıp çalıştın.", "Ödevlerini bitirip nöbetçi bakıcıdan takdir aldın.", "Sessiz köşende kitaplara gömüldün."]) },
-                        { text: "Kavga Et", nextId: 'hub', step: 1, icon: '🥊', effect: withMsg({ saglik: -15, guc: 2, okul: -10, enerji: -30 }, ["Koğuştaki bir çocukla kapıştın, ikinizde nöbetçiden azar işittiniz.", "Ufak bir tartışma büyüdü, yumruklar havada uçuştu.", "Kavga bitince ikinizde yerde oturup nefes nefese kaldınız."]) },
-                        { text: "Gizlice Uyu", nextId: 'hub', step: 1, icon: '🛌', effect: withMsg({ enerji: 40, saglik: 5 }, ["Battaniyenin altına saklanıp nöbetçiden gizlice uyudun.", "Işıklar sönmeden gözlerini kapattın, kimse fark etmedi.", "Yorganın altında saklanıp uyumaya çalıştın."]) }
+                        { text: "Kavga Et": nextId: 'hub', step: 1, icon: '🥊', effect: withMsg({ saglik: -15, guc: 2, okul: -10, enerji: -30 }, ["Koğuştaki bir çocukla kapıştın, ikinizde nöbetçiden azar işittiniz.", "Ufak bir tartışma büyüdü, yumruklar havada uçuştu.", "Kavga bitince ikinizde yerde oturup nefes nefese kaldınız."]) },
+                        { text: "Gizlice Uyu": nextId: 'hub', step: 1, icon: '🛌', effect: withMsg({ enerji: 40, saglik: 5 }, ["Battaniyenin altına saklanıp nöbetçiden gizlice uyudun.", "Işıklar sönmeden gözlerini kapattın, kimse fark etmedi.", "Yorganın altında saklanıp uyumaya çalıştın."]) }
                     ]
                 },
                 orphanage_leave: {
                     id: 'orphanage_leave', emoji: '🎒', title: "Yurttan Ayrılış",
                     description: "18 yaşına bastın. Devlet yurdundan ayrılma vakti geldi. Sokaklardasın.",
                     effect: withMsg({ barinma: 'sokak', para: 500 }, "Devlet sana biraz harçlık verdi ve kapıyı gösterdi. Artık kendi başınasın."),
-                    choices: [{ text: "Hayata Atıl", nextId: 'hub', step: 0, icon: '🚶' }]
+                    choices: [{ text: "Hayata Atıl": nextId: 'hub', step: 0, icon: '🚶' }]
                 },
 
                 // --- SOKAK / EVSİZ (Barınma: Sokak) ---
@@ -1682,9 +2166,9 @@ const EVENTS = {
                     description: `Sokakta yaşamak çok yıpratıcı.`,
                     choices: [
                         { text: "Dilencilik", nextId: 'hub', step: 1, icon: '🤲', effect: withMsg({ para: 50, mutluluk: -15, enerji: -20 }, ["Kaldırımda oturup geçenlerden yardım istedin, cebine biraz bozukluk düştü.", "Bir köşeye çöküp bekledin, birkaç kişi acıyıp para bıraktı.", "Sokakta uzun saatler geçirdin, akşam eline az da olsa para geçti."]) },
-                        { text: "Günlük İş", nextId: 'hub', step: 1, icon: '🧱', effect: withMsg({ para: 150, saglik: -10, enerji: -50 }, ["İnşaatta günlük işçi olarak çalıştın, sırtın kırıldı ama cebin doldu.", "Ağır yükler taşıdın, akşam bitkin düştün ama para kazandın.", "Bir esnafa yardım ettin, karşılığında biraz para aldın."]) },
-                        { text: 'Uyu', nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 30, saglik: -5 }, ["Bir köprü altında, gazete kağıtlarına sarılıp uyumaya çalıştın.", "Soğuk kaldırımda gözlerini kapattın, sabah üşüyerek uyandın.", "Bulduğun bir kutuya sığınıp gözlerini yumdun."]) },
-                        { text: "Ev Tut", nextId: 'rent_house', step: 1, icon: '🏠', req: { para: 2000 } }
+                        { text: "Günlük İş": nextId: 'hub', step: 1, icon: '🧱', effect: withMsg({ para: 150, saglik: -10, enerji: -50 }, ["İnşaatta günlük işçi olarak çalıştın, sırtın kırıldı ama cebin doldu.", "Ağır yükler taşıdın, akşam bitkin düştün ama para kazandın.", "Bir esnafa yardım ettin, karşılığında biraz para aldın."]) },
+                        { text: "Uyu": nextId: 'hub', step: 1, icon: '💤', effect: withMsg({ enerji: 30, saglik: -5 }, ["Bir köprü altında, gazete kağıtlarına sarılıp uyumaya çalıştın.", "Soğuk kaldırımda gözlerini kapattın, sabah üşüyerek uyandın.", "Bulduğun bir kutuya sığınıp gözlerini yumdun."]) },
+                        { text: "Ev Tut": nextId: 'rent_house', step: 1, icon: '🏠', req: { para: 2000 } }
                     ]
                 },
                 rent_house: {
@@ -3457,7 +3941,7 @@ const handleBoxingLose = () => {
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(<App />);
     </script>
 </body>
 </html>
