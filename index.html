@@ -1681,10 +1681,12 @@ const EVENTS = {
         // ===================================================
         // UI Header Bileşeni
         const StatHeader = ({ icon, value, type, suffix = "", colorClass }) => {
-            const isDanger = (type === 'saglik' && value <= 30) || 
-                             (type === 'mutluluk' && value === 0) || 
-                             (type === 'para' && value <= -500) ||
-                             (type === 'aile' && value <= 30);
+            // yas_donemi (yaş dönemi) tipi için danger kontrolü yapma
+            const isDanger = type !== 'yas_donemi' &&
+                             ((type === 'saglik' && value <= 30) ||
+                              (type === 'mutluluk' && value === 0) ||
+                              (type === 'para' && value <= -500) ||
+                              (type === 'aile' && value <= 30));
             const displayColor = isDanger ? 'text-red-500 animate-pulse' : colorClass;
 
             return (
@@ -2954,7 +2956,8 @@ const handleBoxingLose = () => {
                         <StatHeader icon="fa-heart" value={stats.saglik} type="saglik" suffix="%" colorClass="text-rose-500" />
                         <StatHeader icon="fa-users" value={stats.aileIliski} type="aile" suffix="%" colorClass="text-violet-500" />
                         <StatHeader icon="fa-graduation-cap" value={stats.okul} type="okul" suffix="%" colorClass="text-indigo-500" />
-                        
+                        <StatHeader icon="fa-user-circle" value={ageBracket(stats.yas)} type="yas_donemi" suffix="" colorClass="text-blue-500" />
+
                         <div className="w-[1px] h-10 bg-gray-300 mx-1 hidden sm:block"></div>
                         
                         <button onClick={() => setIsDarkMode(!isDarkMode)} className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/70 border border-white/60 shadow-sm flex items-center justify-center active:scale-90 transition-transform shrink-0">
