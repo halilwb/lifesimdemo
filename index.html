@@ -3,59 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🌌 Türkiye Yaşam Simülatörü</title>
+    <title>📼 Türkiye Yaşam Simülatörü</title>
 
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Modern display font stack -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Retro/Vintage font stack -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- ===== MODERN UI (Midnight Aurora) — bu blok hemşe index.html'e hemşe build.js'de kopyır. ===== -->
+    <!-- Retro color palette -->
     <style>
-        /* ---- Accent palette (shared) ---- */
+        /* ===== RETRO STYLE (Vintage Computer/CRT Monitor) ===== */
         :root {
-            --acc-1: #6366f1;   /* indigo  */
-            --acc-2: #8b5cf6;   /* violet  */
-            --acc-3: #d946ef;   /* fuchsia */
-            --acc-4: #22d3ee;   /* cyan    */
+            /* Retro color palette */
+            --retro-bg: #f5f3e8;      /* Cream/off-white */
+            --retro-panel: #e8e3d9;   /* Light beige */
+            --retro-accent: #d4c7b8;  /* Muted tan */
+            --retro-border: #b8a99a;  /* Warm gray-brown */
+            --retro-green: #8a9a5b;   /* Olive green */
+            --retro-orange: #cc7a43;  /* Burnt orange */
+            --retro-red: #a65f46;     /* Terra cotta */
+            --retro-blue: #6b8e9a;    /* Dusty blue */
+            --retro-yellow: #d4a017;  /* Goldenrod */
+            --retro-dark: #3e3228;    /* Dark brown */
         }
 
-        /* 1. ANA ARKA PLAN & BODY */
+        /* Body with retro paper texture */
         body {
-            font-family: 'Space Grotesk', 'Nunito', 'Segoe UI', sans-serif;
+            font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
             margin: 0; padding: 0;
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh; min-height: 100dvh;
-            color: #1e293b;
+            color: #3e3228;
             overflow: hidden;
-            /* Light: "pearl mist" premium glass ground */
-            background: #eef2f9;
+            background: var(--retro-bg);
+            /* Subtle paper texture */
             background-image:
-                radial-gradient(circle at 15% -10%, rgba(99,102,241,.16), transparent 48%),
-                radial-gradient(circle at 85% 115%, rgba(34,211,238,.14), transparent 48%),
-                radial-gradient(circle at 50% 55%, rgba(168,85,247,.10), transparent 60%);
+                radial-gradient(circle at 20% 30%, rgba(240,235,225,.3) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(230,225,215,.2) 0%, transparent 25%);
         }
 
-        /* ---- DARK MODE: Midnight Aurora ---- */
+        /* Dark mode alternative (retro monitor dark) */
         body.dark-theme {
-            background: #060a14;
+            background: #2a251e;      /* Very dark beige */
+            color: #e8e3d9;
             background-image:
-                radial-gradient(circle at 18% -12%, rgba(99,102,241,.38), transparent 50%),
-                radial-gradient(circle at 82% 112%, rgba(34,211,238,.30), transparent 50%),
-                radial-gradient(circle at 48% 42%, rgba(217,70,239,.20), transparent 55%),
-                radial-gradient(circle at 70% 20%, rgba(139,92,246,.22), transparent 45%);
-            color: #e2e8f0;
+                radial-gradient(circle at 20% 30%, rgba(42,37,30,.4) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(38,33,28,.3) 0%, transparent 25%);
         }
 
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(127,127,127,.08); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(138,132,248,.4); border-radius: 10px; }
+        /* Custom scrollbar with retro styling */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(200,190,170,.3);
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(160,140,120,.6);
+            border-radius: 3px;
+            border: 1px solid rgba(140,120,100,.4);
+        }
 
-        /* 2. ANA UYGULAMA KONTEYNERİ */
+        /* Main app container with retro monitor/bezel effect */
         .app-container {
             width: 100%;
             height: 100dvh;
@@ -63,97 +74,126 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            background: linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(234,240,250,.35) 100%);
-            backdrop-filter: blur(30px) saturate(160%);
-            -webkit-backdrop-filter: blur(30px) saturate(160%);
-            border: 1px solid rgba(255,255,255,.55);
-        }
-        body.dark-theme .app-container {
-            background: linear-gradient(180deg, rgba(9,14,26,.5) 0%, rgba(11,18,34,.55) 100%);
-            border-color: rgba(99,102,241,.35);
-            box-shadow: 0 0 120px rgba(99,102,241,.18), inset 0 0 1px rgba(148,163,184,.15);
+            background: var(--retro-panel);
+            backdrop-filter: blur(2px) saturate(110%);
+            -webkit-backdrop-filter: blur(2px) saturate(110%);
+            border: 3px solid var(--retro-border);
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,.1),
+                0 4px 8px rgba(0,0,0,.15);
+            position: relative;
         }
 
+        /* Monitor bezel/stand effect */
+        .app-container::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 6px;
+            background: var(--retro-dark);
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.2);
+        }
+
+        .app-container::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 8px;
+            background: var(--retro-dark);
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        }
+
+        body.dark-theme .app-container {
+            background: #352e25;      /* Slightly lighter dark */
+            border-color: #5a4b3e;
+        }
+
+        /* Responsive sizing with retro proportions */
         @media (min-width: 640px) {
             .app-container {
                 width: 420px;
-                height: 850px;
-                max-height: 95vh;
-                border-radius: 2.5rem;
-                border: 1px solid rgba(255,255,255,.6);
+                height: 800px;
+                max-height: 90vh;
+                border-radius: 0;     /* Sharp corners for retro monitor look */
+                border: 4px solid var(--retro-border);
                 box-shadow:
-                    0 25px 60px -12px rgba(59,66,200,.35),
-                    0 0 0 1px rgba(0,0,0,.04),
-                    inset 0 0 0 1px rgba(255,255,255,.25);
+                    0 8px 16px -4px rgba(0,0,0,.25),
+                    0 0 0 1px rgba(0,0,0,.08),
+                    inset 0 0 0 1px rgba(255,255,255,.15);
             }
             body.dark-theme .app-container {
-                border: 1px solid rgba(148,163,184,.25);
+                border: 4px solid #5a4b3e;
                 box-shadow:
-                    0 30px 70px -15px rgba(3,6,18,.9),
-                    0 0 90px rgba(124,58,237,.25),
-                    inset 0 0 0 1px rgba(120,120,255,.08);
+                    0 10px 20px -5px rgba(0,0,0,.35),
+                    0 0 0 1px rgba(0,0,0,.12);
             }
         }
 
-        /* 3. ARKA PLAN DESENİ */
+        /* Subtle screen glare/reflection */
         .bg-pattern {
             position: absolute; inset: 0;
-            opacity: 0.14;
+            opacity: 0.08;
             background-image:
-                radial-gradient(rgba(120,120,255,.5) 1.4px, transparent 1.4px),
-                radial-gradient(rgba(80,180,255,.4) 1.4px, transparent 1.4px);
-            background-size: 46px 46px;
-            background-position: 0 0, 23px 23px;
-            pointer-events: none; z-index: 0;
+                radial-gradient(ellipse at center, rgba(255,255,255,.15) 0%, transparent 70%);
+            pointer-events: none; z-index: 1;
         }
 
-        .card-perspective { perspective: 1100px; }
-
-        /* 4. REDAKSIYONAL KART */
+        /* Main card with retro panel styling */
         .main-card {
             width: 100%;
             max-width: 280px;
             aspect-ratio: 2 / 2.8;
-            background: linear-gradient(160deg, rgba(255,255,255,.55), rgba(240,245,255,.25));
-            backdrop-filter: blur(14px) saturate(150%);
-            -webkit-backdrop-filter: blur(14px) saturate(150%);
-            border-radius: 26px;
+            background: var(--retro-accent);
+            border: 2px solid var(--retro-border);
+            border-radius: 12px;
             position: relative;
-            border: 1px solid rgba(255,255,255,.85);
-            box-shadow:
-                0 24px 48px -14px rgba(80,80,220,.28),
-                inset 0 0 0 1px rgba(255,255,255,.55),
-                inset 0 1px 12px rgba(255,255,255,.5);
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             padding: 1.5rem; text-align: center;
-            transition: transform .5s cubic-bezier(.34,1.56,.64,1), box-shadow .3s, border-color .3s, background .3s;
             transform-style: preserve-3d;
             margin: auto;
+            box-shadow:
+                0 4px 8px rgba(0,0,0,.15),
+                inset 0 0 0 1px rgba(255,255,255,.3);
+            /* Subtle noise/grain */
+            background-image:
+                url-data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiNmZmYiLz48cmVjdCB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjZGVmIi8+PHJlY3QgeD0iMiIgZmlsbD0iI2RlZiIvPjwvc3ZnPg==;
         }
+
         body.dark-theme .main-card {
-            background: linear-gradient(160deg, rgba(30,41,59,.72), rgba(15,23,42,.55));
-            border: 1px solid rgba(148,163,184,.3);
+            background: #4a4033;      /* Darker panel */
+            border-color: #6b5a48;
             box-shadow:
-                0 24px 52px -12px rgba(0,0,0,.7),
-                0 0 40px rgba(99,102,241,.22),
-                inset 0 1px 12px rgba(139,92,246,.12);
+                0 4px 8px rgba(0,0,0,.25),
+                inset 0 0 0 1px rgba(255,255,255,.1);
         }
 
+        /* Interactive states */
         .main-card.drop-hover {
-            transform: scale(1.05);
-            border-color: var(--acc-1);
+            transform: scale(1.02);
+            border-color: var(--retro-orange);
             box-shadow:
-                0 28px 55px rgba(99,102,241,.4),
-                0 0 45px rgba(139,92,246,.35);
-            background: linear-gradient(160deg, rgba(99,102,241,.28), rgba(217,70,239,.2));
+                0 6px 12px rgba(204,122,67,.3),
+                inset 0 0 0 1px rgba(255,255,255,.4);
+            background: var(--retro-yellow);
+            background-image:
+                url-data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiNmZmYiLz48cmVjdCB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjZGVmIi8+PHJlY3QgeD0iMiIgZmlsbD0iI2RlZiIvPjwvc3ZnPg==;
         }
 
+        /* Card flip animations */
         .card-idle { transform: scale(1) rotateY(0deg); opacity: 1; }
         .card-flip-out { transform: scale(.9) rotateY(-90deg) translateY(-20px); opacity: 0; }
         .card-flip-in { transform: scale(.9) rotateY(90deg) translateY(20px); opacity: 0; }
 
-        /* 5. SEÇENEK KARTLARI (Draggable) */
+        /* Choice cards with retro button styling */
         .fan-container {
             display: flex; justify-content: center; align-items: flex-end;
             width: 100%; height: 180px; position: relative; padding-bottom: 2rem;
@@ -162,152 +202,229 @@
         .choice-draggable-card {
             width: 95px;
             aspect-ratio: 2 / 2.8;
-            background: linear-gradient(170deg, rgba(255,255,255,.82), rgba(235,241,255,.4));
-            backdrop-filter: blur(10px) saturate(150%);
-            -webkit-backdrop-filter: blur(10px) saturate(150%);
-            border: 1px solid rgba(255,255,255,.7);
-            border-radius: 18px;
+            background: var(--retro-panel);
+            border: 2px solid var(--retro-border);
+            border-radius: 10px;
             position: relative;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             padding: .5rem; text-align: center;
-            box-shadow: 0 12px 26px -8px rgba(80,80,220,.22), inset 0 1px 8px rgba(255,255,255,.55);
-            color: #475569;
+            box-shadow: 0 4px 8px -2px rgba(0,0,0,.2), inset 0 1px 4px rgba(255,255,255,.4);
+            color: var(--retro-dark);
             cursor: grab;
             transform-origin: bottom center;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
             touch-action: none;
+            font-family: 'VT323', monospace;
+            letter-spacing: 0.5px;
+            /* Subtle texture */
+            background-image:
+                url-data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiNmZmYiLz48cmVjdCB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjZGVmIi8+PHJlY3QgeD0iMiIgZmlsbD0iI2RlZiIvPjwvc3ZnPg==;
         }
+
         body.dark-theme .choice-draggable-card {
-            background: linear-gradient(170deg, rgba(30,41,66,.85), rgba(15,23,42,.6));
-            border-color: rgba(148,163,184,.3);
-            box-shadow: 0 14px 30px -8px rgba(0,0,0,.65), inset 0 1px 10px rgba(255,137,208,.08);
-            color: #cbd5e1;
+            background: #352e25;
+            border-color: #5a4b3e;
+            box-shadow: 0 4px 8px -2px rgba(0,0,0,.3), inset 0 1px 4px rgba(255,255,255,.1);
+            color: #e8e3d9;
         }
 
         .choice-draggable-card:active { cursor: grabbing; }
 
         .choice-draggable-card.dragging {
             box-shadow:
-                0 34px 70px -12px rgba(99,102,241,.45),
-                0 0 0 2px var(--acc-3),
-                0 0 45px rgba(217,70,239,.35);
-            opacity: .96;
-            transform: scale(1.06);
-            background: linear-gradient(160deg, rgba(99,102,241,.3), rgba(217,70,239,.28));
+                0 8px 16px -4px rgba(0,0,0,.3),
+                0 0 0 2px var(--retro-orange),
+                0 0 12px rgba(212,162,104,.4);
+            opacity: .95;
+            transform: scale(1.04);
+            background: var(--retro-yellow);
+            border-color: var(--retro-orange);
         }
         body.dark-theme .choice-draggable-card.dragging {
-            background: linear-gradient(160deg, rgba(99,102,241,.55), rgba(217,70,239,.5));
+            background: #8b7355;      /* Warm brown */
+            border-color: #a65f46;    /* Terra cotta */
         }
 
         .choice-draggable-card:disabled,
         body.dark-theme .choice-draggable-card:disabled {
-            opacity: .5;
-            filter: grayscale(90%);
-            border-color: rgba(255,255,255,.2);
+            opacity: .6;
+            filter: grayscale(80%);
+            border-color: rgba(184,169,154,.3);
             cursor: not-allowed;
             touch-action: auto;
         }
 
-        /* 6. ALT MENÜ */
+        /* Bottom navigation with retro styling */
         .bottom-nav {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 65px;
-            background: rgba(255,255,255,.4);
-            backdrop-filter: blur(28px) saturate(180%);
-            -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border-top: 1px solid rgba(255,255,255,.6);
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 55px;
+            background: var(--retro-panel);
+            backdrop-filter: blur(2px) saturate(110%);
+            -webkit-backdrop-filter: blur(2px) saturate(110%);
+            border-top: 2px solid var(--retro-border);
             display: flex; justify-content: space-around; align-items: center;
             z-index: 40;
-            border-bottom-left-radius: 2.5rem; border-bottom-right-radius: 2.5rem;
         }
         body.dark-theme .bottom-nav {
-            background: rgba(9,14,28,.7);
-            border-top-color: rgba(99,102,241,.3);
+            background: #352e25;
+            border-top-color: #5a4b3e;
         }
 
         .nav-btn {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             width: 19%; height: 80%;
-            border-radius: 14px; font-weight: 800; font-size: 9px;
-            color: #94a3b8;
-            transition: all .2s cubic-bezier(.4,0,.2,1);
+            border-radius: 8px; font-weight: 700; font-size: 8px;
+            color: #7a6b5a;
+            transition: all .15s cubic-bezier(.4,0,.2,1);
+            border: 1px solid transparent;
+            background: var(--retro-accent);
         }
 
         .nav-btn.active {
-            background: linear-gradient(135deg, rgba(99,102,241,.32), rgba(217,70,239,.28));
-            border: 1px solid rgba(139,92,246,.45);
-            box-shadow:
-                inset 0 0 14px rgba(255,255,255,.35),
-                0 6px 18px rgba(99,102,241,.25);
-            color: var(--acc-1);
-            transform: translateY(-2px);
+            background: var(--retro-yellow);
+            border: 2px solid var(--retro-orange);
+            color: var(--retro-dark);
+            box-shadow: 0 2px 4px rgba(0,0,0,.2);
+            transform: translateY(-1px);
         }
         body.dark-theme .nav-btn.active {
-            background: linear-gradient(135deg, rgba(99,102,241,.4), rgba(217,70,239,.35));
-            box-shadow: 0 6px 20px rgba(99,102,241,.3), inset 0 0 1px rgba(148,163,184,.2);
-            color: #a5b4fc;
+            background: #8b7355;
+            border-color: #a65f46;
+            color: #f5f3e8;
         }
 
-        .nav-btn i { font-size: 15px; margin-bottom: 2px; }
+        .nav-btn i { font-size: 14px; margin-bottom: 1px; }
 
-        /* 7. FİT BAZL: STOVE / EKRAN OVERLAYLER */
+        /* Stats overlay with retro window styling */
         .stats-overlay {
             position: absolute; top: 0; left: 0; width: 100%;
-            height: calc(100% - 65px);
-            background: rgba(255,255,255,.55);
-            backdrop-filter: blur(28px) saturate(170%);
-            -webkit-backdrop-filter: blur(28px) saturate(170%);
-            border-bottom: 1px solid rgba(255,255,255,.6);
+            height: calc(100% - 55px);
+            background: var(--retro-panel);
+            backdrop-filter: blur(2px) saturate(110%);
+            -webkit-backdrop-filter: blur(2px) saturate(110%);
+            border-bottom: 2px solid var(--retro-border);
             z-index: 35;
             display: flex; flex-direction: column;
-            padding: 2rem 1.5rem; overflow-y: auto;
+            padding: 1.5rem 1rem; overflow-y: auto;
             animation: slideUp .3s cubic-bezier(.34,1.56,.64,1) forwards;
-            color: #334155;
+            color: var(--retro-dark);
+            font-family: 'VT323', monospace;
         }
         body.dark-theme .stats-overlay {
-            background: rgba(4,8,20,.86);
-            border-bottom-color: rgba(99,102,241,.28);
-            color: #e2e8f0;
+            background: #352e25;
+            border-bottom-color: #5a4b3e;
+            color: #e8e3d9;
         }
 
         @keyframes slideUp {
-            from { transform: translateY(10%); opacity: 0; }
+            from { transform: translateY(8%); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
 
         .stat-bar-bg {
-            width: 100%; height: 12px;
-            background: rgba(255,255,255,.55);
-            border: 1px solid rgba(255,255,255,.7);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,.03);
-            border-radius: 6px; overflow: hidden; margin-top: 4px;
+            width: 100%; height: 10px;
+            background: var(--retro-accent);
+            border: 1px solid var(--retro-border);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,.05);
+            border-radius: 4px; overflow: hidden; margin-top: 3px;
         }
-        body.dark-theme .stat-bar-bg { background: rgba(30,41,59,.55); border-color: rgba(100,116,139,.3); }
+        body.dark-theme .stat-bar-bg {
+            background: #4a4033;
+            border-color: #6b5a48;
+        }
 
         .stat-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--acc-4), var(--acc-1), var(--acc-3));
+            background: linear-gradient(90deg, var(--retro-green), var(--retro-yellow), var(--retro-orange));
             transition: width .5s ease-out;
         }
 
-        /* ---- DARK MODE: inline Tailwind chips / text normalization ---- */
-        body.dark-theme [class*="text-slate-700"] { color: #e2e8f0; }
-        body.dark-theme [class*="text-slate-600"] { color: #cbd5e1; }
-        body.dark-theme [class*="text-slate-500"] { color: #94a3b8; }
-        body.dark-theme [class*="text-slate-400"] { color: #64748b; }
-        body.dark-theme [class*="text-slate-300"] { color: #94a3b8; }
+        /* Retro text styling for dark mode normalization */
+        body.dark-theme [class*="text-slate-700"] { color: #e8e3d9; }
+        body.dark-theme [class*="text-slate-600"] { color: #d4c9b8; }
+        body.dark-theme [class*="text-slate-500"] { color: #b8a99a; }
+        body.dark-theme [class*="text-slate-400"] { color: #a69280; }
+        body.dark-theme [class*="text-slate-300"] { color: #b8a99a; }
 
         body.dark-theme [class*="from-slate-600"] {
-            background-image: linear-gradient(90deg, #818cf8, #e2e8f0) !important;
+            background-image: linear-gradient(90deg, #b8a99a, #e8e3d9) !important;
         }
-        body.dark-theme [class*="from-slate"] { color: #cbd5e1; }
-        body.dark-theme [class*="to-slate"]   { color: #94a3b8; }
+        body.dark-theme [class*="from-slate"] { color: #d4c9b8; }
+        body.dark-theme [class*="to-slate"]   { color: #b8a99a; }
 
-        body.dark-theme [class*="bg-white/"]   { background-color: rgba(26,38,68,.72); }
-        body.dark-theme [class*="border-white/"] { border-color: rgba(148,163,184,.28); }
+        body.dark-theme [class*="bg-white/"]   { background-color: rgba(42,38,30,.7); }
+        body.dark-theme [class*="border-white/"] { border-color: rgba(168,154,138,.2); }
 
-        /* Keep light surface buttons (close etc.) readable on dark */
-        body.dark-theme [class*="bg-slate-200"] { background-color: #273047; }
+        /* Keep surface elements readable on dark */
+        body.dark-theme [class*="bg-slate-200"] { background-color: #4a4033; }
+
+        /* Add subtle scanline effect for CRT feel */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 1px,
+                    rgba(0,0,0,.02) 1px,
+                    rgba(0,0,0,.02) 2px
+                );
+            opacity: 0.3;
+            z-index: 9999;
+        }
+
+        body.dark-theme::after {
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 1px,
+                    rgba(255,255,255,.01) 1px,
+                    rgba(255,255,255,.01) 2px
+                );
+        }
+
+        /* Add slight curvature to simulate CRT screen */
+        .app-container {
+            border-radius: 0 !important;
+        }
+
+        /* Retro font enhancements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Press Start 2P', cursive;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Button hover effects */
+        .nav-btn:hover:not(.active) {
+            background: var(--retro-yellow);
+            border-color: var(--retro-orange);
+            transform: translateY(-1px);
+        }
+        body.dark-theme .nav-btn:hover:not(.active) {
+            background: #8b7355;
+            border-color: #a65f46;
+        }
+
+        /* Add slight vignette effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,.1) 100%);
+            z-index: 9998;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        body:hover::before {
+            opacity: 0.05;
+        }
     </style>
 </head>
 <body>
@@ -3404,7 +3521,7 @@ const handleBoxingLose = () => {
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(<App />);
     </script>
 </body>
 </html>
